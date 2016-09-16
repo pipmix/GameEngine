@@ -1,0 +1,5 @@
+.vs/clean/v14/.suo
+*.db
+clean.VC.VC.opendb
+Release/
+Debug/
