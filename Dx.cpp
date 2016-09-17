@@ -57,6 +57,7 @@ void Dx::Initialize(){
 	CreateStates();
 	CreateConstantBuffers();
 
+	gDat.LoadData();
 	game.Load();
 
 }
@@ -72,6 +73,14 @@ void Dx::Update() {
 void Dx::Draw() {
 
 	ClearFrame();
+	gDat.Reset();
+
+	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
+	gContext->RSSetState(m_RS_default.Get());
+	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+	gContext->VSSetConstantBuffers(0, 1, gcbPerMesh.GetAddressOf());
+	gContext->VSSetConstantBuffers(1, 1, m_cbPerFrame.GetAddressOf());
+
 	game.Draw();
 	m_swapChain->Present(1, 0);
 
@@ -167,7 +176,7 @@ void Dx::CreateConstantBuffers(){
 	bd_perMesh.ByteWidth = sizeof(XMMATRIX);
 	bd_perMesh.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-	gDevice->CreateBuffer(&bd_perMesh, nullptr, &m_cbPerMesh);
+	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
 
 
 	D3D11_BUFFER_DESC bd_perFrame = { 0 };

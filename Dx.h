@@ -1,13 +1,13 @@
 #pragma once
 #include "Game.h"
-#include "Timer.h"
+
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
 extern HWND								hWnd;
-
-
+extern Data								gDat;
+extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 
 class Dx {
 
@@ -42,7 +42,7 @@ private:
 	ComPtr<ID3D11BlendState>		m_BS_transparent;
 
 	//Constant Buffers
-	ComPtr<ID3D11Buffer>			m_cbPerMesh;
+	
 	ComPtr<ID3D11Buffer>			m_cbPerFrame;
 
 	//Other

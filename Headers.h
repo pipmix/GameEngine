@@ -4,9 +4,11 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <tchar.h>
+#include <memory>
 #include <Strsafe.h>
 #include <string>
 #include <wrl.h>
+#include <map>
 #include <vector>
 #include <d3d11_1.h>
 #include <DirectXMath.h>
