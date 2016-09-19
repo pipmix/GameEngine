@@ -103,9 +103,6 @@
     <FxCompile Include="BasicVS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="BasicPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="BasicMatrixVS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
@@ -116,6 +113,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="BasicMatrixPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

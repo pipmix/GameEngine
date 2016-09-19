@@ -8,7 +8,8 @@ void Dx::Initialize(){
 
 
 	// Device and Swapchain
-	DXGI_SWAP_CHAIN_DESC scd					= { 0 };
+	DXGI_SWAP_CHAIN_DESC scd;
+	ZeroMemory(&scd, sizeof(scd));
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
@@ -30,7 +31,8 @@ void Dx::Initialize(){
 	gDevice->CreateRenderTargetView(backBufferTexture.Get(), nullptr, m_backBuffer.ReleaseAndGetAddressOf());
 
 	// Zbuffer
-	D3D11_TEXTURE2D_DESC zBufferDesc			= { 0 };
+	D3D11_TEXTURE2D_DESC zBufferDesc;
+	ZeroMemory(&zBufferDesc, sizeof(zBufferDesc));
 	zBufferDesc.Width							= m_windowW;
 	zBufferDesc.Height							= m_windowH;
 	zBufferDesc.ArraySize						= 1;
@@ -94,6 +96,7 @@ void Dx::CreateStates(){
 
 	// Rasterizer States
 	D3D11_RASTERIZER_DESC rsd;
+	ZeroMemory(&rsd, sizeof(rsd));
 	rsd.FillMode = D3D11_FILL_SOLID;
 	rsd.CullMode = D3D11_CULL_BACK;
 	rsd.FrontCounterClockwise = false;
@@ -101,7 +104,7 @@ void Dx::CreateStates(){
 	rsd.DepthBiasClamp = 0;
 	rsd.SlopeScaledDepthBias = 0;
 	rsd.DepthClipEnable = true;
-	rsd.ScissorEnable = true;
+	rsd.ScissorEnable = false;
 	rsd.MultisampleEnable = false;
 	rsd.AntialiasedLineEnable = false;
 
@@ -117,7 +120,8 @@ void Dx::CreateStates(){
 	bsd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	gDevice->CreateBlendState(&bsd, &m_BS_solid);
 
-	D3D11_DEPTH_STENCIL_DESC dsd = { 0 };
+	D3D11_DEPTH_STENCIL_DESC dsd;
+	ZeroMemory(&dsd, sizeof(dsd));
 	dsd.DepthEnable = true;
 	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsd.DepthFunc = D3D11_COMPARISON_LESS;
@@ -126,15 +130,12 @@ void Dx::CreateStates(){
 	dsd.DepthEnable = false;;
 	gDevice->CreateDepthStencilState(&dsd, m_DS_UI.GetAddressOf());
 
-
-
 }
 
 void Dx::CreateConstantBuffers(){
 
-
-	D3D11_BUFFER_DESC bd_perMesh = { 0 };
-
+	D3D11_BUFFER_DESC bd_perMesh;
+	ZeroMemory(&bd_perMesh, sizeof(bd_perMesh));
 	bd_perMesh.Usage = D3D11_USAGE_DEFAULT;
 	bd_perMesh.ByteWidth = sizeof(XMMATRIX);
 	bd_perMesh.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -142,16 +143,13 @@ void Dx::CreateConstantBuffers(){
 	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
 
 
-	D3D11_BUFFER_DESC bd_perFrame = { 0 };
-
+	D3D11_BUFFER_DESC bd_perFrame;
+	ZeroMemory(&bd_perFrame, sizeof(bd_perFrame));
 	bd_perFrame.Usage = D3D11_USAGE_DEFAULT;
 	bd_perFrame.ByteWidth = sizeof(XMMATRIX);
 	bd_perFrame.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
 	gDevice->CreateBuffer(&bd_perFrame, nullptr, &m_cbPerFrame);
-
-
-
 
 }
 

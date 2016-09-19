@@ -10,7 +10,7 @@ static const TexProp DT_P[]	=		{	{0,0,0,0},		{ 7,6,16,16 },			{ 8,8,16,16 },		{ 
 
 enum D_VS							{	DV_BASIC,		DV_BASICTEXTURE,		DV_BASICMATRX,		DV_SIZE										};
 static const wstring DV_STR[] =		{	L"BasicVS",		L"BasicTextureVS",		L"BasicMatrixVS",												};
-static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_P,															};
+static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_PU,															};
 
 enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_SIZE										};
 static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",												};

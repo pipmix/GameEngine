@@ -10,10 +10,15 @@ Sprite::Sprite(){
 
 void Sprite::Create(){
 
-	m_dim.x = 0.0f;
-	m_dim.y = 1.0f;
-	m_dim.z = 1.0f;
-	m_dim.w = 0.0f;
+	//m_dim.x = 0.0f;
+	//m_dim.y = 1.0f;
+	//m_dim.z = 1.0f;
+	//m_dim.w = 0.0f;
+
+	m_dim.x = -0.5f;
+	m_dim.y = 0.5f;
+	m_dim.z = 0.5f;
+	m_dim.w = -0.5f;
 
 	m_zd = 0.0f;
 
@@ -26,9 +31,10 @@ void Sprite::Create(){
 
 
 	};
-	m_numElements = ARRAYSIZE(verts);
+	m_numElements = 4;
 
-	D3D11_BUFFER_DESC bd	= { 0 };
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage				= D3D11_USAGE_DYNAMIC;
 	bd.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
 	bd.ByteWidth			= sizeof(VertexPU) * m_numElements;
@@ -51,13 +57,14 @@ void Sprite::Draw(){
 	XMMATRIX worldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);// *camera->GetCameraScreenMatrix();
 
 
-
+	/*
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+	ZeroMemory(&mappedResource, sizeof(mappedResource));
 
 	gContext->Map(gcbPerMesh.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	memcpy(mappedResource.pData, &worldMatrix, sizeof(XMMATRIX));
 	gContext->Unmap(gcbPerMesh.Get(), 0);
+	*/
 
 
 
@@ -82,9 +89,11 @@ XMFLOAT3 Sprite::GetPos()
 }
 
 void Sprite::AssignResources(UINT texID, UINT vsID, UINT psID){
+
 	m_textureID = texID;
 	m_vsID = vsID;
 	m_psID = psID;
+
 }
 
 void Sprite::SetSourceRect(int i){
@@ -100,12 +109,12 @@ void Sprite::SetResources(){
 		gDat.m_curTex = m_textureID;
 	}
 	if (gDat.m_curVS != m_vsID) {
-		gContext->VSSetShader(gDat.GetVertexShader(m_vsID)->vertexShader.Get(), 0, 0);
-		gContext->IASetInputLayout(gDat.GetVertexShader(m_vsID)->inputLayout.Get());
+
+		gDat.GetVertexShader(m_vsID)->Set();
 		gDat.m_curVS = m_vsID;
 	}
 	if (gDat.m_curPS != m_psID) {
-		gContext->PSSetShader(gDat.GetPixelShader(m_psID)->pixelShader.Get(), 0, 0);
+		gDat.GetPixelShader(m_psID)->Set();
 		gDat.m_curPS = m_psID;
 	}
 	if (gDat.m_curTopo != m_topoID) {

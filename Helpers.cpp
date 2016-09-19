@@ -46,7 +46,7 @@ bool AABBIntersect2D(XMFLOAT4& rectA, XMFLOAT3 & pos, XMFLOAT3 & vel, XMFLOAT4& 
 	//Intersect(p->collision, p->velocity, p->position);
 
 
-
+	return 0;
 
 
 
@@ -69,6 +69,6 @@ float PercentToFloat(float p, float d) {
 
 	//screenPos.x = Input.pos2D.x / Input.pos2D.w / 2.0f + 0.5f;
 	//screenPos.y = -Input.pos2D.y / Input.pos2D.w / 2.0f + 0.5f;
-
+	return percPoint;
 
 }

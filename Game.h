@@ -23,4 +23,9 @@ public:
 	Sprite spr01;
 
 
+
+	//ComPtr<ID3D11Buffer>		_vertexBuffer;
+	//UINT						_numElements;
+
+
 };

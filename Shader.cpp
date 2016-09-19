@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-
+// Vertex Shader
 VertexShader::VertexShader() {
 
 }
@@ -39,9 +39,12 @@ void VertexShader::Load(std::wstring fn, VertexType vt) {
 void VertexShader::Set() {
 
 	gContext->VSSetShader(vertexShader.Get(), 0, 0);
+	gContext->IASetInputLayout(inputLayout.Get());
+	
 }
 
 
+// Pixel Shader
 PixelShader::PixelShader() {
 
 }
@@ -63,4 +66,5 @@ void PixelShader::Load(std::wstring fn) {
 void PixelShader::Set() {
 
 	gContext->PSSetShader(pixelShader.Get(), 0, 0);
+
 }
