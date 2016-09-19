@@ -10,15 +10,12 @@ Sprite::Sprite(){
 
 void Sprite::Create(){
 
-	//m_dim.x = 0.0f;
-	//m_dim.y = 1.0f;
-	//m_dim.z = 1.0f;
-	//m_dim.w = 0.0f;
+	m_dim.x = 0.0f;
+	m_dim.y = 1.0f;
+	m_dim.z = 1.0f;
+	m_dim.w = 0.0f;
 
-	m_dim.x = -0.5f;
-	m_dim.y = 0.5f;
-	m_dim.z = 0.5f;
-	m_dim.w = -0.5f;
+
 
 	m_zd = 0.0f;
 
@@ -31,7 +28,7 @@ void Sprite::Create(){
 
 
 	};
-	m_numElements = 4;
+	m_numElements = ARRAYSIZE(verts);
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -55,17 +52,8 @@ void Sprite::Draw(){
 
 	
 	XMMATRIX worldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);// *camera->GetCameraScreenMatrix();
-
-
-	/*
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(mappedResource));
-
-	gContext->Map(gcbPerMesh.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	memcpy(mappedResource.pData, &worldMatrix, sizeof(XMMATRIX));
-	gContext->Unmap(gcbPerMesh.Get(), 0);
-	*/
-
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &worldMatrix, 0, 0);
+	
 
 
 	gContext->Draw(m_numElements, 0);

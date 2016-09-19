@@ -1,6 +1,7 @@
 #include "Game.h"
 
 Game::Game(){
+
 }
 
 
@@ -51,13 +52,16 @@ void Game::Load(){
 }
 
 void Game::Update(double deltaTime) {
-
+	camera.Update(deltaTime);
 	
 
 
 }
 
 void Game::Draw() {
+
+	XMMATRIX tmpCameraScreen = camera.GetCameraScreenMatrix();
+	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpCameraScreen, 0, 0);
 
 	spr01.Draw();
 	/*

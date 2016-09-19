@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "Data.h"
 #include "Sprite.h"
+#include "Camera.h"
 
 
 extern ComPtr<ID3D11Device>				gDevice;
@@ -10,7 +11,7 @@ extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
 extern HWND								hWnd;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
-
+extern ComPtr<ID3D11Buffer>				gcbPerFrame;
 
 class Game {
 public:
@@ -19,6 +20,8 @@ public:
 	void	Load();
 	void	Update(double deltaTime);
 	void	Draw();
+
+	Camera camera;
 
 	Sprite spr01;
 

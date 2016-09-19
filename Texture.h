@@ -8,7 +8,7 @@ using namespace DirectX;
 
 extern ComPtr<ID3D11Device>			gDevice;
 extern ComPtr<ID3D11DeviceContext>	gContext;
-extern ComPtr<ID3D11Buffer>			gCBperMesh;
+
 
 class Texture {
 

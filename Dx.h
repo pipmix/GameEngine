@@ -8,6 +8,7 @@ extern ComPtr<ID3D11DeviceContext>		gDContext;
 extern HWND								hWnd;
 extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
+extern ComPtr<ID3D11Buffer>				gcbPerFrame;
 
 class Dx {
 
@@ -43,7 +44,7 @@ private:
 
 	//Constant Buffers
 	
-	ComPtr<ID3D11Buffer>			m_cbPerFrame;
+	
 
 	//Other
 	D3D11_VIEWPORT					m_viewport;

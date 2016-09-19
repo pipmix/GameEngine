@@ -134,13 +134,7 @@ void Dx::CreateStates(){
 
 void Dx::CreateConstantBuffers(){
 
-	D3D11_BUFFER_DESC bd_perMesh;
-	ZeroMemory(&bd_perMesh, sizeof(bd_perMesh));
-	bd_perMesh.Usage = D3D11_USAGE_DEFAULT;
-	bd_perMesh.ByteWidth = sizeof(XMMATRIX);
-	bd_perMesh.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
 
 
 	D3D11_BUFFER_DESC bd_perFrame;
@@ -149,7 +143,15 @@ void Dx::CreateConstantBuffers(){
 	bd_perFrame.ByteWidth = sizeof(XMMATRIX);
 	bd_perFrame.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-	gDevice->CreateBuffer(&bd_perFrame, nullptr, &m_cbPerFrame);
+	gDevice->CreateBuffer(&bd_perFrame, nullptr, &gcbPerFrame);
+
+	D3D11_BUFFER_DESC bd_perMesh;
+	ZeroMemory(&bd_perMesh, sizeof(bd_perMesh));
+	bd_perMesh.Usage = D3D11_USAGE_DEFAULT;
+	bd_perMesh.ByteWidth = sizeof(XMMATRIX);
+	bd_perMesh.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
 
 }
 
@@ -169,8 +171,9 @@ void Dx::Draw() {
 	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
 	gContext->RSSetState(m_RS_default.Get());
 	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
-	gContext->VSSetConstantBuffers(0, 1, gcbPerMesh.GetAddressOf());
-	gContext->VSSetConstantBuffers(1, 1, m_cbPerFrame.GetAddressOf());
+	
+	gContext->VSSetConstantBuffers(0, 1, gcbPerFrame.GetAddressOf());
+	gContext->VSSetConstantBuffers(1, 1, gcbPerMesh.GetAddressOf());
 
 	game.Draw();
 	m_swapChain->Present(1, 0);

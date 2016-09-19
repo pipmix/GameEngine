@@ -1,28 +1,26 @@
-#pragma once 
+#pragma once
 #include "Headers.h"
+#include "DataTypes.h"
 
-extern HWND	hWnd;
+extern HWND							hWnd;
+
 
 class Camera {
 
 public:
 
 	// Camera Functions
-	Camera();
+					Camera();
 	void			Update(double deltaTime);
 	void			Draw();
 
 	void			MoveTo(float posX, float posY, float posZ);
 	void			MoveBy(float vecX, float vecY, float vecZ);
-
 	void			SetTarget(float tx, float ty, float tz);
-	void			MoveTowardsTarget(double deltaTime);
 
-	void			UpdateCameraMatrix();
-	void			UpdateScreenMatrix();
-	void			UpdateCameraScreenMatrix();
-	void			UpdateAllMatrices();
-	void			UpdateUIMatrices();
+
+	void			UpdatePerspective();
+	void			UpdateOrthographic();
 
 	const XMMATRIX	GetCameraScreenMatrix();
 	const XMMATRIX	GetCameraMatrix();
@@ -35,6 +33,7 @@ public:
 	XMFLOAT2		ConvertMouseCoord(XMFLOAT2 mc);
 
 private:
+	HWND hWnd;
 	// Camera Matrices
 	XMFLOAT4X4		_CameraScreenMatrix;
 	XMFLOAT4X4		_CameraMatrix;
@@ -60,5 +59,6 @@ private:
 
 	long m_screenX, m_screenY;
 
-
+	bool m_FollowingTarget = 0;
 };
+

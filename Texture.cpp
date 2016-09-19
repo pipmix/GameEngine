@@ -7,9 +7,6 @@ Texture::Texture() {
 
 void Texture::Load(std::wstring fn) {
 
-
-
-
 	std::wstring s = gPath + L"Images/" + fn + L".dds";
 
 	HRESULT hr = CreateDDSTextureFromFile(gDevice.Get(), s.c_str(), texRes.GetAddressOf(), &textureResource, DDS_ALPHA_MODE_PREMULTIPLIED);
@@ -22,8 +19,6 @@ void Texture::Load(std::wstring fn) {
 	tex2d->GetDesc(&td);
 	pixelW = td.Width;
 	pixelH = td.Height;
-
-
 
 }
 

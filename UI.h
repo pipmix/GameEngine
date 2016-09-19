@@ -4,7 +4,6 @@ using Microsoft::WRL::ComPtr;
 
 extern ComPtr<ID3D11Device>			gDevice;
 extern ComPtr<ID3D11DeviceContext>	gContext;
-extern ComPtr<ID3D11Buffer>			gCBperMesh;
 
 class UI {
 
@@ -21,7 +20,7 @@ private:
 	ComPtr<ID3D11InputLayout> m_inputLayout;
 	size_t m_vbPosition;
 
-	static std::vector<int> m_indices();
+	//static std::vector<int> m_indices();
 
 	UINT vsIndex;
 	UINT psIndex;

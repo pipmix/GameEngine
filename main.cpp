@@ -21,6 +21,7 @@ ComPtr<ID3D11Device>			gDevice		= nullptr;
 ComPtr<ID3D11DeviceContext>		gContext	= nullptr;
 ComPtr<ID3D11DeviceContext>		gDContext	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerMesh	= nullptr;
+ComPtr<ID3D11Buffer>			gcbPerFrame = nullptr;
 Data gDat;
 HWND hWnd; //dx window
 
