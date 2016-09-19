@@ -54,6 +54,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NewSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTypes.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="NewSprite.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
