@@ -13,8 +13,8 @@ void Dx::Initialize(){
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
-	scd.BufferDesc.RefreshRate.Numerator		= 60;
-	scd.BufferDesc.RefreshRate.Denominator		= 1;
+	//scd.BufferDesc.RefreshRate.Numerator		= 60;
+	//scd.BufferDesc.RefreshRate.Denominator		= 1;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
@@ -185,11 +185,13 @@ void Dx::Draw() {
 
 
 void Dx::ClearFrame() {
-
+	UpdateWindowInfo();
 	float fill[4] = { 0.0f, 0.2f, 0.25f, 1.0f };
 	gContext->ClearRenderTargetView(m_backBuffer.Get(), fill);
 	gContext->ClearDepthStencilView(m_zBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
-	gContext->RSSetViewports(1, &m_viewport);
+	//gContext->RSSetViewports(1, &m_viewport);
+	CD3D11_VIEWPORT viewport(0.0f, 0.0f, static_cast<float>(m_windowW), static_cast<float>(m_windowH));
+	gContext->RSSetViewports(1, &viewport);
 
 }

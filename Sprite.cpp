@@ -5,7 +5,7 @@ Sprite::Sprite(){
 	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
 	m_pos = { 0.0f,	0.0f, 0.0f }; 
 
-
+	
 }
 
 void Sprite::Create(){
@@ -48,20 +48,19 @@ void Sprite::Create(){
 
 void Sprite::Draw(){
 
+	tempMove += 0.001f;
+	m_pos.x = tempMove;
+
 	SetResources();
 
-	
-	XMMATRIX worldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);// *camera->GetCameraScreenMatrix();
-	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &worldMatrix, 0, 0);
-	
-
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 
 	gContext->Draw(m_numElements, 0);
 
 }
 
-void Sprite::MovePos(XMFLOAT3 p)
-{
+void Sprite::MovePos(XMFLOAT3 p){
 	m_pos.x += p.x;
 	m_pos.y += p.y;
 	m_pos.z += p.z;
@@ -71,9 +70,8 @@ void Sprite::SetPos(XMFLOAT3 p){
 	m_pos = { p.x, p.y, p.z };
 }
 
-XMFLOAT3 Sprite::GetPos()
-{
-	return XMFLOAT3();
+XMFLOAT3 Sprite::GetPos(){
+	return m_pos;
 }
 
 void Sprite::AssignResources(UINT texID, UINT vsID, UINT psID){
@@ -109,6 +107,9 @@ void Sprite::SetResources(){
 		gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 		gDat.m_curTopo = m_topoID;
 	}
+
+
+	if (m_texCoordChanged)UpdateVertexBuffer();
 
 	UINT stride = sizeof(VertexPU);
 	UINT offset = 0;

@@ -54,25 +54,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_APPLICATION));
 
 	RegisterClassEx(&wcex);
-
-	hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-
+	hInst = hInstance;
+	// hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	//hWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow(szWindowClass, szWindowClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	wcex.lpfnWndProc = ChildProc;
 	wcex.lpszClassName = szWindowClass2;
 	wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
 
 	RegisterClassEx(&wcex);
 
-	hInst = hInstance;
+	
 
 	
 
-	hWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , sX, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
+	//hWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , sX, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
 
 
+	//ShowWindow(hMainWindow, nCmdShow);
+	//UpdateWindow(hMainWindow);
 
-	ShowWindow(hMainWindow, nCmdShow);
-	UpdateWindow(hMainWindow);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
 	Dx dx(hWnd);
 	dx.Initialize();

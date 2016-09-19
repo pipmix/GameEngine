@@ -39,5 +39,7 @@ private:
 	UINT						m_numElements;
 
 	ComPtr<ID3D11Buffer>		m_vertexBuffer;
+	bool				m_texCoordChanged = 0;
+	float				tempMove = 0.0f;
 
 };

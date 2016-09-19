@@ -7,14 +7,14 @@ Camera::Camera() {
 	GetWindowRect(hWnd, &rc);
 	m_screenX = rc.right - rc.left;
 	m_screenY = rc.bottom - rc.top;
-
+	float asp = static_cast<float>(rc.right - rc.left) / static_cast<float>(rc.bottom - rc.top);
 
 
 	_CamPosition	= XMFLOAT3(0.0f, 0.0f, -10.0f);
 	_CamLookAt		= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	_CamUpVector	= XMFLOAT3(0.0f, 1.0f, 0.0f);
 	_CamFOVangle	= XMConvertToRadians(45);
-	_CamAspectRatio = static_cast<float>(rc.right - rc.left) / static_cast<float>(rc.bottom - rc.top);
+	_CamAspectRatio = asp;
 	_CamNearClip	= 0.01f;
 	_CamFarClip		= 1000.0f;
 
@@ -30,7 +30,7 @@ void Camera::UpdatePerspective() {
 	XMStoreFloat4x4(&_ScreenMatrix, XMMatrixPerspectiveFovLH(_CamFOVangle, _CamAspectRatio, _CamNearClip, _CamFarClip));						// Update Screen/Projection Matrix
 	XMStoreFloat4x4(&_CameraScreenMatrix, GetCameraMatrix() * GetScreenMatrix());																// Update Camera * View Matrix
 }
-void			Camera::UpdateOrthographic() {
+void Camera::UpdateOrthographic() {
 	XMStoreFloat4x4(&_UIScreenMatix, XMMatrixOrthographicLH(m_screenX, m_screenY, 0.01f, 1000.0f));
 	XMStoreFloat4x4(&_UICameraMatrix, XMMatrixLookAtLH(XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, -10.0f)), XMLoadFloat3(&XMFLOAT3(0.0f, 0.0f, 0.0f)), XMLoadFloat3(&XMFLOAT3(0.0f, 1.0f, 0.0f))));
 	XMStoreFloat4x4(&_UICameraScreenMatrix, GetUICameraMatrix() * GetUIScreenMatrix());
@@ -50,7 +50,7 @@ const XMMATRIX Camera::GetScreenMatrix() {
 }
 
 const XMMATRIX Camera::GetCameraScreenMatrix() {
-
+	UpdatePerspective();
 	return XMLoadFloat4x4(&_CameraScreenMatrix);
 }
 
