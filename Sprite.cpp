@@ -43,22 +43,19 @@ void Sprite::Create(){
 	InitData.pSysMem = verts;
 	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
 
-
 }
 
 void Sprite::Draw(){
 
-	tempMove += 0.001f;
-	m_pos.x = tempMove;
 
 	SetResources();
 
 	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 
-
-
 	gContext->Draw(m_numElements, 0);
+
+
 
 }
 

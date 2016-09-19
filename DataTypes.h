@@ -2,6 +2,10 @@
 #include "Headers.h"
 using namespace DirectX;
 
+struct ConstantBufferMatrixStruct {
+	XMFLOAT4X4 mat;
+};
+
 enum VertexType {
 
 	VT_P = 0, 

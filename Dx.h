@@ -5,7 +5,7 @@
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
-extern HWND								hWnd;
+extern HWND								ghWnd;
 extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 extern ComPtr<ID3D11Buffer>				gcbPerFrame;
@@ -24,6 +24,7 @@ public:
 
 	void	CreateStates();
 	void	CreateConstantBuffers();
+	void	ResizeWindow();
 
 
 private:

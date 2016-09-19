@@ -2,7 +2,7 @@
 #include "Headers.h"
 #include "DataTypes.h"
 
-extern HWND							hWnd;
+extern HWND							ghWnd;
 
 
 class Camera {
@@ -11,6 +11,7 @@ public:
 
 	// Camera Functions
 					Camera();
+	void			Create();
 	void			Update(double deltaTime);
 	void			Draw();
 
@@ -33,7 +34,7 @@ public:
 	XMFLOAT2		ConvertMouseCoord(XMFLOAT2 mc);
 
 private:
-	HWND hWnd;
+
 	// Camera Matrices
 	XMFLOAT4X4		_CameraScreenMatrix;
 	XMFLOAT4X4		_CameraMatrix;

@@ -1,20 +1,21 @@
 #include "Camera.h"
 
-
 Camera::Camera() {
+}
+
+void Camera::Create() {
 
 	RECT rc = { 0 };
-	GetWindowRect(hWnd, &rc);
+	GetWindowRect(ghWnd, &rc);
 	m_screenX = rc.right - rc.left;
 	m_screenY = rc.bottom - rc.top;
-	float asp = static_cast<float>(rc.right - rc.left) / static_cast<float>(rc.bottom - rc.top);
 
 
 	_CamPosition	= XMFLOAT3(0.0f, 0.0f, -10.0f);
 	_CamLookAt		= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	_CamUpVector	= XMFLOAT3(0.0f, 1.0f, 0.0f);
 	_CamFOVangle	= XMConvertToRadians(45);
-	_CamAspectRatio = asp;
+	_CamAspectRatio = static_cast<float>(rc.right - rc.left) / static_cast<float>(rc.bottom - rc.top);
 	_CamNearClip	= 0.01f;
 	_CamFarClip		= 1000.0f;
 
@@ -50,7 +51,7 @@ const XMMATRIX Camera::GetScreenMatrix() {
 }
 
 const XMMATRIX Camera::GetCameraScreenMatrix() {
-	UpdatePerspective();
+	
 	return XMLoadFloat4x4(&_CameraScreenMatrix);
 }
 
@@ -75,7 +76,7 @@ const XMMATRIX Camera::GetUICameraScreenMatrix() {
 XMFLOAT2 Camera::ConvertMouseCoord(XMFLOAT2 mc) {
 
 	RECT rc = { 0 };
-	GetWindowRect(hWnd, &rc);
+	GetWindowRect(ghWnd, &rc);
 	float w2 = static_cast<float>(rc.right - rc.left) / 2;
 	float h2 = static_cast<float>(rc.bottom - rc.top);
 

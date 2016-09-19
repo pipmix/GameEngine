@@ -22,8 +22,9 @@ ComPtr<ID3D11DeviceContext>		gContext	= nullptr;
 ComPtr<ID3D11DeviceContext>		gDContext	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerMesh	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerFrame = nullptr;
+Camera gCam;
 Data gDat;
-HWND hWnd = nullptr; //dx window
+HWND ghWnd = nullptr; //dx window
 
 
 
@@ -57,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hInst = hInstance;
 	// hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	//hWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	ghWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	wcex.lpfnWndProc = ChildProc;
 	wcex.lpszClassName = szWindowClass2;
 	wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
@@ -74,10 +75,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//ShowWindow(hMainWindow, nCmdShow);
 	//UpdateWindow(hMainWindow);
 
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	ShowWindow(ghWnd, nCmdShow);
+	UpdateWindow(ghWnd);
 
-	Dx dx(hWnd);
+	Dx dx(ghWnd);
 	dx.Initialize();
 
 	MSG msg = { 0 };

@@ -134,9 +134,6 @@ void Dx::CreateStates(){
 
 void Dx::CreateConstantBuffers(){
 
-
-
-
 	D3D11_BUFFER_DESC bd_perFrame;
 	ZeroMemory(&bd_perFrame, sizeof(bd_perFrame));
 	bd_perFrame.Usage = D3D11_USAGE_DEFAULT;
@@ -152,6 +149,7 @@ void Dx::CreateConstantBuffers(){
 	bd_perMesh.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
 	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
+
 
 }
 
@@ -182,8 +180,6 @@ void Dx::Draw() {
 }
 
 
-
-
 void Dx::ClearFrame() {
 	UpdateWindowInfo();
 	float fill[4] = { 0.0f, 0.2f, 0.25f, 1.0f };
@@ -192,5 +188,9 @@ void Dx::ClearFrame() {
 	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
 	gContext->RSSetViewports(1, &m_viewport);
 
+
+}
+
+void Dx::ResizeWindow() {
 
 }

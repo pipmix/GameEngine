@@ -1,12 +1,13 @@
 #pragma once
 #include "Headers.h"
 #include "Data.h"
+#include "Camera.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
-
+extern Camera gCam;
 
 class Sprite {
 

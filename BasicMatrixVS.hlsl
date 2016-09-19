@@ -1,4 +1,3 @@
-
 cbuffer cbPerFrame : register(b0) {
 	matrix cameraScreenMatrix;
 
@@ -19,22 +18,15 @@ struct VS_OUT {
 
 VS_OUT main( float4 position : POSITION, float2 texcoord : TEXCOORD ) {
 
+
 	VS_OUT vs_out;
-	//vs_out.position = mul(cameraScreenMatrix, position);
-	matrix final = mul(cameraScreenMatrix, worldMatrix);
-	vs_out.position = mul(final, position);
-	//vs_out.position = mul(vs_out.position, worldMatrix);
-	//vs_out.position = position;
+
+	float4x4 finalMatrix = mul(cameraScreenMatrix, worldMatrix);
+
+	vs_out.position = mul(finalMatrix, position);
 	vs_out.texcoord = texcoord;
 
 	return vs_out;
 }
+// last good vs_out.position = mul(worldMatrix, position);
 
-/*
-VS_OUT vs_out;
-
-vs_out.position = position;
-//vs_out.position = mul(worldMatrix, position);
-vs_out.texcoord = texcoord;
-
-return vs_out;*/

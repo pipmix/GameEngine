@@ -9,9 +9,10 @@
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
-extern HWND								hWnd;
+extern HWND								ghWnd;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 extern ComPtr<ID3D11Buffer>				gcbPerFrame;
+extern Camera gCam;
 
 class Game {
 public:
@@ -21,14 +22,11 @@ public:
 	void	Update(double deltaTime);
 	void	Draw();
 
-	Camera camera;
 
 	Sprite spr01;
 
 
 
-	//ComPtr<ID3D11Buffer>		_vertexBuffer;
-	//UINT						_numElements;
 
 
 };
