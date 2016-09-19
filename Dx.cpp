@@ -15,7 +15,7 @@ void Dx::Initialize(){
 	scd.BufferDesc.Height						= m_windowH;
 	//scd.BufferDesc.RefreshRate.Numerator		= 60;
 	//scd.BufferDesc.RefreshRate.Denominator		= 1;
-	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;;
+	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
 	scd.SampleDesc.Count						= 1;
@@ -23,7 +23,7 @@ void Dx::Initialize(){
 	scd.BufferDesc.Scaling						= DXGI_MODE_SCALING_CENTERED;
 	scd.Windowed								= TRUE;
 	D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &scd, m_swapChain.GetAddressOf(), gDevice.GetAddressOf(), NULL, gContext.GetAddressOf());
-	gDevice->CreateDeferredContext(0, &gDContext);
+	//gDevice->CreateDeferredContext(0, &gDContext);
 
 	// Backbuffer
 	ComPtr<ID3D11Texture2D> backBufferTexture;
@@ -190,8 +190,7 @@ void Dx::ClearFrame() {
 	gContext->ClearRenderTargetView(m_backBuffer.Get(), fill);
 	gContext->ClearDepthStencilView(m_zBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
-	//gContext->RSSetViewports(1, &m_viewport);
-	CD3D11_VIEWPORT viewport(0.0f, 0.0f, static_cast<float>(m_windowW), static_cast<float>(m_windowH));
-	gContext->RSSetViewports(1, &viewport);
+	gContext->RSSetViewports(1, &m_viewport);
+
 
 }

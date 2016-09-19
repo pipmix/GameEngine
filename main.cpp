@@ -5,7 +5,7 @@ static TCHAR szTitle[] = _T("MainWindowTitle");
 static TCHAR szWindowClass2[] = _T("DirectXWindowClass");
 static TCHAR szTitle2[] = _T("DirectXWindowTitle");
 
-HINSTANCE hInst;
+HINSTANCE hInst = nullptr;
 HWND hMainWindow;
 
 
@@ -23,7 +23,7 @@ ComPtr<ID3D11DeviceContext>		gDContext	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerMesh	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerFrame = nullptr;
 Data gDat;
-HWND hWnd; //dx window
+HWND hWnd = nullptr; //dx window
 
 
 
@@ -57,7 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	hInst = hInstance;
 	// hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	//hWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	hWnd = CreateWindow(szWindowClass, szWindowClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	wcex.lpfnWndProc = ChildProc;
 	wcex.lpszClassName = szWindowClass2;
 	wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
@@ -103,7 +103,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WndProc(HWND h, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	switch (message) {
 		case WM_CREATE:
@@ -112,20 +112,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			PostQuitMessage(0);
 			break;
 		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			return DefWindowProc(h, message, wParam, lParam);
 			break;
 	}
 	return 0;
 }
 
 
-LRESULT CALLBACK ChildProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK ChildProc(HWND h, UINT message, WPARAM wParam, LPARAM lParam) {
 
 
 	switch (message) {
 	//case WM_LBUTTONUP:
 	//	break;
 	}
-	return DefWindowProcW(hWnd, message, wParam, lParam);
+	return DefWindowProcW(h, message, wParam, lParam);
 
 }

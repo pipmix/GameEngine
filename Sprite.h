@@ -15,6 +15,7 @@ class Sprite {
 public:
 
 						Sprite				();
+	void				Update				(double deltaTime);
 	void				Create				();
 	void				Draw				();
 	void				MovePos				(XMFLOAT3 p);
@@ -41,5 +42,7 @@ private:
 	ComPtr<ID3D11Buffer>		m_vertexBuffer;
 	bool				m_texCoordChanged = 0;
 	float				tempMove = 0.0f;
+	double				m_elapsedTime = 0.0f;
+	int currentFrame = 0;
 
 };

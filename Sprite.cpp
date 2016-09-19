@@ -56,6 +56,8 @@ void Sprite::Draw(){
 	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 
+
+
 	gContext->Draw(m_numElements, 0);
 
 }
@@ -109,7 +111,10 @@ void Sprite::SetResources(){
 	}
 
 
-	if (m_texCoordChanged)UpdateVertexBuffer();
+	if (m_texCoordChanged) {
+		UpdateVertexBuffer();
+		m_texCoordChanged = false;
+	}
 
 	UINT stride = sizeof(VertexPU);
 	UINT offset = 0;
@@ -140,5 +145,23 @@ void Sprite::UpdateVertexBuffer() {
 	memcpy(mappedResource.pData, verts, sizeof(VertexPU) * m_numElements);
 	gContext->Unmap(m_vertexBuffer.Get(), 0);
 
+
+}
+
+
+void Sprite::Update(double deltaTime) {
+
+
+	m_elapsedTime += deltaTime;
+
+	if (m_elapsedTime > 300) {
+		m_elapsedTime -= 300;
+
+		SetSourceRect(currentFrame);
+		currentFrame++;
+		if (currentFrame > 16)currentFrame = 0;
+		m_texCoordChanged = true;
+
+	}
 
 }
