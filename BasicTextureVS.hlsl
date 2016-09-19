@@ -1,4 +1,14 @@
-#include "sHeader.hlsli"
+cbuffer cbPerFrame : register(b0) {
+	matrix cameraScreenMatrix;
+
+}
+
+cbuffer cbPerMesh : register(b1) {
+	matrix worldMatrix;
+
+}
+
+
 
 struct VS_IN {
 
@@ -23,7 +33,7 @@ VS_OUT main(VS_IN vs_in)
 	VS_OUT vs_out;
 
 	vs_out.pos = mul(cameraScreenMatrix, vs_in.pos);
-	//vs_out.pos = mul(vs_in.pos, finalMatrix);
+	
 
 	vs_out.texcoord = vs_in.texcoord;
 

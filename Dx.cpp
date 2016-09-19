@@ -62,43 +62,6 @@ void Dx::Initialize(){
 
 }
 
-
-void Dx::Update() {
-	m_Timer.Update();
-	game.Update(m_Timer.GetDelta());
-
-}
-
-
-void Dx::Draw() {
-
-	ClearFrame();
-	gDat.Reset();
-
-	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
-	gContext->RSSetState(m_RS_default.Get());
-	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
-	gContext->VSSetConstantBuffers(0, 1, gcbPerMesh.GetAddressOf());
-	gContext->VSSetConstantBuffers(1, 1, m_cbPerFrame.GetAddressOf());
-
-	game.Draw();
-	m_swapChain->Present(1, 0);
-
-
-}
-
-void Dx::ClearFrame(){
-
-
-	float fill[4] = { 0.0f, 0.2f, 0.25f, 1.0f };
-
-	gContext->ClearRenderTargetView(m_backBuffer.Get(), fill);
-	gContext->ClearDepthStencilView(m_zBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
-	gContext->RSSetViewports(1, &m_viewport);
-
-}
-
 void Dx::UpdateWindowInfo(){
 
 	RECT rc = { 0 };
@@ -193,3 +156,39 @@ void Dx::CreateConstantBuffers(){
 }
 
 
+void Dx::Update() {
+	m_Timer.Update();
+	game.Update(m_Timer.GetDelta());
+
+}
+
+
+void Dx::Draw() {
+
+	ClearFrame();
+	gDat.Reset();
+
+	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
+	gContext->RSSetState(m_RS_default.Get());
+	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+	gContext->VSSetConstantBuffers(0, 1, gcbPerMesh.GetAddressOf());
+	gContext->VSSetConstantBuffers(1, 1, m_cbPerFrame.GetAddressOf());
+
+	game.Draw();
+	m_swapChain->Present(1, 0);
+
+
+}
+
+
+
+
+void Dx::ClearFrame() {
+
+	float fill[4] = { 0.0f, 0.2f, 0.25f, 1.0f };
+	gContext->ClearRenderTargetView(m_backBuffer.Get(), fill);
+	gContext->ClearDepthStencilView(m_zBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
+	gContext->RSSetViewports(1, &m_viewport);
+
+}

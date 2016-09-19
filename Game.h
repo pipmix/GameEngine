@@ -2,6 +2,7 @@
 #include "Headers.h"
 #include "Timer.h"
 #include "Data.h"
+#include "Sprite.h"
 
 
 extern ComPtr<ID3D11Device>				gDevice;
@@ -18,6 +19,8 @@ public:
 	void	Load();
 	void	Update(double deltaTime);
 	void	Draw();
+
+	Sprite spr01;
 
 
 };

@@ -3,6 +3,8 @@
 Sprite::Sprite(){
 	m_sourceRect = { 0.0f, 0.0f, 1.0f, 1.0f };
 	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+	m_pos = { 0.0f,	0.0f, 0.0f }; 
+
 
 }
 
@@ -45,7 +47,7 @@ void Sprite::Draw(){
 
 	SetResources();
 
-
+	
 	XMMATRIX worldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);// *camera->GetCameraScreenMatrix();
 
 
