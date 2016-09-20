@@ -15,7 +15,7 @@ void Camera::Create() {
 	_CamLookAt		= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	_CamUpVector	= XMFLOAT3(0.0f, 1.0f, 0.0f);
 	_CamFOVangle	= XMConvertToRadians(45);
-	_CamAspectRatio = static_cast<float>(rc.right - rc.left) / static_cast<float>(rc.bottom - rc.top);
+	_CamAspectRatio = static_cast<float>(m_screenX) / static_cast<float>(m_screenY);
 	_CamNearClip	= 0.01f;
 	_CamFarClip		= 1000.0f;
 

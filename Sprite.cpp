@@ -50,10 +50,19 @@ void Sprite::Draw(){
 
 	SetResources();
 
-	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+	tempMove += 0.01f;
+	if (tempMove > 2.0f) tempMove = 0.0f;
+
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(tempMove, m_pos.y, m_pos.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 
 	gContext->Draw(m_numElements, 0);
+
+	tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
+
+	gContext->Draw(m_numElements, 0);
+
 
 
 

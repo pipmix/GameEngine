@@ -13,8 +13,8 @@ void Dx::Initialize(){
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
-	//scd.BufferDesc.RefreshRate.Numerator		= 60;
-	//scd.BufferDesc.RefreshRate.Denominator		= 1;
+	scd.BufferDesc.RefreshRate.Numerator		= 60;
+	scd.BufferDesc.RefreshRate.Denominator		= 1;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
@@ -115,10 +115,39 @@ void Dx::CreateStates(){
 
 	// Blend States
 	D3D11_BLEND_DESC bsd;
-	ZeroMemory(&bsd, sizeof(D3D11_BLEND_DESC));
+	ZeroMemory(&bsd, sizeof(bsd));
 	bsd.RenderTarget[0].BlendEnable = FALSE;
 	bsd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
 	gDevice->CreateBlendState(&bsd, &m_BS_solid);
+
+
+	D3D11_BLEND_DESC bsd_alpha;
+	ZeroMemory(&bsd_alpha, sizeof(bsd_alpha));
+	bsd_alpha.RenderTarget[0].BlendEnable = true;
+	bsd_alpha.RenderTarget[0].SrcBlend = bsd_alpha.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	bsd_alpha.RenderTarget[0].DestBlend = bsd_alpha.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+	bsd_alpha.RenderTarget[0].BlendOp = bsd_alpha.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	bsd_alpha.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	gDevice->CreateBlendState(&bsd_alpha, &m_BS_transparent);
+
+	/*
+	bsd_alpha.AlphaToCoverageEnable = FALSE;
+	bsd_alpha.IndependentBlendEnable = FALSE;
+	bsd_alpha.RenderTarget[0].BlendEnable = TRUE;
+	bsd_alpha.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	bsd_alpha.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	bsd_alpha.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	bsd_alpha.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_DEST_ALPHA;
+	bsd_alpha.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	bsd_alpha.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+	bsd_alpha.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	gDevice->CreateBlendState(&bsd_alpha, &m_BS_transparent);
+	*/
+
+	
+
 
 	D3D11_DEPTH_STENCIL_DESC dsd;
 	ZeroMemory(&dsd, sizeof(dsd));
@@ -127,7 +156,12 @@ void Dx::CreateStates(){
 	dsd.DepthFunc = D3D11_COMPARISON_LESS;
 	gDevice->CreateDepthStencilState(&dsd, m_DS_default.GetAddressOf());
 
-	dsd.DepthEnable = false;;
+
+	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	gDevice->CreateDepthStencilState(&dsd, m_DS_ReadNoWrite.GetAddressOf());
+
+	dsd.DepthEnable = false;
+	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	gDevice->CreateDepthStencilState(&dsd, m_DS_UI.GetAddressOf());
 
 }
@@ -168,7 +202,10 @@ void Dx::Draw() {
 
 	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
 	gContext->RSSetState(m_RS_default.Get());
-	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+	gContext->OMSetDepthStencilState(m_DS_ReadNoWrite.Get(), 0);
+	gContext->OMSetBlendState(m_BS_transparent.Get(), 0, 0xFFFFFFFF);
+
+
 	
 	gContext->VSSetConstantBuffers(0, 1, gcbPerFrame.GetAddressOf());
 	gContext->VSSetConstantBuffers(1, 1, gcbPerMesh.GetAddressOf());

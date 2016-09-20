@@ -1,4 +1,5 @@
 #include "Dx.h"
+#include "Editor.h"
 
 static TCHAR szWindowClass[] = _T("MainWindowClass");
 static TCHAR szTitle[] = _T("MainWindowTitle");
@@ -7,6 +8,7 @@ static TCHAR szTitle2[] = _T("DirectXWindowTitle");
 
 HINSTANCE hInst = nullptr;
 HWND hMainWindow;
+HWND hSidePanel;
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -56,9 +58,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	RegisterClassEx(&wcex);
 	hInst = hInstance;
-	// hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	//hWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	ghWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	//ghWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	//ghWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
 	wcex.lpfnWndProc = ChildProc;
 	wcex.lpszClassName = szWindowClass2;
 	wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
@@ -69,14 +71,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	
 
-	//hWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , sX, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
+	ghWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , 200, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
 
 
-	//ShowWindow(hMainWindow, nCmdShow);
-	//UpdateWindow(hMainWindow);
+	ShowWindow(hMainWindow, nCmdShow);
+	UpdateWindow(hMainWindow);
 
 	ShowWindow(ghWnd, nCmdShow);
 	UpdateWindow(ghWnd);
+
+
+	INITCOMMONCONTROLSEX icc = { sizeof(INITCOMMONCONTROLSEX),
+		ICC_BAR_CLASSES | ICC_DATE_CLASSES | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES |
+		ICC_TREEVIEW_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES };
+	InitCommonControlsEx(&icc);
+
 
 	Dx dx(ghWnd);
 	dx.Initialize();
@@ -104,16 +113,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 
-LRESULT CALLBACK WndProc(HWND h, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	switch (message) {
 		case WM_CREATE:
+			hSidePanel = CreateSidePanel(hWnd);
+			break;
+		case WM_SIZE:
+			RECT clientRect;
+			GetWindowRect(hMainWindow, &clientRect);
+			MoveWindow(hSidePanel, 0, 0, 120, clientRect.bottom, 1);
 			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
 		default:
-			return DefWindowProc(h, message, wParam, lParam);
+			return DefWindowProc(hWnd, message, wParam, lParam);
 			break;
 	}
 	return 0;

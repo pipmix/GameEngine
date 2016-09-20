@@ -40,6 +40,7 @@ private:
 	ComPtr<ID3D11RasterizerState>	m_RS_wireframe;
 	ComPtr<ID3D11DepthStencilState> m_DS_default;
 	ComPtr<ID3D11DepthStencilState> m_DS_UI;
+	ComPtr<ID3D11DepthStencilState> m_DS_ReadNoWrite;
 	ComPtr<ID3D11BlendState>		m_BS_solid;
 	ComPtr<ID3D11BlendState>		m_BS_transparent;
 
