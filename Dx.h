@@ -9,6 +9,8 @@ extern HWND								ghWnd;
 extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 extern ComPtr<ID3D11Buffer>				gcbPerFrame;
+extern Input gInput;
+
 
 class Dx {
 

@@ -1,17 +1,17 @@
 #include "Game.h"
 
-Game::Game(){
-
-}
+Game::Game(){}
 
 
 void Game::Load(){
 
 	gCam.Create();
 
-	spr01.AssignResources(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
-	spr01.SetSourceRect(2);
-	spr01.Create();
+	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
+
+
+
+
 
 	
 
@@ -19,7 +19,7 @@ void Game::Load(){
 
 void Game::Update(double deltaTime) {
 	gCam.Update(deltaTime);
-	spr01.Update(deltaTime);
+	player.Update(deltaTime);
 	
 
 
@@ -32,7 +32,7 @@ void Game::Draw() {
 
 
 
-	spr01.Draw();
+	player.Draw();
 
 
 

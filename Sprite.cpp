@@ -4,16 +4,20 @@ Sprite::Sprite(){
 	m_sourceRect = { 0.0f, 0.0f, 1.0f, 1.0f };
 	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
 	m_pos = { 0.0f,	0.0f, 0.0f }; 
+	m_dim = { 0.0f, 1.0f, 1.0f, 0.0f };
 
 	
 }
 
+void Sprite::SetDimensions(float x, float y) {
+
+	m_dim = { 0.0f, 1.0f * y, 1.0f * x, 0.0f };
+
+}
+
 void Sprite::Create(){
 
-	m_dim.x = 0.0f;
-	m_dim.y = 1.0f;
-	m_dim.z = 1.0f;
-	m_dim.w = 0.0f;
+
 
 
 
@@ -50,17 +54,22 @@ void Sprite::Draw(){
 
 	SetResources();
 
-	tempMove += 0.01f;
-	if (tempMove > 2.0f) tempMove = 0.0f;
-
-	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(tempMove, m_pos.y, m_pos.z);
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
-
 	gContext->Draw(m_numElements, 0);
 
-	tmpWorldMatrix = XMMatrixTranslation(m_pos.x, m_pos.y, m_pos.z);
-	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 
+
+
+}
+
+void Sprite::Draw(XMFLOAT3 p) {
+
+
+	SetResources();
+
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(p.x, p.y, p.z);
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
 	gContext->Draw(m_numElements, 0);
 
 
@@ -92,6 +101,7 @@ void Sprite::AssignResources(UINT texID, UINT vsID, UINT psID){
 
 void Sprite::SetSourceRect(int i){
 	m_sourceRect = gDat.GetTexture(m_textureID)->GetSourceRectIndex(i);
+	m_texCoordChanged = true;
 
 }
 
@@ -158,16 +168,16 @@ void Sprite::UpdateVertexBuffer() {
 void Sprite::Update(double deltaTime) {
 
 
-	m_elapsedTime += deltaTime;
+	//m_elapsedTime += deltaTime;
 
-	if (m_elapsedTime > 300) {
-		m_elapsedTime -= 300;
+	//if (m_elapsedTime > 300) {
+	//	m_elapsedTime -= 300;
 
-		SetSourceRect(currentFrame);
-		currentFrame++;
-		if (currentFrame > 16)currentFrame = 0;
-		m_texCoordChanged = true;
+	//	SetSourceRect(currentFrame);
+	//	currentFrame++;
+	//	if (currentFrame > 16)currentFrame = 0;
+	//	m_texCoordChanged = true;
 
-	}
+	//}
 
 }

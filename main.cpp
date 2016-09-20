@@ -27,6 +27,7 @@ ComPtr<ID3D11Buffer>			gcbPerFrame = nullptr;
 Camera gCam;
 Data gDat;
 HWND ghWnd = nullptr; //dx window
+Input gInput;
 
 
 

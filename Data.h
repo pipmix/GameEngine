@@ -39,3 +39,13 @@ private:
 
 };
 
+struct AnimationStruct {
+	int numFrames;
+	int frameLoc[8];
+};
+
+// Animation States
+enum AS_PLAYER											{	AS_PL_IDLE,		AS_PL_WALKLEFT,		AS_PL_WALKRIGHT,	AS_PL_RUNLEFT,	AS_PL_RUNRIGHT,		AS_PL_FACINGLEFT,	AS_PL_FACINGRIGHT,	AS_PL_JUMPINGLEFT,	AS_PL_JUMPINGRIGHT,		AS_PL_DEATH,		AS_DUCKINGLEFT,		AS_PL_DUCKINGRIGHT,		AS_PL_SIZE	};
+static const AnimationStruct AS_PL_FRAMES[AS_PL_SIZE] = {	{ 1,0 },		{4,1,2,3,2},		{4,9,10,11,10},		{1,0},			{1,0},				{1,8},				{1,0},				{2,26,27},			{2,24,25},				{5,34,35,40,48,56},	{2,50,51},			{2,42,43}							};
+
+

@@ -13,8 +13,8 @@ void Dx::Initialize(){
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
-	scd.BufferDesc.RefreshRate.Numerator		= 60;
-	scd.BufferDesc.RefreshRate.Denominator		= 1;
+	//scd.BufferDesc.RefreshRate.Numerator		= 1;
+	//scd.BufferDesc.RefreshRate.Denominator		= 60;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
@@ -85,9 +85,9 @@ void Dx::CreateStates(){
 	ZeroMemory(&samplerDesc, sizeof(samplerDesc));
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	samplerDesc.MaxAnisotropy = 0;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	samplerDesc.MinLOD = 0.0f;
 	samplerDesc.MaxLOD = 0.0f;
 	samplerDesc.MipLODBias = 0.0f;
@@ -131,23 +131,6 @@ void Dx::CreateStates(){
 	bsd_alpha.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	gDevice->CreateBlendState(&bsd_alpha, &m_BS_transparent);
 
-	/*
-	bsd_alpha.AlphaToCoverageEnable = FALSE;
-	bsd_alpha.IndependentBlendEnable = FALSE;
-	bsd_alpha.RenderTarget[0].BlendEnable = TRUE;
-	bsd_alpha.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	bsd_alpha.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	bsd_alpha.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	bsd_alpha.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_DEST_ALPHA;
-	bsd_alpha.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
-	bsd_alpha.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-
-	bsd_alpha.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-	gDevice->CreateBlendState(&bsd_alpha, &m_BS_transparent);
-	*/
-
-	
-
 
 	D3D11_DEPTH_STENCIL_DESC dsd;
 	ZeroMemory(&dsd, sizeof(dsd));
@@ -190,6 +173,7 @@ void Dx::CreateConstantBuffers(){
 
 void Dx::Update() {
 	m_Timer.Update();
+	gInput.Update();
 	game.Update(m_Timer.GetDelta());
 
 }

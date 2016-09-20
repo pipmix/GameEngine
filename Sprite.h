@@ -16,9 +16,11 @@ class Sprite {
 public:
 
 						Sprite				();
+	void				SetDimensions		(float x, float y);
 	void				Update				(double deltaTime);
 	void				Create				();
 	void				Draw				();
+	void				Draw				(XMFLOAT3 p);
 	void				MovePos				(XMFLOAT3 p);
 	void				SetPos				(XMFLOAT3 p);
 	XMFLOAT3			GetPos				();
