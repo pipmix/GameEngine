@@ -32,6 +32,7 @@ private:
 
 	void				SetResources();
 	XMFLOAT3			m_pos;
+	XMFLOAT3			m_origin;
 	XMFLOAT4			m_sourceRect;
 	XMFLOAT4			m_dim;
 	float				m_zd;

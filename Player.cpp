@@ -85,3 +85,10 @@ void Player::Animate(double deltaTime) {
 
 
 }
+
+void Player::UpdateCollision(){
+}
+
+void Player::SetCollision(XMFLOAT4 c){
+	collision.SetCollision(c);
+}

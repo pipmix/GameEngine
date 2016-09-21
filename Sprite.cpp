@@ -3,7 +3,7 @@
 Sprite::Sprite(){
 	m_sourceRect = { 0.0f, 0.0f, 1.0f, 1.0f };
 	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-	m_pos = { 0.0f,	0.0f, 0.0f }; 
+	m_origin = m_pos = { 0.0f,	0.0f, 0.0f };
 	m_dim = { 0.0f, 1.0f, 1.0f, 0.0f };
 
 	
