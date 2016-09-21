@@ -21,7 +21,7 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 
 void Player::Update(double deltaTime) {
-
+	
 	prev_pos = pos;
 	prev_vel = vel;
 	prev_animState = animState;
@@ -48,7 +48,7 @@ void Player::Update(double deltaTime) {
 	vel.x *= 0.8;
 	pos.x += vel.x;
 	pos.y += vel.y;
-
+	
 
 
 
@@ -87,6 +87,8 @@ void Player::Animate(double deltaTime) {
 }
 
 void Player::UpdateCollision(){
+	XMFLOAT4 cc;
+
 }
 
 void Player::SetCollision(XMFLOAT4 c){

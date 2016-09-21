@@ -8,7 +8,7 @@ void Game::Load(){
 	gCam.Create();
 
 	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
-
+	player.SetCollision(XMFLOAT4{ 0.0f, 1.0f, 1.0f, 0.0f });
 
 
 
@@ -20,6 +20,8 @@ void Game::Load(){
 void Game::Update(double deltaTime) {
 	gCam.Update(deltaTime);
 	player.Update(deltaTime);
+
+	cm.Collide(player);
 	
 
 

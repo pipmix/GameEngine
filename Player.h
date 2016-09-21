@@ -12,14 +12,17 @@ public:
 	void	Create	(UINT tex, UINT vShader, UINT pShader);
 	void	Update	(double deltaTime);
 	void	Draw	();
-	void	Animate	(double deltaTime);
-	void	UpdateCollision();
+
+	XMFLOAT3			pos;
 	void	SetCollision(XMFLOAT4 c);
 
 private:
+
+	void	Animate(double deltaTime);
+	void	UpdateCollision();
 	Sprite		sprite;
 
-	XMFLOAT3			pos;
+	
 	XMFLOAT3			vel;
 	XMFLOAT3			acc;
 

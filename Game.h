@@ -2,7 +2,7 @@
 #include "Headers.h"
 #include "Timer.h"
 #include "Data.h"
-#include "Player.h"
+#include "CollisionManager.h"
 #include "Camera.h"
 #include "Input.h"
 
@@ -27,6 +27,8 @@ public:
 
 	Player player;
 
+
+	CollisionManager cm;
 
 
 
