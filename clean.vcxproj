@@ -159,6 +159,8 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NewSprite.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -181,8 +183,11 @@
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Loader.h" />
     <ClInclude Include="NewSprite.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Primitives.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Texture.h" />

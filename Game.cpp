@@ -12,8 +12,8 @@ void Game::Load(){
 
 
 
-
-	
+	// check all objects to see if initilized
+	// hard overrides for states for ui
 
 }
 

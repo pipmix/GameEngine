@@ -17,7 +17,10 @@ public:
 
 	void			MoveTo(float posX, float posY, float posZ);
 	void			MoveBy(float vecX, float vecY, float vecZ);
+	void			MoveInDirection(XMVECTOR mv, float dist);
 	void			SetTarget(float tx, float ty, float tz);
+
+	void			Rotate(XMVECTOR rv);
 
 
 	void			UpdatePerspective();
@@ -48,6 +51,9 @@ private:
 	XMFLOAT3		_CamPosition;
 	XMFLOAT3		_CamLookAt;
 	XMFLOAT3		_CamUpVector;
+
+	XMFLOAT3		m_dir;
+	XMFLOAT3		m_right;
 	float			_CamFOVangle;
 	float			_CamAspectRatio;
 	float			_CamNearClip;

@@ -32,6 +32,7 @@ void Error(LPCWSTR header, LPCWSTR info)
 {
 
 	MessageBox(NULL, info, header, NULL);
+	PostQuitMessage(0);
 }
 
 bool IntersectsFloat(XMFLOAT4 & rectA, XMFLOAT4 & rectB) {

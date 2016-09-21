@@ -13,8 +13,8 @@ void Dx::Initialize(){
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
-	//scd.BufferDesc.RefreshRate.Numerator		= 1;
-	//scd.BufferDesc.RefreshRate.Denominator		= 60;
+	//scd.BufferDesc.RefreshRate.Numerator		= 60;
+	//scd.BufferDesc.RefreshRate.Denominator		= 1;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
@@ -49,8 +49,8 @@ void Dx::Initialize(){
 	gDevice->CreateDepthStencilView(zbuffertexture.Get(), &dsvd, m_zBuffer.GetAddressOf());
 
 	// Viewport
-	m_viewport.Width = (float)m_windowW;
-	m_viewport.Height = (float)m_windowH;
+	m_viewport.Width = static_cast<float>(m_windowW);
+	m_viewport.Height = static_cast<float>(m_windowH);
 	m_viewport.MinDepth = 0.0f;
 	m_viewport.MaxDepth = 1.0f;
 	m_viewport.TopLeftX = 0;
