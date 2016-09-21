@@ -1,5 +1,6 @@
 #pragma once
 #include "Headers.h"
+#include "Sprite.h"
 using Microsoft::WRL::ComPtr;
 
 extern ComPtr<ID3D11Device>			gDevice;
@@ -15,15 +16,6 @@ public:
 
 private:
 
-	ComPtr<ID3D11Buffer> m_indexBuffer;
-	ComPtr<ID3D11Buffer> m_vertexBuffer;
-	ComPtr<ID3D11InputLayout> m_inputLayout;
-	size_t m_vbPosition;
-
-	//static std::vector<int> m_indices();
-
-	UINT vsIndex;
-	UINT psIndex;
-
+	Sprite spr;
 
 };
