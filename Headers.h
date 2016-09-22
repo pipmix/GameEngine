@@ -13,6 +13,7 @@
 #include <d3d11_1.h>
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
+#include <fstream>
 
 #include <wrl\client.h>
 #include "DDSTextureLoader.h"

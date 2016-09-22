@@ -1,10 +1,6 @@
 #pragma once
 #include "Headers.h"
-class Loader {
-public:
-	Loader();
-	void LoadCollision();
+#include "Helpers.h"
 
-	int numColRects;
-	XMFLOAT4* colRects;
-};
+	int LoadCollision(XMFLOAT4* data, std::string fn);
+

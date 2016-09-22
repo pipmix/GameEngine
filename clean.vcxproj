@@ -162,6 +162,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="NewSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="NewSprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Primitives.h" />

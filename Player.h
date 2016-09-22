@@ -5,6 +5,18 @@
 
 extern Input gInput;
 
+struct PlayerVariables {
+	bool onGround;
+	bool cLeft;
+	bool cRight;
+	bool cTop;
+	bool cBottom;
+	bool canJump;
+	bool onWall;
+
+};
+
+
 class Player {
 
 public:
@@ -13,8 +25,15 @@ public:
 	void	Update	(double deltaTime);
 	void	Draw	();
 
+	void	MoveBy	(XMFLOAT3 p);
+
 	XMFLOAT3			pos;
+	XMFLOAT3			vel;
 	void	SetCollision(XMFLOAT4 c);
+
+	XMFLOAT4 GetCollision();
+
+	PlayerVariables pv;
 
 private:
 
@@ -23,7 +42,7 @@ private:
 	Sprite		sprite;
 
 	
-	XMFLOAT3			vel;
+
 	XMFLOAT3			acc;
 
 	XMFLOAT3			prev_pos;
@@ -33,7 +52,11 @@ private:
 	AS_PLAYER			prev_animState = AS_PL_IDLE;
 	int					curAnimFrame;
 	double				elapsedTime = 0.0f;
-	RectCollider		collision;
+	//RectCollider		collision;
+
+	XMFLOAT4 col;
+
+
 	
 
 };

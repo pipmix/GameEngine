@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "UI.h"
+#include "Map.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -29,7 +30,7 @@ public:
 
 	Player player;
 	UI		ui;
-
+	Map		map1;
 
 	CollisionManager cm;
 

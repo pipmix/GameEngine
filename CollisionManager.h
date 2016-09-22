@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Map.h"
 
 
 
@@ -10,7 +11,7 @@ public:
 
 	CollisionManager();
 
-	void Collide(Player& p);
+	void Collide(Player& p, Map& m);
 
 
 

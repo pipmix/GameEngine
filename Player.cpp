@@ -39,6 +39,11 @@ void Player::Update(double deltaTime) {
 
 	}
 
+	//Gravity
+	vel.y += -(deltaTime / 1000) * 0.2;
+
+
+
 	//Animation
 	if (vel.x > 0)animState = AS_PL_WALKLEFT;
 	else if (vel.x < 0)animState = AS_PL_WALKRIGHT;
@@ -48,7 +53,7 @@ void Player::Update(double deltaTime) {
 	vel.x *= 0.8;
 	pos.x += vel.x;
 	pos.y += vel.y;
-	
+	UpdateCollision();
 
 
 
@@ -87,10 +92,27 @@ void Player::Animate(double deltaTime) {
 }
 
 void Player::UpdateCollision(){
-	XMFLOAT4 cc;
+	col.x = pos.x;
+	col.y = pos.y;
+	col.z = pos.x + 1.0f;
+	col.w = pos.y + 1.0f;
 
 }
 
 void Player::SetCollision(XMFLOAT4 c){
-	collision.SetCollision(c);
+	col = c;
+}
+
+XMFLOAT4 Player::GetCollision(){
+	return col;
+}
+
+
+void	Player::MoveBy(XMFLOAT3 p) {
+
+	pos.x += p.x;
+	pos.y += p.y;
+	pos.z += p.z;
+	UpdateCollision();
+
 }
