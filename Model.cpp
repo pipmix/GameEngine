@@ -73,10 +73,15 @@ void Model::Draw() {
 
 }
 
+void Model::Update() {
+
+
+}
+
 
 void Model::LoadMesh() {
 
-	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/meshonly.mesh";
+	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/arrows.mesh";
 	ifstream file(completePathAndName);
 	string materialName, textureName;
 
