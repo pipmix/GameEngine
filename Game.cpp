@@ -6,6 +6,7 @@ Game::Game(){}
 void Game::Load(){
 
 	gCam.Create();
+	ui.Create();
 
 	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	player.SetCollision(XMFLOAT4{ 0.0f, 1.0f, 1.0f, 0.0f });
@@ -24,7 +25,7 @@ void Game::Update(double deltaTime) {
 	cm.Collide(player);
 	
 
-
+	ui.Update(deltaTime);
 }
 
 void Game::Draw() {
@@ -35,6 +36,13 @@ void Game::Draw() {
 
 
 	player.Draw();
+
+
+	// UI
+	XMMATRIX tmpScreen = gCam.GetScreenMatrix();
+	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
+
+	ui.Draw();
 
 
 

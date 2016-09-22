@@ -1,25 +1,31 @@
 #include "UI.h"
 
-UI::UI()
-{
+UI::UI(){
+
+
 }
 
-void UI::Initialize(){
-
-	//CD3D11_TEXTURE2D_DESC texDes()
+void UI::Create(){
 
 
-	// Create vertex buffer
+	m_vignette.AssignResources(DT_IMGLIGHT, DV_UI, DP_BASICMATRX);
+	m_vignette.SetAbsolute(XMFLOAT4{-1.0f,1.0f,1.0f,-1.0f});
+	m_vignette.Create();
 
 
-	D3D11_BUFFER_DESC vbd = {0};
+	m_healthBar.AssignResources(DT_HUDTOP, DV_UI, DP_BASICMATRX);
+	m_healthBar.SetAbsolute(XMFLOAT4{ -0.9f, 0.9f, -0.5f, 0.7f });
+	m_healthBar.Create();
 
-	vbd.Usage = D3D11_USAGE_DYNAMIC;
-	//vbd.ByteWidth = sizeof(VertexPositionColorTexture) * MaxBatchSize * VerticesPerSprite;
-	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	//gDevice->CreateBuffer(&vbd, nullptr, &m_vertexBuffer);
-	
+}
 
+void UI::Update(double deltaTime){
+
+}
+
+void UI::Draw(){
+	XMFLOAT3 tmp = { 30.0f, 0.0f, 0.0f };
+	m_vignette.Draw();
+	m_healthBar.Draw(tmp);
 
 }

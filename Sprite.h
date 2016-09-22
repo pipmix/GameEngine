@@ -17,6 +17,7 @@ public:
 
 						Sprite				();
 	void				SetDimensions		(float x, float y);
+	void				SetAbsolute			(XMFLOAT4 a);
 	void				Update				(double deltaTime);
 	void				Create				();
 	void				Draw				();
@@ -48,5 +49,6 @@ private:
 	float				tempMove = 0.0f;
 	double				m_elapsedTime = 0.0f;
 	int currentFrame = 0;
+	bool				m_isAnimated = true;
 
 };

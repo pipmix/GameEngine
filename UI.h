@@ -11,11 +11,15 @@ class UI {
 public:
 
 	UI();
-	void Initialize();
+	void Create();
+
+	void Update(double deltaTime);
+	void Draw();
 
 
 private:
 
-	Sprite spr;
+	Sprite m_vignette;
+	Sprite m_healthBar;
 
 };

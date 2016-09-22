@@ -1,0 +1,10 @@
+vingetee 
+particles
+clumb up ledge
+auto pause on focus lose
+diaganals 
+paralax
+map button
+wall jump
+with midpoint
+groud pound

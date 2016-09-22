@@ -28,11 +28,12 @@ void ReadDataFromFile(LPCWSTR filename, byte** data, UINT* size) {
 
 }
 
-void Error(LPCWSTR header, LPCWSTR info)
-{
+void Error(LPCWSTR header, LPCWSTR info){
 
 	MessageBox(NULL, info, header, NULL);
-	PostQuitMessage(0);
+	PostMessage(ghWnd, WM_CLOSE, NULL, NULL);
+	//DestroyWindow(ghWnd);
+	
 }
 
 bool IntersectsFloat(XMFLOAT4 & rectA, XMFLOAT4 & rectB) {

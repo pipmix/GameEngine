@@ -5,7 +5,7 @@
 #include "CollisionManager.h"
 #include "Camera.h"
 #include "Input.h"
-
+#include "UI.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -15,6 +15,8 @@ extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 extern ComPtr<ID3D11Buffer>				gcbPerFrame;
 extern Camera gCam;
 extern Input gInput;
+
+class Dx;
 
 class Game {
 public:
@@ -26,6 +28,7 @@ public:
 
 
 	Player player;
+	UI		ui;
 
 
 	CollisionManager cm;

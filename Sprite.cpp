@@ -11,8 +11,13 @@ Sprite::Sprite(){
 
 void Sprite::SetDimensions(float x, float y) {
 
+	
 	m_dim = { 0.0f, 1.0f * y, 1.0f * x, 0.0f };
 
+}
+
+void Sprite::SetAbsolute(XMFLOAT4 a){
+	m_dim = a;
 }
 
 void Sprite::Create(){
@@ -23,6 +28,8 @@ void Sprite::Create(){
 
 	m_zd = 0.0f;
 
+	// vert order = TL TR BL BR
+	// sprite origin is 0.0 located at bottom left corner
 	VertexPU verts[] = {
 
 		{ XMFLOAT3(m_dim.x, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y) },
@@ -34,18 +41,29 @@ void Sprite::Create(){
 	};
 	m_numElements = ARRAYSIZE(verts);
 
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage				= D3D11_USAGE_DYNAMIC;
-	bd.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
-	bd.ByteWidth			= sizeof(VertexPU) * m_numElements;
-	bd.BindFlags			= D3D11_BIND_VERTEX_BUFFER;
 
 
-	D3D11_SUBRESOURCE_DATA InitData;
-	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = verts;
-	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+	if (m_isAnimated) {
+
+		D3D11_BUFFER_DESC bd;
+		ZeroMemory(&bd, sizeof(bd));
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.ByteWidth = sizeof(VertexPU) * m_numElements;
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+
+		D3D11_SUBRESOURCE_DATA InitData;
+		ZeroMemory(&InitData, sizeof(InitData));
+		InitData.pSysMem = verts;
+		gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+	}
+	else {
+
+
+
+
+	}
 
 }
 

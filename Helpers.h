@@ -3,6 +3,8 @@
 #include "Headers.h"
 #include "DataTypes.h"
 
+extern HWND ghWnd;
+
 using namespace DirectX;
 
 void ReadDataFromFile(LPCWSTR filename, byte** data, UINT* size);
