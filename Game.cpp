@@ -45,6 +45,8 @@ void Game::Draw() {
 
 	player.Draw();
 
+	map1.Draw();
+
 
 	// UI
 	XMMATRIX tmpScreen = gCam.GetScreenMatrix();

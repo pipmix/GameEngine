@@ -39,6 +39,13 @@ void Map::Load(){
 	}
 
 
+	XMFLOAT4 t1 = { 0.0f, 0.0f,2.0f,-5.0f };
+
+	rs01.Create(m_collisionRects[3]);
+	rs02.Create(m_collisionRects[4]);
+	rs03.Create(m_collisionRects[5]);
+
+
 
 
 
@@ -49,4 +56,7 @@ void Map::Update(){
 }
 
 void Map::Draw(){
+	rs01.Draw();
+	rs02.Draw();
+	rs03.Draw();
 }

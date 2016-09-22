@@ -1,5 +1,6 @@
 #pragma once
 #include "Loader.h"
+#include "Shape.h"
 
 
 class Map {
@@ -19,4 +20,9 @@ public:
 	int			m_numCollisionRects;
 
 	std::string		m_mapName;
+
+
+	RectShape rs01;
+	RectShape rs02;
+	RectShape rs03;
 };
