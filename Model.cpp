@@ -81,7 +81,7 @@ void Model::Update() {
 
 void Model::LoadMesh() {
 
-	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/arrows.mesh";
+	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/levelo.mesh";
 	ifstream file(completePathAndName);
 	string materialName, textureName;
 
@@ -117,7 +117,7 @@ void Model::LoadMesh() {
 
 		CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(VertexPNU)*numOfVertices, D3D11_BIND_VERTEX_BUFFER);
 
-		gDevice->CreateBuffer(&vertexBufferDesc, &vertexBufferData, &m_vertexBuffer);
+		
 
 
 		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
@@ -126,7 +126,7 @@ void Model::LoadMesh() {
 		indexBufferData.SysMemSlicePitch = 0;
 		CD3D11_BUFFER_DESC indexBufferDesc(sizeof(unsigned short)*numOfIndices, D3D11_BIND_INDEX_BUFFER);
 
-
+		gDevice->CreateBuffer(&vertexBufferDesc, &vertexBufferData, &m_vertexBuffer);
 		gDevice->CreateBuffer(&indexBufferDesc, &indexBufferData, &m_indexBuffer);
 
 		delete[] vertices;

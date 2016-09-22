@@ -19,7 +19,7 @@ void Game::Load(){
 
 
 	
-	gCam.MoveBy(0.0f,10.0f,-30.0f);
+	//gCam.MoveBy(0.0f,10.0f,-30.0f);
 
 	// check all objects to see if initilized
 	// hard overrides for states for ui

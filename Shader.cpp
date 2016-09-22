@@ -26,7 +26,7 @@ void VertexShader::Load(std::wstring fn, VertexType vt) {
 		gDevice->CreateInputLayout(VertexPU_Layout, ARRAYSIZE(VertexPU_Layout), vsData, vsDataLength, &inputLayout);
 		break;
 	case VT_PNU:
-
+		gDevice->CreateInputLayout(VertexPNU_Layout, ARRAYSIZE(VertexPNU_Layout), vsData, vsDataLength, &inputLayout);
 		break;
 	default:
 		break;
