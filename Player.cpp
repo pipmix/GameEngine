@@ -2,6 +2,8 @@
 
 Player::Player(){
 	prev_pos = prev_vel = acc = vel = pos = { 0.0f, 0.0f, 0.0f };
+	col = { 0.0f,0.0f ,0.0f ,0.0f };
+	UpdateCollision();
 
 }
 
@@ -26,6 +28,7 @@ void Player::Update(double deltaTime) {
 	prev_vel = vel;
 	prev_animState = animState;
 
+	//if (pos.y < -20.0f)pos.y = 20.0f;
 
 	if (gInput.isConnected) {
 
@@ -34,13 +37,22 @@ void Player::Update(double deltaTime) {
 
 			
 		}
+
+		if (abs(gInput.b.leftStickFloatY) > 0.001) {
+			vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
+		}
+
+		float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
+		gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
 		
 
 
 	}
 
 	//Gravity
-	vel.y += -(deltaTime / 1000) * 0.2;
+	//vel.y += -(deltaTime / 1000);
+
+	//if (vel.y < -1.0f)vel.y = -1.0f;
 
 
 
@@ -51,6 +63,7 @@ void Player::Update(double deltaTime) {
 	//Final Calcs
 	Animate(deltaTime);
 	vel.x *= 0.8;
+	vel.y *= 0.8;
 	pos.x += vel.x;
 	pos.y += vel.y;
 	UpdateCollision();

@@ -10,11 +10,13 @@ void Game::Load(){
 
 	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	player.SetCollision(XMFLOAT4{ 0.0f, 1.0f, 1.0f, 1.0f });
-	player.pos = { 0.0f,20.0f, 0.0f };
+	player.pos = { 0.0f, 10.0f, 0.0f };
 
 	map1.Load();
 
 
+	
+	gCam.MoveBy(0.0f,10.0f,-30.0f);
 
 	// check all objects to see if initilized
 	// hard overrides for states for ui
@@ -22,12 +24,10 @@ void Game::Load(){
 }
 
 void Game::Update(double deltaTime) {
+
 	gCam.Update(deltaTime);
 	player.Update(deltaTime);
-
 	cm.Collide(player, map1);
-	
-
 	ui.Update(deltaTime);
 }
 

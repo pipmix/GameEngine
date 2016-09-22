@@ -34,3 +34,33 @@ PixelShader* Data::GetPixelShader(int n) {
 VertexShader * Data::GetVertexShader(int n) {
 	return &m_VShaders[n];
 }
+
+void Data::SetResources(ResourceIDs & rid){
+
+
+	if (m_curTex != rid.m_textureID) {
+		gContext->PSSetShaderResources(0, 1, GetTexture(rid.m_textureID)->textureResource.GetAddressOf());
+		m_curTex = rid.m_textureID;
+	}
+	if (m_curVS != rid.m_vsID) {
+		m_VShaders[rid.m_vsID].Set();
+		m_curVS = rid.m_vsID;
+	}
+	if (m_curPS != rid.m_psID) {
+		m_PShaders[rid.m_psID].Set();
+		m_curPS = rid.m_psID;
+	}
+	if (m_curTopo != rid.m_topoID) {
+		switch (rid.m_topoID) {
+		case D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
+			gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+			break;
+
+		}
+
+		m_curTopo = rid.m_topoID;
+
+	}
+
+
+}

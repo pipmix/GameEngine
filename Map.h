@@ -13,6 +13,8 @@ public:
 	void Draw();
 
 
+
+	
 	XMFLOAT4*	m_collisionRects;
 	int			m_numCollisionRects;
 

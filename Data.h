@@ -26,6 +26,7 @@ public:
 	Texture*			GetTexture			(int n);
 	PixelShader*		GetPixelShader		(int n);
 	VertexShader*		GetVertexShader		(int n);
+	void				SetResources		(ResourceIDs& rid);
 
 	int					m_curTex, m_curPS, m_curVS, m_curTopo;
 
