@@ -2,15 +2,15 @@
 
 Model::Model() {
 
-	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	m_position = { 0.0f, 0.0f, 0.0f };
 }
 
 void Model::AssignResources(UINT texID, UINT vsID, UINT psID) {
 
-	m_textureID = texID;
-	m_vsID = vsID;
-	m_psID = psID;
+	m_rIds.m_textureID = texID;
+	m_rIds.m_vsID = vsID;
+	m_rIds.m_psID = psID;
 
 }
 
@@ -30,23 +30,7 @@ void Model::MoveTo(XMFLOAT3 moveTo){
 
 void Model::SetResources() {
 
-	if (gDat.m_curTex != m_textureID) {
-		gContext->PSSetShaderResources(0, 1, gDat.GetTexture(m_textureID)->textureResource.GetAddressOf());
-		gDat.m_curTex = m_textureID;
-	}
-	if (gDat.m_curVS != m_vsID) {
-
-		gDat.GetVertexShader(m_vsID)->Set();
-		gDat.m_curVS = m_vsID;
-	}
-	if (gDat.m_curPS != m_psID) {
-		gDat.GetPixelShader(m_psID)->Set();
-		gDat.m_curPS = m_psID;
-	}
-	if (gDat.m_curTopo != m_topoID) {
-		gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		gDat.m_curTopo = m_topoID;
-	}
+	gDat.SetResources(m_rIds);
 
 
 

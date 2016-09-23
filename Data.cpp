@@ -52,12 +52,19 @@ void Data::SetResources(ResourceIDs & rid){
 	}
 	if (m_curTopo != rid.m_topoID) {
 		switch (rid.m_topoID) {
-		case D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
-			gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-			break;
-
+			case D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP:
+				gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+				break;
+			case D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP:
+				gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+				break;
+			case D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST:
+				gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+				break;
+			case D3D11_PRIMITIVE_TOPOLOGY_LINELIST:
+				gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+				break;
 		}
-
 		m_curTopo = rid.m_topoID;
 
 	}

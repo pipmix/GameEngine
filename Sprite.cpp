@@ -2,9 +2,11 @@
 
 Sprite::Sprite(){
 	m_sourceRect = { 0.0f, 0.0f, 1.0f, 1.0f };
-	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
 	m_origin = m_pos = { 0.0f,	0.0f, 0.0f };
 	m_dim = { 0.0f, 1.0f, 1.0f, 0.0f };
+
+
 
 	
 }
@@ -115,40 +117,22 @@ XMFLOAT3 Sprite::GetPos(){
 
 void Sprite::AssignResources(UINT texID, UINT vsID, UINT psID){
 
-	m_textureID = texID;
-	m_vsID = vsID;
-	m_psID = psID;
+	m_rIds.m_textureID = texID;
+	m_rIds.m_vsID = vsID;
+	m_rIds.m_psID = psID;
 
 }
 
 void Sprite::SetSourceRect(int i){
-	m_sourceRect = gDat.GetTexture(m_textureID)->GetSourceRectIndex(i);
+	m_sourceRect = gDat.GetTexture(m_rIds.m_textureID)->GetSourceRectIndex(i);
 	m_texCoordChanged = true;
 
 }
 
 void Sprite::SetResources(){
 
-
-	if (gDat.m_curTex != m_textureID) {
-		gContext->PSSetShaderResources(0, 1, gDat.GetTexture(m_textureID)->textureResource.GetAddressOf());
-		gDat.m_curTex = m_textureID;
-	}
-	if (gDat.m_curVS != m_vsID) {
-
-		gDat.GetVertexShader(m_vsID)->Set();
-		gDat.m_curVS = m_vsID;
-	}
-	if (gDat.m_curPS != m_psID) {
-		gDat.GetPixelShader(m_psID)->Set();
-		gDat.m_curPS = m_psID;
-	}
-	if (gDat.m_curTopo != m_topoID) {
-		gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-		gDat.m_curTopo = m_topoID;
-	}
-
-
+	gDat.SetResources(m_rIds);
+	
 	if (m_texCoordChanged) {
 		UpdateVertexBuffer();
 		m_texCoordChanged = false;
@@ -190,16 +174,5 @@ void Sprite::UpdateVertexBuffer() {
 void Sprite::Update(double deltaTime) {
 
 
-	//m_elapsedTime += deltaTime;
-
-	//if (m_elapsedTime > 300) {
-	//	m_elapsedTime -= 300;
-
-	//	SetSourceRect(currentFrame);
-	//	currentFrame++;
-	//	if (currentFrame > 16)currentFrame = 0;
-	//	m_texCoordChanged = true;
-
-	//}
 
 }

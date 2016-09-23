@@ -49,11 +49,7 @@ private:
 	int numOfVertices;
 	int numOfIndices;
 
-	UINT				m_textureID;
-	UINT				m_vsID;
-	UINT				m_psID;
-	UINT				m_topoID;
-
+	ResourceIDs	m_rIds;
 
 
 };

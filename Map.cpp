@@ -37,14 +37,53 @@ void Map::Load(){
 	else {
 		Error(L"Cannot open collision", completePathAndName.c_str());
 	}
+	
+		
+		
+	//left = [0].x
+	//top = [3].y
+	//right = [2].x
+	//bottom = [0].y
+	//XMFLOAT4 t1 = { 3, -11, 4, -12 };
+	//XMFLOAT4 t2 = { -9, -11, -8, -12 };
+	//XMFLOAT4 t3 = { -14, -9, -11, -12 };
+	XMFLOAT4 t1;
+	t1.x = m_collisionRects[5].x;
+	t1.y = m_collisionRects[5].y;
+	t1.z = m_collisionRects[5].x + m_collisionRects[5].z ;
+	t1.w = m_collisionRects[5].y - m_collisionRects[5].w;
+	XMFLOAT4 t2;
+	t2.x = m_collisionRects[9].x;
+	t2.y = m_collisionRects[9].y;
+	t2.z = m_collisionRects[9].x + m_collisionRects[9].z ;
+	t2.w = m_collisionRects[9].y - m_collisionRects[9].w ;
+	XMFLOAT4 t3;
+	t3.x = m_collisionRects[8].x;
+	t3.y = m_collisionRects[8].y;
+	t3.z = m_collisionRects[8].x + m_collisionRects[8].z;
+	t3.w = m_collisionRects[8].y - m_collisionRects[8].w;
 
 
-	XMFLOAT4 t1 = { 0.0f, 0.0f,2.0f,-5.0f };
+	rs01.Create(t1);
+	rs02.Create(t2);
+	rs03.Create(t3);
 
-	rs01.Create(m_collisionRects[3]);
-	rs02.Create(m_collisionRects[4]);
-	rs03.Create(m_collisionRects[5]);
 
+	//v 3.000000 - 12.000000 0.000000
+	//	v 4.000000 - 12.000000 0.000000
+	//	v 3.000000 - 11.000000 0.000000
+	//	v 4.000000 - 11.000000 0.000000
+
+
+	//v - 9.000000 - 12.000000 0.000000
+	//	v - 8.000000 - 12.000000 0.000000
+	//	v - 9.000000 - 11.000000 0.000000
+	//	v - 8.000000 - 11.000000 0.000000
+
+	//v - 14.000000 - 12.000000 0.000000
+	//	v - 11.000000 - 12.000000 0.000000
+	//	v - 14.000000 - 9.000000 0.000000
+	//	v - 11.000000 - 9.000000 0.000000
 
 
 

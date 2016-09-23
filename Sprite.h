@@ -37,10 +37,7 @@ private:
 	XMFLOAT4			m_sourceRect;
 	XMFLOAT4			m_dim;
 	float				m_zd;
-	UINT				m_textureID;
-	UINT				m_vsID;
-	UINT				m_psID;
-	UINT				m_topoID;
+	ResourceIDs			m_rIds;
 
 	UINT						m_numElements;
 

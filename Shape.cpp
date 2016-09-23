@@ -2,10 +2,10 @@
 
 RectShape::RectShape(){
 
-	m_textureID = -1;
-	m_vsID = DV_BASICMATRX;
-	m_psID = DP_BASIC;;
-	m_topoID = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
+	m_rIds.m_textureID = -1;
+	m_rIds.m_vsID = DV_BASICMATRX;
+	m_rIds.m_psID = DP_BASIC;;
+	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP;
 }
 
 void RectShape::Create(XMFLOAT4 r){
@@ -55,23 +55,8 @@ void RectShape::Draw() {
 
 void RectShape::SetResources() {
 
-	if (gDat.m_curTex != m_textureID) {
-		gContext->PSSetShaderResources(0, 1, gDat.GetTexture(m_textureID)->textureResource.GetAddressOf());
-		gDat.m_curTex = m_textureID;
-	}
-	if (gDat.m_curVS != m_vsID) {
+	gDat.SetResources(m_rIds);
 
-		gDat.GetVertexShader(m_vsID)->Set();
-		gDat.m_curVS = m_vsID;
-	}
-	if (gDat.m_curPS != m_psID) {
-		gDat.GetPixelShader(m_psID)->Set();
-		gDat.m_curPS = m_psID;
-	}
-	if (gDat.m_curTopo != m_topoID) {
-		gContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		gDat.m_curTopo = m_topoID;
-	}
 
 
 	UINT stride = sizeof(VertexP);
