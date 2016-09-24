@@ -49,6 +49,7 @@ private:
 
 	// Camera Settings
 	XMFLOAT3		_CamPosition;
+	XMFLOAT3		_CamVelocity;
 	XMFLOAT3		_CamLookAt;
 	XMFLOAT3		_CamUpVector;
 

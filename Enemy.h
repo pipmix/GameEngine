@@ -3,9 +3,8 @@
 #include "Input.h"
 #include "Collision.h"
 
-extern Input gInput;
 
-struct PlayerVariables {
+struct EnemyVariables {
 	bool jumping;
 	bool falling;
 	bool doubleJumping;
@@ -18,7 +17,6 @@ struct PlayerVariables {
 	bool collidingRight;
 	bool collidingAbove;
 	bool collidingBelow;
-	bool collidingLadder;
 	bool onWall;
 
 	int facing;
@@ -26,16 +24,16 @@ struct PlayerVariables {
 };
 
 
-class Player {
+class Enemy {
 
 public:
-			Player	();
-	void	Create	(UINT tex, UINT vShader, UINT pShader);
-	void	Update	(double deltaTime);
-	void	Draw	();
+	Enemy();
+	void	Create(UINT tex, UINT vShader, UINT pShader);
+	void	Update(double deltaTime);
+	void	Draw();
 
-	void	MoveBy	(XMFLOAT3 p);
-	void	MoveTo	(XMFLOAT3 p);
+	void	MoveBy(XMFLOAT3 p);
+	void	MoveTo(XMFLOAT3 p);
 
 	XMFLOAT3			pos;
 	XMFLOAT3			vel;
@@ -43,15 +41,15 @@ public:
 
 	XMFLOAT4 GetCollision();
 
-	PlayerVariables pv;
+	EnemyVariables pv;
 
 private:
 
-	void	Animate(double deltaTime);
-	void	UpdateCollision();
+	void		Animate(double deltaTime);
+	void		UpdateCollision();
 	Sprite		sprite;
 
-	
+
 
 	XMFLOAT3			acc;
 
@@ -62,15 +60,11 @@ private:
 	AS_PLAYER			prev_animState = AS_PL_IDLE;
 	int					curAnimFrame;
 	double				elapsedTime = 0.0f;
-	//RectCollider		collision;
-
 	XMFLOAT4 col;
 
-	int oGround = 0;
-
-	bool jumpReleased = 1;
+	int xdir = 1;
 
 
-	
+
 
 };

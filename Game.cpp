@@ -9,7 +9,7 @@ void Game::Load(){
 	ui.Create();
 
 	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
-	player.SetCollision(XMFLOAT4{ 0.0f, 1.0f, 1.0f, 0.0f });
+	enemy.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	
 	map1.Load();
 
@@ -23,8 +23,12 @@ void Game::Update(double deltaTime) {
 
 	gCam.Update(deltaTime);
 	player.Update(deltaTime);
-	
+	enemy.Update(deltaTime);
+
 	cm.Collide(player, map1);
+	cm.Collide(enemy, map1);
+	cm.Collide(player, enemy);
+
 	ui.Update(deltaTime);
 }
 
@@ -36,6 +40,7 @@ void Game::Draw() {
 
 	map1.Draw();
 	player.Draw();
+	enemy.Draw();
 
 
 

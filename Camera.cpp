@@ -10,7 +10,7 @@ void Camera::Create() {
 	m_screenX = rc.right - rc.left;
 	m_screenY = rc.bottom - rc.top;
 
-
+	_CamVelocity	= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	_CamPosition	= XMFLOAT3(0.0f, 0.0f, -10.0f);
 	_CamLookAt		= XMFLOAT3(0.0f, 0.0f, 0.0f);
 	_CamUpVector	= XMFLOAT3(0.0f, 1.0f, 0.0f);

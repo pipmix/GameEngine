@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Model.h"
 
+
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
@@ -30,6 +31,7 @@ public:
 
 
 	Player player;
+	Enemy enemy;
 	UI		ui;
 	Map		map1;
 

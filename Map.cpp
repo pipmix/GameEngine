@@ -55,5 +55,5 @@ void Map::Update(){
 
 void Map::Draw(){
 	model.Draw();
-	//m_levelShapes.Draw();
+	m_levelShapes.Draw();
 }
