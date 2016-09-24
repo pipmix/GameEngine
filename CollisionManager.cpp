@@ -12,17 +12,13 @@ void CollisionManager::Collide(Player& p, Map& m) {
 	for (int i = 0; i < m.m_numCollisionRects; i++) {
 
 		b1 = p.GetCollision();
-		b1.w = -(b1.w - b1.y);//abs
 		b2 = m.m_collisionRects[i];
-		float he = m.m_collisionRects[i].w - m.m_collisionRects[i].y;
-		b2.y = he + m.m_collisionRects[i].y;
-		b2.w = -(m.m_collisionRects[i].w - m.m_collisionRects[i].y);
 
 		XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
 		float l = b2.x - b1.z;
 		float r = b2.z - b1.x;
-		float t = b2.y - (b1.y + b1.w);
-		float b = (b2.y + b2.w) - b1.y;
+		float b = b2.y - b1.w;
+		float t = b2.w - b1.y;
 		if (l > 0 || r < 0 || t > 0 || b < 0) {
 			continue;
 		}

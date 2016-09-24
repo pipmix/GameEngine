@@ -41,15 +41,18 @@ void Player::Update(double deltaTime) {
 
 	prev_animState = animState;
 
-	if (pv.collidingLeft)vel.x = 0.0f;
-	if (pv.collidingRight)vel.x = 0.0f;
-	if (pv.collidingBelow)vel.y = 0.0f;
+	//if (pv.collidingLeft)vel.x = 0.0f;
+	//if (pv.collidingRight)vel.x = 0.0f;
+	//if (pv.collidingBelow)vel.y = 0.0f;
+
+	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
+	vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
 
 
 	if (gInput.isConnected) {
 
 		if (abs(gInput.b.leftStickFloatX) > 0.001) {
-			vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
+
 			//if (pv.collidingLeft && (vel.x < 0.0f))vel.x = 0.0f;
 			//if (pv.collidingRight && (vel.x > 0.0f))vel.x = 0.0f;
 
@@ -111,7 +114,7 @@ void Player::Update(double deltaTime) {
 
 	//Gravity
 	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
-
+	else vel.y *= 0.8;
 
 
 
@@ -123,7 +126,10 @@ void Player::Update(double deltaTime) {
 	Animate(deltaTime);
 	vel.x *= 0.8;
 
-	if (vel.y < -0.218f)vel.y = -0.218f;
+	if (vel.y < -0.218f) {
+		if (pv.applyGrav)vel.y = -0.218f;
+		
+	}
 	MoveBy(vel);
 
 	
@@ -170,10 +176,10 @@ void Player::Animate(double deltaTime) {
 
 void Player::UpdateCollision(){
 	XMFLOAT2 temp = sprite.GetSprWH();
-	col.x = -temp.x;
-	col.y = temp.y;
-	col.z = temp.x;
-	col.w = -temp.y;
+	col.x = pos.x - temp.x;
+	col.y = pos.y + temp.y;
+	col.z = pos.x + temp.x;
+	col.w = pos.y - temp.y;
 
 }
 
@@ -182,6 +188,7 @@ void Player::SetCollision(XMFLOAT4 c){
 }
 
 XMFLOAT4 Player::GetCollision(){
+	UpdateCollision();
 	return col;
 }
 
