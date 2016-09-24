@@ -21,8 +21,5 @@ public:
 
 	std::string		m_mapName;
 
-
-	RectShape rs01;
-	RectShape rs02;
-	RectShape rs03;
+	LevelShapes	m_levelShapes;
 };

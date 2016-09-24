@@ -23,3 +23,19 @@ private:
 	ResourceIDs m_rIds;
 
 };
+
+class LevelShapes {
+
+public:
+			LevelShapes();
+	void	Create(XMFLOAT4* rects, int numOfRects);
+	void	Draw();
+private:
+	UINT						m_numElements;
+	ComPtr<ID3D11Buffer>		m_vertexBuffer;
+
+
+	void SetResources();
+	ResourceIDs m_rIds;
+
+};

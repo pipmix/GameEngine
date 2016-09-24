@@ -19,7 +19,7 @@ void CollisionManager::Collide(Player& p, Map& m) {
 	
 		B1 = p.GetCollision();
 		B2 = m.m_collisionRects[i];
-		B2.w = m.m_collisionRects[i].w * -1.0f;
+
 		XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
 		float l = B2.x - (B1.x + B1.z);
 		float t = B2.y - (B1.y + B1.w);
