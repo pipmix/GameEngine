@@ -4,11 +4,11 @@
 CollisionManager::CollisionManager(){
 }
 
-bool CollisionManager::PointRectIntersect(XMFLOAT3 tp, XMFLOAT4 rect){
+bool CollisionManager::PointRectIntersect(XMFLOAT3 point, XMFLOAT4 r){
 
 
-	return rect.x <= tp.x && rect.w <= tp.y && tp.x <= rect.z && tp.y <= rect.y;
-	//	return((		((point.x) >= min(r.left, r.right)) && ((point.x) <= max(r.left, r.right))		)			&&		(((point.y) >= min(r.top, r.bottom)) && ((point.y) <= max(r.top, r.bottom))		));
+	//return rect.x <= tp.x && rect.w <= tp.y && tp.x <= rect.z && tp.y <= rect.y;
+	return((		((point.x) >= min(r.x, r.z)) && ((point.x) <= max(r.x, r.z))		)			&&		(((point.y) >= min(r.y, r.w)) && ((point.y) <= max(r.y, r.w))		));
 }
 
 
@@ -47,13 +47,14 @@ void CollisionManager::Collide(Player& p, Map& m) {
 	for (int i = 0; i < p.ps1.m_numPoints; i++) {
 
 		bool hit = false;
+		XMFLOAT3 tp = p.ps1.m_points[i];
+		tp.x += p.pos.x;
+		tp.y += p.pos.y;
 
 		for (int j = 0; j < m.m_numCollisionRects; j++) {
-			XMFLOAT3 tp = p.ps1.m_points[j];
-			//+ pos
+
 			
-			
-			if (PointRectIntersect(p.ps1.m_points[i], m.m_collisionRects[j]))hit = true;
+			if (PointRectIntersect(tp, m.m_collisionRects[j]))hit = true;
 
 
 

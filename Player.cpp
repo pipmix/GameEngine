@@ -24,13 +24,12 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 	ps1.m_numPoints = 5;
 	ps1.m_points = new XMFLOAT3[ps1.m_numPoints];
-	XMFLOAT3 pnts[5];
-	pnts[0] = { -xW - pOff,0.0f,0.0f };
-	pnts[1] = { 0.0f,yH + pOff,0.0f };
-	pnts[2] = { xW + pOff,0.0f,0.0f };
-	pnts[3] = { 0.0f, -yH-pOff,0.0f };
-	pnts[4] = { 0.0f, 0.0f,0.0f };
-	ps1.Create(pnts,5);
+	ps1.m_points[0] = { -xW - pOff,0.0f,0.0f };
+	ps1.m_points[1] = { 0.0f,yH + pOff,0.0f };
+	ps1.m_points[2] = { xW + pOff,0.0f,0.0f };
+	ps1.m_points[3] = { 0.0f, -yH-pOff,0.0f };
+	ps1.m_points[4] = { 0.0f, 0.0f,0.0f };
+	ps1.Create(ps1.m_points,5);
 
 
 	cs1.Create(0.5f, 12);
@@ -44,31 +43,35 @@ void Player::Update(double deltaTime) {
 	pv.applyGrav = true;
 
 
+	if (pv.collidingBelow)vel.y = 0.0f;
+	if (pv.collidingAbove)vel.y = 0.0f;
+
+	// Camera
+	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
+	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
+
+
 	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
 	//vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
 
 
-	if (gInput.isConnected) {
-
 
 		
-		if (gInput.b.y)MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
-
-		gInput.b.a ? pv.jumping = true : pv.jumping = false;
-		gInput.b.x ? pv.running = true : pv.running = false;
-		
-		if (gInput.b.a == false)jumpReleased = true;
-
-		//if (abs(gInput.b.leftStickFloatY) > 0.001) {
-		//	vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
-		//}
-
-		float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
-		gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
+	oGround += pv.collidingBelow;
 		
 
+	if (gInput.b.y)MoveTo({ 0.0f,0.0f,0.0f });
+	if (gInput.b.a == false)jumpReleased = true;
+
+	if (gInput.b.a) {
+		if (pv.collidingBelow && jumpReleased && (oGround > 3)) {
+			vel.y += 0.3f;
+			jumpReleased = false;
+			oGround = 0;
+		}
 		
 	}
+	if (gInput.b.x && pv.collidingBelow)vel.x *= 1.14f;
 
 
 
@@ -81,14 +84,7 @@ void Player::Update(double deltaTime) {
 		dir = XM_2PI;
 	}
 
-	oGround += pv.collidingBelow;
-	if (pv.running) {
 
-			vel.x *= 1.1f;
-
-	
-		
-	}
 	if (pv.jumping && pv.collidingBelow) {
 		
 		if (oGround > 3) {
@@ -107,7 +103,9 @@ void Player::Update(double deltaTime) {
 
 	//Gravity
 	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
-	else vel.y *= 0.8;
+	
+	
+	//vel.y *= 0.8;
 
 
 
@@ -117,12 +115,16 @@ void Player::Update(double deltaTime) {
 
 	//Final Calcs
 	Animate(deltaTime);
-	vel.x *= 0.8;
+	vel.x *= 0.85;
 
-	if (vel.y < -0.218f) {
-		if (pv.applyGrav)vel.y = -0.218f;
-		
-	}
+	if (vel.y < -0.218f) vel.y = -0.218f;
+	if (vel.y > 0.3f)vel.y = 0.3f;
+	
+
+	if (vel.x < -0.19f) vel.x = -0.19f;
+	if (vel.x > 0.19f)vel.x = 0.19f;
+
+
 	MoveBy(vel);
 
 	
