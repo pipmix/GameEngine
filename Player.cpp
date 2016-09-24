@@ -2,7 +2,7 @@
 
 Player::Player(){
 	prev_pos = prev_vel = acc = vel = pos = { 0.0f, 0.0f, 0.0f };
-	col = { 0.0f,0.0f ,0.0f ,0.0f };
+	col = { 0.0f, 0.0f, 0.0f, 0.0f };
 	UpdateCollision();
 
 }
@@ -108,7 +108,7 @@ void Player::UpdateCollision(){
 	col.x = pos.x;
 	col.y = pos.y;
 	col.z = pos.x + 1.0f;
-	col.w = pos.y + 1.0f;
+	col.w = pos.y - 1.0f;
 
 }
 

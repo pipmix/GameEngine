@@ -1,6 +1,7 @@
 #pragma once
 #include "Loader.h"
 #include "Shape.h"
+#include "Model.h"
 
 
 class Map {
@@ -22,4 +23,5 @@ public:
 	std::string		m_mapName;
 
 	LevelShapes	m_levelShapes;
+	Model	model;
 };

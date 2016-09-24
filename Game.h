@@ -32,7 +32,7 @@ public:
 	Player player;
 	UI		ui;
 	Map		map1;
-	Model	model;
+
 
 	CollisionManager cm;
 

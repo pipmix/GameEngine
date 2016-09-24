@@ -43,14 +43,17 @@ void Map::Load(){
 	m_levelShapes.Create(m_collisionRects, m_numCollisionRects);
 
 
+	model.AssignResources(DT_QUICKTEST, DV_BASICNORMAL, DP_BASICNORMAL);
+	model.LoadMesh();
 
 
 }
 
 void Map::Update(){
-
+	model.Update();
 }
 
 void Map::Draw(){
-	m_levelShapes.Draw();
+	model.Draw();
+	//m_levelShapes.Draw();
 }
