@@ -11,11 +11,23 @@ Player::Player(){
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 	sprite.AssignResources(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
+
 	sprite.SetSourceRect(2);
+	sprite.SetDimensions(0.5f,1.0f);
+	
 	sprite.Create();
 
-	
 
+	XMFLOAT3 pnts[5];
+	pnts[0] = { -1.0f,0.0f,0.0f };
+	pnts[1] = { 0.0f,0.0f,0.0f };
+	pnts[2] = { 1.0f,0.0f,0.0f };
+	pnts[3] = { 0.0f, -1.0f,0.0f };
+	pnts[4] = { 0.0f, 1.0f,0.0f };
+	ps1.Create(pnts,5);
+
+
+	cs1.Create(0.5f, 12);
 
 }
 
@@ -98,7 +110,7 @@ void Player::Update(double deltaTime) {
 
 
 	//Gravity
-	vel.y -= (deltaTime / 1000);
+	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
 
 
 
@@ -123,7 +135,8 @@ void Player::Update(double deltaTime) {
 void Player::Draw() {
 
 	sprite.Draw(pos);
-	
+	ps1.Draw(pos);
+	cs1.Draw(pos);
 
 }
 
@@ -153,11 +166,14 @@ void Player::Animate(double deltaTime) {
 
 }
 
+
+
 void Player::UpdateCollision(){
-	col.x = pos.x;
-	col.y = pos.y;
-	col.z = pos.x + 1.0f;
-	col.w = pos.y - 1.0f;
+	XMFLOAT2 temp = sprite.GetSprWH();
+	col.x = -temp.x;
+	col.y = temp.y;
+	col.z = temp.x;
+	col.w = -temp.y;
 
 }
 

@@ -5,8 +5,8 @@ Sprite::Sprite(){
 	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
 	m_origin = m_pos = { 0.0f,	0.0f, 0.0f };
 	m_dim = { 0.0f, 1.0f, 1.0f, 0.0f };
-
-
+	m_centered = false;
+	m_sprWH = { 0.5f, 0.5 };
 
 	
 }
@@ -14,33 +14,44 @@ Sprite::Sprite(){
 void Sprite::SetDimensions(float x, float y) {
 
 	
-	m_dim = { 0.0f, 1.0f * y, 1.0f * x, 0.0f };
+	m_sprWH = { x,y };
+	m_origin = { 0.0f,	0.0f, 0.0f };
+	m_centered = true;
 
+}
+
+
+XMFLOAT2 Sprite::GetSprWH() {
+	return m_sprWH;
 }
 
 void Sprite::SetAbsolute(XMFLOAT4 a){
 	m_dim = a;
+	m_centered = false;
 }
 
 void Sprite::Create(){
 
-
-
-
-
 	m_zd = 0.0f;
+	VertexPU verts[4];
 
-	// vert order = TL TR BL BR
-	// sprite origin is 0.0 located at bottom left corner
-	VertexPU verts[] = {
+	if (m_centered) {
 
-		{ XMFLOAT3(m_dim.x, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y) },
-		{ XMFLOAT3(m_dim.z, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) },
-		{ XMFLOAT3(m_dim.x, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) },
-		{ XMFLOAT3(m_dim.z, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) }
+		verts[0] = { XMFLOAT3(-m_sprWH.x, m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x	, m_sourceRect.y) };
+		verts[1] = { XMFLOAT3(m_sprWH.x, m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) };
+		verts[2] = { XMFLOAT3(-m_sprWH.x, -m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) };
+		verts[3] = { XMFLOAT3(m_sprWH.x, -m_sprWH.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) };
+	}
+	else {
+
+		verts[0] = { XMFLOAT3(m_dim.x, m_dim.y, m_zd), XMFLOAT2(m_sourceRect.x, m_sourceRect.y) };
+		verts[1] = { XMFLOAT3(m_dim.z, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) };
+		verts[2] = { XMFLOAT3(m_dim.x, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) };
+		verts[3] = { XMFLOAT3(m_dim.z, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) };
+
+	}
 
 
-	};
 	m_numElements = ARRAYSIZE(verts);
 
 	D3D11_BUFFER_DESC bd;
@@ -148,16 +159,25 @@ void Sprite::SetResources(){
 
 void Sprite::UpdateVertexBuffer() {
 
-	VertexPU verts[] = {
+	m_zd = 0.0f;
+	VertexPU verts[4];
 
+	if (m_centered) {
 
-		{ XMFLOAT3(m_dim.x, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y) },
-		{ XMFLOAT3(m_dim.z, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) },
-		{ XMFLOAT3(m_dim.x, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) },
-		{ XMFLOAT3(m_dim.z, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) }
+		verts[0] = { XMFLOAT3(-m_sprWH.x, m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x	, m_sourceRect.y) };
+		verts[1] = { XMFLOAT3(m_sprWH.x, m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) };
+		verts[2] = { XMFLOAT3(-m_sprWH.x, -m_sprWH.y, m_zd),			XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) };
+		verts[3] = { XMFLOAT3(m_sprWH.x, -m_sprWH.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) };
+	}
+	else {
 
+		verts[0] = { XMFLOAT3(m_dim.x, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x, m_sourceRect.y) };
+		verts[1] = { XMFLOAT3(m_dim.z, m_dim.y, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y) };
+		verts[2] = { XMFLOAT3(m_dim.x, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x	, m_sourceRect.y + m_sourceRect.w) };
+		verts[3] = { XMFLOAT3(m_dim.z, m_dim.w, m_zd),		XMFLOAT2(m_sourceRect.x + m_sourceRect.z, m_sourceRect.y + m_sourceRect.w) };
 
-	};
+	}
+
 	m_numElements = ARRAYSIZE(verts);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

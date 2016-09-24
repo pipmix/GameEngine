@@ -148,7 +148,7 @@ void CircleShape::SetSegments(int s) {
 
 
 }
-void CircleShape::Create(XMFLOAT3 p, float rad, int seg) {
+void CircleShape::Create(float rad, int seg) {
 
 
 
@@ -159,8 +159,8 @@ void CircleShape::Create(XMFLOAT3 p, float rad, int seg) {
 	float tX, tY;
 
 	for (int i = 0; i < seg+1; i++) {
-		tX = p.x + rad*cos(XM_PI*(i / (seg / 2.0f)));
-		tY = p.y + rad*sin(XM_PI*(i / (seg / 2.0f)));
+		tX = rad*cos(XM_PI*(i / (seg / 2.0f)));
+		tY = rad*sin(XM_PI*(i / (seg / 2.0f)));
 	
 		verts[i] = VertexP{ XMFLOAT3{ tX, tY, z } };
 
@@ -199,6 +199,66 @@ void CircleShape::Draw(XMFLOAT3 p) {
 }
 
 void CircleShape::SetResources() {
+
+	gDat.SetResources(m_rIds);
+	UINT stride = sizeof(VertexP);
+	UINT offset = 0;
+	gContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
+}
+
+//-------------------------------------------------------------------------------------------
+/// POINT SHAPES
+//-------------------------------------------------------------------------------------------
+
+
+PointShapes::PointShapes() {
+
+	m_rIds.m_textureID = -1;
+	m_rIds.m_vsID = DV_BASICMATRX;
+	m_rIds.m_psID = DP_BASIC;
+	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
+
+}
+void	PointShapes::Create(XMFLOAT3* points, int numOfPoints) {
+
+
+	VertexP* verts;
+	verts = new VertexP[numOfPoints];
+
+	for (int i = 0; i < numOfPoints; i++) {
+
+		verts[i] = VertexP{ points[i] };
+
+	}
+
+
+	m_numElements = numOfPoints;
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(VertexP) * m_numElements;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA InitData;
+	ZeroMemory(&InitData, sizeof(InitData));
+	InitData.pSysMem = verts;
+	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+}
+
+void PointShapes::Draw(XMFLOAT3 p) {
+
+	SetResources();
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(p.x, p.y, p.z);
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
+	gContext->Draw(m_numElements, 0);
+
+
+}
+
+
+void PointShapes::SetResources() {
 
 	gDat.SetResources(m_rIds);
 	UINT stride = sizeof(VertexP);

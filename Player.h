@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "Collision.h"
 #include "Emitter.h"
+#include "Shape.h"
+
 
 extern Input gInput;
 
@@ -22,6 +24,7 @@ struct PlayerVariables {
 	bool collidingLadder;
 	bool onWall;
 	bool holdDirection;
+	bool applyGrav;
 
 	int facing;
 
@@ -74,7 +77,8 @@ private:
 
 	bool jumpReleased = 1;
 
-	
+	PointShapes ps1;
+	CircleShape	cs1;
 
 	//Emitter	em01;
 

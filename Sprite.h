@@ -17,6 +17,7 @@ public:
 
 						Sprite				();
 	void				SetDimensions		(float x, float y);
+
 	void				SetAbsolute			(XMFLOAT4 a);
 	void				Update				(double deltaTime);
 	void				Create				();
@@ -28,7 +29,7 @@ public:
 	void				AssignResources		(UINT texID, UINT vsID, UINT psID);
 	void				SetSourceRect		(int i);
 	void				UpdateVertexBuffer	();
-
+	XMFLOAT2			GetSprWH();
 private:
 
 	void				SetResources();
@@ -47,5 +48,7 @@ private:
 	double				m_elapsedTime = 0.0f;
 	int currentFrame = 0;
 	bool				m_isAnimated = true;
+	bool				m_centered = false;
+	XMFLOAT2 m_sprWH;
 
 };
