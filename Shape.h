@@ -48,8 +48,12 @@ private:
 class PointShapes {
 public:
 			PointShapes();
+			~PointShapes();
 	void	Create(XMFLOAT3* points, int numOfPoints);
 	void	Draw(XMFLOAT3 p);
+
+	int m_numPoints;
+	XMFLOAT3* m_points;
 
 private:
 

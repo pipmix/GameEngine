@@ -4,6 +4,15 @@
 CollisionManager::CollisionManager(){
 }
 
+bool CollisionManager::PointRectIntersect(XMFLOAT3 tp, XMFLOAT4 rect){
+
+
+	return rect.x <= tp.x && rect.w <= tp.y && tp.x <= rect.z && tp.y <= rect.y;
+	//	return((		((point.x) >= min(r.left, r.right)) && ((point.x) <= max(r.left, r.right))		)			&&		(((point.y) >= min(r.top, r.bottom)) && ((point.y) <= max(r.top, r.bottom))		));
+}
+
+
+
 void CollisionManager::Collide(Player& p, Map& m) {
 
 
@@ -25,23 +34,77 @@ void CollisionManager::Collide(Player& p, Map& m) {
 		else {
 			velocity.x = abs(l) < r ? l : r;
 			velocity.y = abs(t) < b ? t : b;
-			if (abs(velocity.x) < abs(velocity.y)) {
-				velocity.y = 0.0f;
-			}
-			else {
-				velocity.x = 0.0f;
-				//if (!(spr01.m_vel.y > 0.0f))spr01.m_vel.y = 0.0f;
-			}
 
-			if (velocity.x > 0.0f) p.pv.collidingLeft = 1;
-			else if (velocity.x < 0.0f) p.pv.collidingRight = 1;
-			if (velocity.y < 0.0f)p.pv.collidingAbove = 1;
-			else if (velocity.y > 0.0f)p.pv.collidingBelow = 1;
+			abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
 
 			p.MoveBy(velocity);
 
 		}
 	}
+
+
+	//p.ps1.UpdatePoints(XMFLOAT3 p);
+	for (int i = 0; i < p.ps1.m_numPoints; i++) {
+
+		bool hit = false;
+
+		for (int j = 0; j < m.m_numCollisionRects; j++) {
+			XMFLOAT3 tp = p.ps1.m_points[j];
+			//+ pos
+			
+			
+			if (PointRectIntersect(p.ps1.m_points[i], m.m_collisionRects[j]))hit = true;
+
+
+
+
+		}
+
+		if (hit) {
+			switch (i){
+			case 0:
+				p.pv.collidingLeft = true;
+				break;
+			case 1:
+				p.pv.collidingAbove = true;
+				break;
+			case 2:
+				p.pv.collidingRight = true;
+				break;
+			case 3:
+				p.pv.collidingBelow = true;
+				break;
+			case 4:
+				p.pv.collidingLadder = true;
+				break;
+			}
+
+		}
+		else {
+			switch (i) {
+			case 0:
+				p.pv.collidingLeft = false;
+				break;
+			case 1:
+				p.pv.collidingAbove = false;
+				break;
+			case 2:
+				p.pv.collidingRight = false;
+				break;
+			case 3:
+				p.pv.collidingBelow = false;
+				break;
+			case 4:
+				p.pv.collidingLadder = false;
+				break;
+			}
+
+
+		}
+
+
+	}
+
 
 	
 }

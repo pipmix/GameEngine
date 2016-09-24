@@ -10,20 +10,26 @@ Player::Player(){
 
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
+	float xW = 0.5f;
+	float yH = 1.0f;
+	float pOff = 0.002f;
+
 	sprite.AssignResources(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 
 	sprite.SetSourceRect(2);
-	sprite.SetDimensions(0.5f,1.0f);
+	sprite.SetDimensions(xW, yH);
 	
 	sprite.Create();
 
 
+	ps1.m_numPoints = 5;
+	ps1.m_points = new XMFLOAT3[ps1.m_numPoints];
 	XMFLOAT3 pnts[5];
-	pnts[0] = { -1.0f,0.0f,0.0f };
-	pnts[1] = { 0.0f,0.0f,0.0f };
-	pnts[2] = { 1.0f,0.0f,0.0f };
-	pnts[3] = { 0.0f, -1.0f,0.0f };
-	pnts[4] = { 0.0f, 1.0f,0.0f };
+	pnts[0] = { -xW - pOff,0.0f,0.0f };
+	pnts[1] = { 0.0f,yH + pOff,0.0f };
+	pnts[2] = { xW + pOff,0.0f,0.0f };
+	pnts[3] = { 0.0f, -yH-pOff,0.0f };
+	pnts[4] = { 0.0f, 0.0f,0.0f };
 	ps1.Create(pnts,5);
 
 
@@ -34,30 +40,17 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 void Player::Update(double deltaTime) {
 
-
-
-
-	
-
 	prev_animState = animState;
+	pv.applyGrav = true;
 
-	//if (pv.collidingLeft)vel.x = 0.0f;
-	//if (pv.collidingRight)vel.x = 0.0f;
-	//if (pv.collidingBelow)vel.y = 0.0f;
 
 	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
-	vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
+	//vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
 
 
 	if (gInput.isConnected) {
 
-		if (abs(gInput.b.leftStickFloatX) > 0.001) {
 
-			//if (pv.collidingLeft && (vel.x < 0.0f))vel.x = 0.0f;
-			//if (pv.collidingRight && (vel.x > 0.0f))vel.x = 0.0f;
-
-			
-		}
 		
 		if (gInput.b.y)MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 

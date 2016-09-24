@@ -42,6 +42,8 @@ void RectShape::Create(XMFLOAT4 r){
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = verts;
 	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+
 }
 
 void RectShape::Draw() {
@@ -114,6 +116,9 @@ void LevelShapes::Create(XMFLOAT4* rects, int numOfRects) {
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = verts;
 	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+	delete[] verts;
+	verts = nullptr;
 }
 
 void LevelShapes::Draw() {
@@ -178,6 +183,9 @@ void CircleShape::Create(float rad, int seg) {
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = verts;
 	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+	delete[] verts;
+	verts = nullptr;
 }
 
 void CircleShape::Draw() {
@@ -219,6 +227,16 @@ PointShapes::PointShapes() {
 	m_rIds.m_topoID = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
 
 }
+
+PointShapes::~PointShapes() {
+
+	delete[] m_points;
+	m_points = nullptr;
+
+
+}
+
+
 void	PointShapes::Create(XMFLOAT3* points, int numOfPoints) {
 
 
@@ -244,6 +262,9 @@ void	PointShapes::Create(XMFLOAT3* points, int numOfPoints) {
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = verts;
 	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+	delete[] verts;
+	verts = nullptr;
 
 }
 

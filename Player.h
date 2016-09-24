@@ -51,6 +51,7 @@ public:
 	PlayerVariables pv;
 
 	float dir = 0.0f;
+	PointShapes ps1;
 
 private:
 
@@ -77,7 +78,7 @@ private:
 
 	bool jumpReleased = 1;
 
-	PointShapes ps1;
+	
 	CircleShape	cs1;
 
 	//Emitter	em01;
