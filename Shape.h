@@ -24,6 +24,27 @@ private:
 
 };
 
+class CircleShape {
+
+public:
+			CircleShape	();
+	void	Create		(XMFLOAT3 p, float rad, int seg);
+	void	Draw		(XMFLOAT3 p);
+	void	Draw();
+	void	SetSegments	(int s);
+
+private:
+	UINT						m_numElements;
+	ComPtr<ID3D11Buffer>		m_vertexBuffer;
+
+
+	void SetResources();
+	ResourceIDs m_rIds;
+
+
+
+};
+
 class LevelShapes {
 
 public:

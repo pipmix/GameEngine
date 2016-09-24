@@ -71,3 +71,8 @@ struct ResourceIDs {
 	UINT m_topoID;
 
 };
+
+struct RefrenceData {
+	XMFLOAT3*	m_pos;
+	float*		m_direction;
+};

@@ -10,7 +10,7 @@ Item::Item(){
 
 void Item::Create(UINT tex, UINT vShader, UINT pShader) {
 
-	m_sprite.AssignResources(DT_COLORS, DV_BASICMATRX, DP_BASICMATRX);
+	m_sprite.AssignResources(tex, vShader, pShader);
 	m_sprite.SetSourceRect(2);
 	//m_sprite.SetDimensions(0.5f,0.5f);
 	m_sprite.Create();

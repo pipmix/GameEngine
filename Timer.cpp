@@ -22,3 +22,13 @@ void Timer::Update() {
 	m_startTime = currentTime;
 }
 double Timer::GetDelta() { return m_frameTime; }
+
+
+void Timer::Pause() {
+
+}
+
+void Timer::Unpause() {
+
+
+}

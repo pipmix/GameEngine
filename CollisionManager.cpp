@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 
+
 CollisionManager::CollisionManager(){
 }
 
@@ -184,5 +185,108 @@ void CollisionManager::Collide(Item & it, Map & m){
 
 		}
 	}
+
+}
+
+float mClamp(float x, float min, float max){
+
+	return x < min ? min : (x > max ? max : x);
+
+}
+
+bool CollisionManager::RectCircleIntersect(XMFLOAT4 rect, XMFLOAT3 circPos, float circRadius){
+	/*
+	//XMFLOAT4 tt = rect;
+	//tt.w = -(tt.w);//abs
+	float closestX = mClamp(circPos.x, rect.x, rect.z);
+	float closestY = mClamp(circPos.y, rect.w, rect.y);
+
+
+	float distX = circPos.x - closestX;
+	float distY = circPos.y - closestY;
+
+
+	float distanceSquared = (distX * distX) + (distY * distY);
+	return distanceSquared < (circRadius * circRadius);
+	*/
+
+	//Vector2D clamp_on_rectangle(Vector2D p, Rectangle r)
+	//{
+		XMFLOAT2 clamp;
+		clamp.x = mClamp(circPos.x, rect.x, rect.z);
+		clamp.y = mClamp(circPos.y, rect.y, rect.w);
+		
+	//}
+	//Bool circle_rectangle_collide(Circle c, Rectangle r)
+	//{
+		
+		//return circle_point_collide(c, clamped);
+
+		//Bool circle_point_collide(Circle c, Vector2D p)
+		//{
+		XMFLOAT2 distance;
+		distance.x = circPos.x - clamp.x;
+		distance.y = circPos.y + clamp.y;
+
+		float length = sqrtf(distance.x * distance.x + distance.y * distance.y);
+
+		return length <= circRadius;
+
+	
+}
+
+
+
+void CollisionManager::Collide(Enemy & enem, Emitter & emit){
+
+
+
+
+	XMFLOAT4 b1, b2;
+
+	for (int i = 0; i < emit.m_numParticles; i++) {
+
+		b1 = enem.GetCollision();
+		b1.w = -(b1.w - b1.y);//abs
+		b2 = emit.GetCollision(i);
+		float he = b2.w - b2.y;
+		b2.y = he + b2.y;
+		b2.w = -(b2.w - emit.GetCollision(i).y);
+
+		XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
+		float l = b2.x - b1.z;
+		float r = b2.z - b1.x;
+		float t = b2.y - (b1.y + b1.w);
+		float b = (b2.y + b2.w) - b1.y;
+		if (l > 0 || r < 0 || t > 0 || b < 0) {
+			continue;
+		}
+		else {
+			velocity.x = abs(l) < r ? l : r;
+			velocity.y = abs(t) < b ? t : b;
+			if (abs(velocity.x) < abs(velocity.y)) {
+				velocity.y = 0.0f;
+			}
+			else {
+				velocity.x = 0.0f;
+				//if (!(spr01.m_vel.y > 0.0f))spr01.m_vel.y = 0.0f;
+			}
+
+
+			enem.MoveBy(velocity);
+
+		}
+	}
+
+
+
+
+}
+
+void CollisionManager::Collide(Player & play, Emitter & emit){
+}
+
+void CollisionManager::Collide(Emitter & emit, Map & mp){
+
 
 }

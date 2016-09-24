@@ -172,6 +172,9 @@ void Dx::CreateConstantBuffers(){
 
 
 void Dx::Update() {
+
+	if (!m_Active)return;
+
 	m_Timer.Update();
 	gInput.Update();
 	game.Update(m_Timer.GetDelta());
@@ -180,6 +183,8 @@ void Dx::Update() {
 
 
 void Dx::Draw() {
+
+	if (!m_Active)return;
 
 	ClearFrame();
 	gDat.Reset();
@@ -214,4 +219,17 @@ void Dx::ClearFrame() {
 
 void Dx::ResizeWindow() {
 
+}
+
+void Dx::MSG_InactiveWindow(){
+
+	m_Active = false;
+	m_Timer.Pause();
+}
+
+
+void Dx::MSG_ActiveWindow() {
+
+	m_Active = true;
+	m_Timer.Unpause();
 }

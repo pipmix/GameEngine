@@ -28,6 +28,8 @@ public:
 	void	CreateConstantBuffers();
 	void	ResizeWindow();
 
+	void	MSG_InactiveWindow();
+	void	MSG_ActiveWindow();
 
 private:
 
@@ -61,6 +63,8 @@ private:
 	Timer m_Timer;
 
 	long m_clientW, m_clientH, m_windowH, m_windowW;
+
+	bool m_Active = true;
 
 
 

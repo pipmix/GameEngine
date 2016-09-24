@@ -11,6 +11,8 @@ public:
 	void Init();
 	void Update();
 	double GetDelta();
+	void Pause();
+	void Unpause();
 
 private:
 	INT64 m_frequency, m_startTime;

@@ -64,6 +64,8 @@ private:
 
 	int xdir = 1;
 
+	float				m_lookRadius;
+
 
 
 

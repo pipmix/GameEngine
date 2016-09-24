@@ -35,7 +35,8 @@ public:
 	UI		ui;
 	Map		map1;
 	Item	itm01;
-
+	CircleShape	circShape;
+	Emitter	em01;
 
 	CollisionManager cm;
 

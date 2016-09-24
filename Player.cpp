@@ -14,11 +14,17 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	sprite.SetSourceRect(2);
 	sprite.Create();
 
+	
+
 
 }
 
 
 void Player::Update(double deltaTime) {
+
+
+
+
 	
 
 	prev_animState = animState;
@@ -37,6 +43,7 @@ void Player::Update(double deltaTime) {
 
 			
 		}
+		
 		if (gInput.b.y)MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
 		gInput.b.a ? pv.jumping = true : pv.jumping = false;
@@ -55,8 +62,16 @@ void Player::Update(double deltaTime) {
 		
 	}
 
-	if (vel.x < 0.0f)pv.facing = -1;
-	if (vel.x > 0.0f)pv.facing = 1;
+
+
+	if (vel.x < 0.0f) {
+		pv.facing = -1;
+		dir = XM_PI;
+	}
+	if (vel.x > 0.0f) {
+		pv.facing = 1;
+		dir = XM_2PI;
+	}
 
 	oGround += pv.collidingBelow;
 	if (pv.running) {
@@ -99,7 +114,7 @@ void Player::Update(double deltaTime) {
 	if (vel.y < -0.218f)vel.y = -0.218f;
 	MoveBy(vel);
 
-
+	
 
 	pv = { 0 };
 	prev_pos = pos;
@@ -108,6 +123,7 @@ void Player::Update(double deltaTime) {
 void Player::Draw() {
 
 	sprite.Draw(pos);
+	
 
 }
 

@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "Collision.h"
+#include "Emitter.h"
 
 extern Input gInput;
 
@@ -20,6 +21,7 @@ struct PlayerVariables {
 	bool collidingBelow;
 	bool collidingLadder;
 	bool onWall;
+	bool holdDirection;
 
 	int facing;
 
@@ -44,6 +46,8 @@ public:
 	XMFLOAT4 GetCollision();
 
 	PlayerVariables pv;
+
+	float dir = 0.0f;
 
 private:
 
@@ -70,6 +74,9 @@ private:
 
 	bool jumpReleased = 1;
 
+	
+
+	//Emitter	em01;
 
 	
 
