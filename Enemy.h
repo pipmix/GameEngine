@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "Input.h"
 #include "Collision.h"
+#include "Shape.h"
 
 
 struct EnemyVariables {
@@ -18,7 +19,7 @@ struct EnemyVariables {
 	bool collidingAbove;
 	bool collidingBelow;
 	bool onWall;
-
+	bool collidingLadder;
 	int facing;
 
 };
@@ -41,7 +42,9 @@ public:
 
 	XMFLOAT4 GetCollision();
 
-	EnemyVariables pv;
+	EnemyVariables ev;
+
+	PointShapes ps1;
 
 private:
 

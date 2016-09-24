@@ -40,7 +40,7 @@ void Game::Update(double deltaTime) {
 	//cm.Collide(player, enemy);
 	cm.Collide(itm01, map1);
 	//cm.Collide(player, itm01);
-	cm.Collide(enemy, em01);
+	//cm.Collide(enemy, em01);
 
 	//if (cm.RectCircleIntersect(player.GetCollision(), XMFLOAT3{ 0.0f,0.0f,0.0f }, 2.0f))itm01.avail = false;
 

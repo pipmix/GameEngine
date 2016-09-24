@@ -13,6 +13,9 @@
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
 #include <fstream>
+#include <random>
+#include <chrono>
+
 
 
 #include <wrl\client.h>

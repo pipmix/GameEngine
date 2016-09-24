@@ -8,3 +8,27 @@ map button
 wall jump
 with midpoint
 groud pound
+spider shoots ray down
+enemy drops money 
+money get magnitized
+enemy that shoots in a certain direction on wall
+tab to upgrade items
+have money scaterd around
+have dystroyable boxes that you can stand on
+check points
+spikes 
+laser sight
+particles when hit wall or checkpoint
+water maybe
+multiple paralax background
+health / hearst
+enemers that dont fall off ledges
+secret areas
+camera following
+holding jump height
+heart tanks
+eenmy bullet colliion
+flying birds
+boss 
+score after level
+llevel select

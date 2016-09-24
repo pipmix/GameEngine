@@ -23,3 +23,15 @@ bool InRange(float value, float min, float max);
 
 
 float PercentToFloat(float percent, float dim);
+
+XMFLOAT3 GetDistanceVector(XMFLOAT3 position, XMFLOAT3 target);
+
+XMFLOAT3 BasicTween(XMFLOAT3& position, XMFLOAT3 target, float ease);
+
+
+bool NumberInRange(int num, int minNum, int maxNum);
+
+double GetNormalDist(double x, double y);
+double GetRealDist(double x, double y);
+
+

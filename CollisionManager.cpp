@@ -45,22 +45,13 @@ void CollisionManager::Collide(Player& p, Map& m) {
 
 	//p.ps1.UpdatePoints(XMFLOAT3 p);
 	for (int i = 0; i < p.ps1.m_numPoints; i++) {
-
 		bool hit = false;
 		XMFLOAT3 tp = p.ps1.m_points[i];
 		tp.x += p.pos.x;
 		tp.y += p.pos.y;
-
 		for (int j = 0; j < m.m_numCollisionRects; j++) {
-
-			
 			if (PointRectIntersect(tp, m.m_collisionRects[j]))hit = true;
-
-
-
-
 		}
-
 		if (hit) {
 			switch (i){
 			case 0:
@@ -99,15 +90,8 @@ void CollisionManager::Collide(Player& p, Map& m) {
 				p.pv.collidingLadder = false;
 				break;
 			}
-
-
 		}
-
-
 	}
-
-
-	
 }
 
 void CollisionManager::Collide(Enemy & e, Map & m){
@@ -117,38 +101,75 @@ void CollisionManager::Collide(Enemy & e, Map & m){
 	for (int i = 0; i < m.m_numCollisionRects; i++) {
 
 		b1 = e.GetCollision();
-		b1.w = -(b1.w - b1.y);//abs
 		b2 = m.m_collisionRects[i];
-		float he = m.m_collisionRects[i].w - m.m_collisionRects[i].y;
-		b2.y = he + m.m_collisionRects[i].y;
-		b2.w = -(m.m_collisionRects[i].w - m.m_collisionRects[i].y);
+
 
 		XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
 		float l = b2.x - b1.z;
 		float r = b2.z - b1.x;
-		float t = b2.y - (b1.y + b1.w);
-		float b = (b2.y + b2.w) - b1.y;
+		float b = b2.y - b1.w;
+		float t = b2.w - b1.y;
 		if (l > 0 || r < 0 || t > 0 || b < 0) {
 			continue;
 		}
 		else {
 			velocity.x = abs(l) < r ? l : r;
 			velocity.y = abs(t) < b ? t : b;
-			if (abs(velocity.x) < abs(velocity.y)) {
-				velocity.y = 0.0f;
-			}
-			else {
-				velocity.x = 0.0f;
-				//if (!(spr01.m_vel.y > 0.0f))spr01.m_vel.y = 0.0f;
-			}
 
-			if (velocity.x > 0.0f) e.pv.collidingLeft = 1;
-			else if (velocity.x < 0.0f) e.pv.collidingRight = 1;
-			if (velocity.y < 0.0f)e.pv.collidingAbove = 1;
-			else if (velocity.y > 0.0f)e.pv.collidingBelow = 1;
+			abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
 
 			e.MoveBy(velocity);
 
+		}
+	}
+
+	/// POINTS
+	for (int i = 0; i < e.ps1.m_numPoints; i++) {
+		bool hit = false;
+		XMFLOAT3 tp = e.ps1.m_points[i];
+		tp.x += e.pos.x;
+		tp.y += e.pos.y;
+		for (int j = 0; j < m.m_numCollisionRects; j++) {
+			if (PointRectIntersect(tp, m.m_collisionRects[j]))hit = true;
+		}
+		if (hit) {
+			switch (i) {
+			case 0:
+				e.ev.collidingLeft = true;
+				break;
+			case 1:
+				e.ev.collidingAbove = true;
+				break;
+			case 2:
+				e.ev.collidingRight = true;
+				break;
+			case 3:
+				e.ev.collidingBelow = true;
+				break;
+			case 4:
+				e.ev.collidingLadder = true;
+				break;
+			}
+
+		}
+		else {
+			switch (i) {
+			case 0:
+				e.ev.collidingLeft = false;
+				break;
+			case 1:
+				e.ev.collidingAbove = false;
+				break;
+			case 2:
+				e.ev.collidingRight = false;
+				break;
+			case 3:
+				e.ev.collidingBelow = false;
+				break;
+			case 4:
+				e.ev.collidingLadder = false;
+				break;
+			}
 		}
 	}
 

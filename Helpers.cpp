@@ -74,3 +74,51 @@ float PercentToFloat(float p, float d) {
 	return percPoint;
 
 }
+
+
+double GetNormalDist(double x, double y) {
+
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine generator(seed);
+	std::normal_distribution<float> distribution(x, y);
+
+	return distribution(generator);
+
+}
+
+double GetRealDist(double x, double y) {
+
+
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine generator(seed);
+	std::uniform_real_distribution<float>  distribution(x, y);
+	return distribution(generator);
+
+
+}
+
+XMFLOAT3 GetDistanceVector2d(XMFLOAT3 position, XMFLOAT3 target) {
+
+	XMFLOAT3 temp;
+	temp.x = target.x - position.x;
+	temp.y = target.y - position.y;
+	temp.z = target.z - position.z;
+	return temp;
+}
+
+XMFLOAT3 BasicTween(XMFLOAT3& position, XMFLOAT3 target, float ease) {
+
+	XMFLOAT3 distance = GetDistanceVector2d(position, target);
+	XMFLOAT3 velocity;
+	velocity.x = distance.x * ease;
+	velocity.y = distance.y * ease;
+	velocity.z = distance.z * ease;
+	position.x += velocity.x;
+	position.y += velocity.y;
+	position.z += velocity.z;
+
+	return position;
+
+}
+
+

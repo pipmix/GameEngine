@@ -10,12 +10,13 @@ Player::Player(){
 
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
+	// dot stuff
 	float xW = 0.5f;
 	float yH = 1.0f;
 	float pOff = 0.002f;
 
-	sprite.AssignResources(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 
+	sprite.AssignResources(tex, vShader, pShader);
 	sprite.SetSourceRect(2);
 	sprite.SetDimensions(xW, yH);
 	
@@ -159,15 +160,9 @@ void Player::Animate(double deltaTime) {
 
 		sprite.SetSourceRect(AS_PL_FRAMES[animState].frameLoc[curAnimFrame]);
 		
-		
-
 	}
 
-
-
 }
-
-
 
 void Player::UpdateCollision(){
 	XMFLOAT2 temp = sprite.GetSprWH();
@@ -194,15 +189,6 @@ void Player::MoveBy(XMFLOAT3 p) {
 	pos.y += p.y;
 	pos.z += p.z;
 	UpdateCollision();
-	/*
-	if (p.x > 0.0f)pv.collidingLeft = 1;
-	else if (p.x < 0.0f)pv.collidingRight= 1;
-	
-	
-
-	if (p.y > 0.0f)pv.collidingBelow = 1;
-	else if (p.y < 0.0f)pv.collidingAbove = 1;
-	*/
 
 
 }

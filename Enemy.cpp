@@ -4,15 +4,35 @@ Enemy::Enemy() {
 	prev_pos = prev_vel = acc = vel = pos = { 0.0f, 0.0f, 0.0f };
 	col = { 0.0f, 0.0f, 0.0f, 0.0f };
 	UpdateCollision();
-	pv = { 0 };
+	ev = { 0 };
 
 }
 
 void Enemy::Create(UINT tex, UINT vShader, UINT pShader) {
 
-	sprite.AssignResources(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
+	sprite.AssignResources(tex, vShader, pShader);
 	sprite.SetSourceRect(2);
+	sprite.SetDimensions(0.5f, 0.5f);
 	sprite.Create();
+
+
+
+
+	// dot stuff
+	float xW = 0.5f;
+	float yH = 0.5f;
+	float pOff = 0.002f;
+	ps1.m_numPoints = 5;
+	ps1.m_points = new XMFLOAT3[ps1.m_numPoints];
+	ps1.m_points[0] = { -xW - pOff,0.0f,0.0f };
+	ps1.m_points[1] = { 0.0f,yH + pOff,0.0f };
+	ps1.m_points[2] = { xW + pOff,0.0f,0.0f };
+	ps1.m_points[3] = { 0.0f, -yH - pOff,0.0f };
+	ps1.m_points[4] = { 0.0f, 0.0f,0.0f };
+	ps1.Create(ps1.m_points, 5);
+
+
+
 
 
 }
@@ -23,9 +43,12 @@ void Enemy::Update(double deltaTime) {
 
 	prev_animState = animState;
 
-	if (pv.collidingBelow)vel.y = 0.0f;
-	if (pv.collidingRight)xdir = -1;
-	if (pv.collidingLeft)xdir = 1;
+	if (ev.collidingBelow)vel.y = 0.0f;
+	if (ev.collidingAbove)vel.y = 0.0f;
+
+
+	if (ev.collidingRight)xdir = -1;
+	if (ev.collidingLeft)xdir = 1;
 
 	vel.x = (deltaTime / 1000) * 3.0f * xdir;
 
@@ -45,13 +68,14 @@ void Enemy::Update(double deltaTime) {
 
 
 
-	pv = { 0 };
+	
 	prev_pos = pos;
 }
 
 void Enemy::Draw() {
 
 	sprite.Draw(pos);
+	ps1.Draw(pos);
 
 }
 
@@ -73,20 +97,15 @@ void Enemy::Animate(double deltaTime) {
 
 		sprite.SetSourceRect(AS_PL_FRAMES[animState].frameLoc[curAnimFrame]);
 
-
-
 	}
-
-
-
 }
 
 void Enemy::UpdateCollision() {
-	col.x = pos.x;
-	col.y = pos.y;
-	col.z = pos.x + 1.0f;
-	col.w = pos.y - 1.0f;
-
+	XMFLOAT2 temp = sprite.GetSprWH();
+	col.x = pos.x - temp.x;
+	col.y = pos.y + temp.y;
+	col.z = pos.x + temp.x;
+	col.w = pos.y - temp.y;
 }
 
 void Enemy::SetCollision(XMFLOAT4 c) {
@@ -94,6 +113,7 @@ void Enemy::SetCollision(XMFLOAT4 c) {
 }
 
 XMFLOAT4 Enemy::GetCollision() {
+	UpdateCollision();
 	return col;
 }
 
