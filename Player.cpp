@@ -98,7 +98,7 @@ void Player::Update(double deltaTime) {
 
 	if (vel.y < -0.218f)vel.y = -0.218f;
 	MoveBy(vel);
-	UpdateCollision();
+
 
 
 	pv = { 0 };

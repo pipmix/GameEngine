@@ -8,7 +8,7 @@
 #include "UI.h"
 #include "Map.h"
 #include "Model.h"
-
+#include "Item.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -34,6 +34,7 @@ public:
 	Enemy enemy;
 	UI		ui;
 	Map		map1;
+	Item	itm01;
 
 
 	CollisionManager cm;
