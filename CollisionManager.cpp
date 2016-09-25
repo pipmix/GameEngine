@@ -69,8 +69,19 @@ void CollisionManager::Collide(Player& p, Map& m) {
 			case 4:
 				p.pv.collidingLadder = true;
 				break;
+			case 5:
+				p.pv.leftLedgeTopCollide = true;
+				break;
+			case 6:
+				p.pv.leftLedgeUnderCollide = true;
+				break;
+			case 7:
+				p.pv.rightLedgeTopCollide = true;
+				break;
+			case 8:
+				p.pv.rightLedgeUnderCollide = true;
+				break;
 			}
-
 		}
 		else {
 			switch (i) {
@@ -89,7 +100,20 @@ void CollisionManager::Collide(Player& p, Map& m) {
 			case 4:
 				p.pv.collidingLadder = false;
 				break;
+			case 5:
+				p.pv.leftLedgeTopCollide = false;
+				break;
+			case 6:
+				p.pv.leftLedgeUnderCollide = false;
+				break;
+			case 7:
+				p.pv.rightLedgeTopCollide = false;
+				break;
+			case 8:
+				p.pv.rightLedgeUnderCollide = false;
+				break;
 			}
+			
 		}
 	}
 }
@@ -171,7 +195,9 @@ void CollisionManager::Collide(Enemy & e, Map & m){
 				break;
 			}
 		}
-	}
+	} // end points
+
+
 
 
 

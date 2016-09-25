@@ -14,7 +14,8 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	float xW = 0.5f;
 	float yH = 1.0f;
 	float pOff = 0.002f;
-
+	float ledgeOff = 0.2f;
+	int nPoints = 9;
 
 	sprite.AssignResources(tex, vShader, pShader);
 	sprite.SetSourceRect(2);
@@ -23,14 +24,20 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	sprite.Create();
 
 
-	ps1.m_numPoints = 5;
+	ps1.m_numPoints = nPoints;
 	ps1.m_points = new XMFLOAT3[ps1.m_numPoints];
 	ps1.m_points[0] = { -xW - pOff,0.0f,0.0f };
 	ps1.m_points[1] = { 0.0f,yH + pOff,0.0f };
 	ps1.m_points[2] = { xW + pOff,0.0f,0.0f };
 	ps1.m_points[3] = { 0.0f, -yH-pOff,0.0f };
 	ps1.m_points[4] = { 0.0f, 0.0f,0.0f };
-	ps1.Create(ps1.m_points,5);
+
+	ps1.m_points[5] = { -xW - pOff, yH				,0.0f };
+	ps1.m_points[6] = { -xW - pOff, yH - ledgeOff	,0.0f };
+
+	ps1.m_points[7] = { xW + pOff, yH				,0.0f };
+	ps1.m_points[8] = { xW + pOff, yH - ledgeOff	,0.0f };
+	ps1.Create(ps1.m_points, nPoints);
 
 
 	cs1.Create(0.5f, 12);
@@ -51,19 +58,37 @@ void Player::Update(double deltaTime) {
 	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
 	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
 
+	if (gInput.b.y)MoveTo({ 0.0f,0.0f,0.0f });
+
+
+
+	if (!pv.leftLedgeTopCollide && pv.leftLedgeUnderCollide)pv.leftLedgeCollide = true;
+	if (!pv.rightLedgeTopCollide && pv.rightLedgeUnderCollide)pv.rightLedgeCollide = true;
+
+
+	if (pv.leftLedgeCollide || pv.rightLedgeCollide) {
+
+
+		if (gInput.b.x)vel.y += 0.5f;
+	}
+
+
 
 	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
-	//vel.y += (deltaTime / 1000) * gInput.b.leftStickFloatY;
-
-
-
-		
+	
 	oGround += pv.collidingBelow;
+
+	if (pv.collidingRight && (vel.x > 0.0f)) {
+		pv.onWall = true;
+
+	}
 		
 
-	if (gInput.b.y)MoveTo({ 0.0f,0.0f,0.0f });
-	if (gInput.b.a == false)jumpReleased = true;
+	
 
+
+	/// Jumping
+	if (gInput.b.a == false)jumpReleased = true;
 	if (gInput.b.a) {
 		if (pv.collidingBelow && jumpReleased && (oGround > 3)) {
 			vel.y += 0.3f;
@@ -72,10 +97,15 @@ void Player::Update(double deltaTime) {
 		}
 		
 	}
+
+
+
+
+	/// Running
 	if (gInput.b.x && pv.collidingBelow)vel.x *= 1.14f;
 
 
-
+	/// Facing
 	if (vel.x < 0.0f) {
 		pv.facing = -1;
 		dir = XM_PI;
@@ -86,52 +116,28 @@ void Player::Update(double deltaTime) {
 	}
 
 
-	if (pv.jumping && pv.collidingBelow) {
-		
-		if (oGround > 3) {
-			if (jumpReleased) {
-				pv.facing == -1 ? animState = AS_PL_JUMPINGLEFT : animState = AS_PL_JUMPINGRIGHT;
-				vel.y += 0.2f;
-				oGround = 0;
-				jumpReleased = false;
-
-			}
-		}
 
 
-	}
 
-
-	//Gravity
+	/// Gravity
 	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
-	
-	
-	//vel.y *= 0.8;
-
-
-
-	//Animation
-	if (vel.x > 0)animState = AS_PL_WALKLEFT;
-	else if (vel.x < 0)animState = AS_PL_WALKRIGHT;
-
-	//Final Calcs
-	Animate(deltaTime);
+	if (pv.onWall)vel.y *= 0.75f;
+	/// Drag
 	vel.x *= 0.85;
 
+
+	/// Velocity Protection
 	if (vel.y < -0.218f) vel.y = -0.218f;
 	if (vel.y > 0.3f)vel.y = 0.3f;
-	
-
 	if (vel.x < -0.19f) vel.x = -0.19f;
 	if (vel.x > 0.19f)vel.x = 0.19f;
 
+	///Animation
+	Animation(deltaTime);
 
 	MoveBy(vel);
-
-	
-
 	pv = { 0 };
-	prev_pos = pos;
+
 }
 
 void Player::Draw() {
@@ -139,6 +145,13 @@ void Player::Draw() {
 	sprite.Draw(pos);
 	ps1.Draw(pos);
 	cs1.Draw(pos);
+
+}
+
+void Player::Animation(double deltaTime) {
+	if (vel.x > 0)animState = AS_PL_WALKLEFT;
+	else if (vel.x < 0)animState = AS_PL_WALKRIGHT;
+	Animate(deltaTime);
 
 }
 

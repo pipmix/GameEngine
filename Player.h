@@ -26,6 +26,16 @@ struct PlayerVariables {
 	bool holdDirection;
 	bool applyGrav;
 
+
+	bool leftLedgeTopCollide;
+	bool leftLedgeUnderCollide;
+
+	bool rightLedgeTopCollide;
+	bool rightLedgeUnderCollide;
+
+	bool leftLedgeCollide;
+	bool rightLedgeCollide;
+
 	int facing;
 
 };
@@ -38,6 +48,7 @@ public:
 	void	Create	(UINT tex, UINT vShader, UINT pShader);
 	void	Update	(double deltaTime);
 	void	Draw	();
+	
 
 	void	MoveBy	(XMFLOAT3 p);
 	void	MoveTo	(XMFLOAT3 p);
@@ -70,7 +81,8 @@ private:
 	AS_PLAYER			prev_animState = AS_PL_IDLE;
 	int					curAnimFrame;
 	double				elapsedTime = 0.0f;
-	//RectCollider		collision;
+
+	void				Animation(double deltaTime);
 
 	XMFLOAT4 col;
 
