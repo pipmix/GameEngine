@@ -178,6 +178,8 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BlankObject.h" />
+    <ClInclude Include="BlankTypes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionManager.h" />
