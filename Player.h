@@ -95,6 +95,7 @@ private:
 
 	//Emitter	em01;
 
+	bool isDead;
 	
 
 };

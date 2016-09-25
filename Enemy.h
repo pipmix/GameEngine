@@ -24,6 +24,11 @@ struct EnemyVariables {
 
 };
 
+class EnemyManager {
+public:
+private:
+};
+
 
 class Enemy {
 

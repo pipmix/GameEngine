@@ -1,6 +1,14 @@
 #pragma once
 #include "Sprite.h"
 
+struct ItemStruct {
+	bool canPickup;
+	bool goesInInv;
+	bool isLocked;
+	bool isKey;
+	bool isWeapon;
+};
+
 enum IT_ITEMS {
 
 	IT_CHEST, IT_COIN,
@@ -19,6 +27,8 @@ private:
 class ItemManager {
 
 public:
+
+	void SpawnItem();
 
 
 private:
