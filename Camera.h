@@ -17,10 +17,11 @@ public:
 
 	void			MoveTo(float posX, float posY, float posZ);
 	void			MoveBy(float vecX, float vecY, float vecZ);
-	void			MoveInDirection(XMVECTOR mv, float dist);
+	void			MoveInDirection(XMFLOAT3 mv, float dist);
 	void			SetTarget(float tx, float ty, float tz);
 
-	void			Rotate(XMVECTOR rv);
+
+
 
 
 	void			UpdatePerspective();

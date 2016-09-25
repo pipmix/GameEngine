@@ -28,6 +28,7 @@ public:
 	void	Load();
 	void	Update(double deltaTime);
 	void	Draw();
+	void	Collisions(double deltaTime);
 
 
 	Player player;

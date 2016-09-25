@@ -13,8 +13,8 @@ void Dx::Initialize(){
 	scd.BufferCount								= 1;
 	scd.BufferDesc.Width						= m_windowW;
 	scd.BufferDesc.Height						= m_windowH;
-	//scd.BufferDesc.RefreshRate.Numerator		= 60;
-	//scd.BufferDesc.RefreshRate.Denominator		= 1;
+	scd.BufferDesc.RefreshRate.Numerator		= 60;
+	scd.BufferDesc.RefreshRate.Denominator		= 1;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage								= DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.OutputWindow							= m_hWnd;
@@ -232,4 +232,11 @@ void Dx::MSG_ActiveWindow() {
 
 	m_Active = true;
 	m_Timer.Unpause();
+}
+
+void Dx::Msg_Shutdown()
+{
+
+	gContext->ClearState();
+	
 }

@@ -135,3 +135,5 @@ void Camera::SetTarget(float tx, float ty, float tz) {
 
 	_target = { tx, ty, tz };
 }
+
+

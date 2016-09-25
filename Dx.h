@@ -30,6 +30,7 @@ public:
 
 	void	MSG_InactiveWindow();
 	void	MSG_ActiveWindow();
+	void	Msg_Shutdown();
 
 private:
 

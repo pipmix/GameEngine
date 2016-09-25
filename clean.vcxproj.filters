@@ -194,6 +194,12 @@
     <ClInclude Include="BlankTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicVS.hlsl">

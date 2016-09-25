@@ -35,6 +35,15 @@ void Game::Update(double deltaTime) {
 	itm01.Update(deltaTime);
 	em01.Update(deltaTime);
 
+	Collisions(deltaTime);
+
+
+	ui.Update(deltaTime);
+}
+
+
+void Game::Collisions(double deltaTime) {
+
 	cm.Collide(player, map1);
 	cm.Collide(enemy, map1);
 	//cm.Collide(player, enemy);
@@ -44,9 +53,9 @@ void Game::Update(double deltaTime) {
 
 	//if (cm.RectCircleIntersect(player.GetCollision(), XMFLOAT3{ 0.0f,0.0f,0.0f }, 2.0f))itm01.avail = false;
 
-	ui.Update(deltaTime);
-}
 
+
+}
 void Game::Draw() {
 
 	XMMATRIX tmpCameraScreen = gCam.GetCameraScreenMatrix();
