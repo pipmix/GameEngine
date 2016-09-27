@@ -4,6 +4,7 @@
 #include "DataTypes.h"
 
 
+
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern Data								gDat;
@@ -23,7 +24,7 @@ public:
 	void	MoveTo(XMFLOAT3 moveTo);
 
 
-	void	LoadMesh();
+	void	LoadMesh(wstring fN);
 
 	void	Draw();
 	void	Update();

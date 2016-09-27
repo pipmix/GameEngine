@@ -12,7 +12,7 @@ void Game::Load(){
 	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	enemy.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	
-	map1.Load();
+	map1.Load(L"level1");
 
 	itm01.Create(DT_COLORS, DV_BASICMATRX, DP_BASICMATRX);
 

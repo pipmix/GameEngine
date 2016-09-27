@@ -2,7 +2,7 @@
 #include "Headers.h"
 #include "Helpers.h"
 #include "DataTypes.h"
-
+#include "Strings.h"
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 

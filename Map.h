@@ -8,20 +8,29 @@ class Map {
 
 public:
 
-	Map();
-	~Map();
-	void Load();
-	void Update();
-	void Draw();
+					Map				();
+					~Map			();
+	void			Load			(wstring fN);
+
+
+	void			Update			();
+	void			Draw			();
 
 
 
 	
-	XMFLOAT4*	m_collisionRects;
-	int			m_numCollisionRects;
+	XMFLOAT4*		m_collisionRects;
+	int				m_numCollisionRects;
 
-	std::string		m_mapName;
+	string			m_mapName;
+	wstring			m_fileName;
 
-	LevelShapes	m_levelShapes;
-	Model	model;
+	LevelShapes		m_levelShapes;
+	Model			model;
+
+private:
+
+	void			LoadCollision	(wstring fN);
+	void			LoadModel		(wstring fN);
+
 };

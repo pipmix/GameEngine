@@ -63,9 +63,10 @@ void Model::Update() {
 }
 
 
-void Model::LoadMesh() {
+void Model::LoadMesh(wstring fN) {
 
-	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/levelo.mesh";
+	wstring completePathAndName = CV_baseDir + CV_meshDir + fN + CV_meshFileType;
+
 	ifstream file(completePathAndName);
 	string materialName, textureName;
 

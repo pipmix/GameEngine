@@ -2,6 +2,7 @@
 using namespace std;
 
 Map::Map(){
+	m_collisionRects = nullptr;
 }
 
 Map::~Map(){
@@ -9,23 +10,32 @@ Map::~Map(){
 	m_collisionRects = nullptr;
 }
 
-void Map::Load(){
-
-	//m_numCollisionRects = LoadCollision(m_collisionRects, m_mapName);
+void Map::Load(wstring fN){
 
 
-	wstring completePathAndName = L"C:/Box/Box Sync/Data/Exporters/BoxCollision/myCol.rect";
-	string completeName(completePathAndName.begin(), completePathAndName.end());
-	string fileName;
+	LoadCollision(fN);
+	LoadModel(fN);
 
+}
 
-	ifstream file(completeName);
+void Map::Update(){
+	model.Update();
+}
+
+void Map::Draw(){
+	model.Draw();
+	m_levelShapes.Draw();
+}
+
+void Map::LoadCollision(wstring fN){
+
+	wstring completePathAndName = CV_baseDir + CV_collisionDir + fN + CV_collisionFileType;
+
+	ifstream file(completePathAndName);
 
 	if (file) {
 
-
-
-		file >> fileName >> m_numCollisionRects;
+		file >> m_mapName >> m_numCollisionRects;
 		m_collisionRects = new XMFLOAT4[m_numCollisionRects];
 
 		for (int i = 0; i < m_numCollisionRects; i++) {
@@ -37,23 +47,14 @@ void Map::Load(){
 	else {
 		Error(L"Cannot open collision", completePathAndName.c_str());
 	}
-	
-		
-		
-	m_levelShapes.Create(m_collisionRects, m_numCollisionRects);
 
+	// WireFrameDebug
+	m_levelShapes.Create(m_collisionRects, m_numCollisionRects);
+}
+
+void Map::LoadModel(wstring fN){
 
 	model.AssignResources(DT_QUICKTEST, DV_BASICNORMAL, DP_BASICNORMAL);
-	model.LoadMesh();
+	model.LoadMesh(fN);
 
-
-}
-
-void Map::Update(){
-	model.Update();
-}
-
-void Map::Draw(){
-	model.Draw();
-	m_levelShapes.Draw();
 }

@@ -2,6 +2,7 @@
 #include "Headers.h"
 #include "DataTypes.h"
 #include "Helpers.h"
+#include "Strings.h"
 using Microsoft::WRL::ComPtr;
 
 
