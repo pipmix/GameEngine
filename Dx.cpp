@@ -234,9 +234,8 @@ void Dx::MSG_ActiveWindow() {
 	m_Timer.Unpause();
 }
 
-void Dx::Msg_Shutdown()
-{
-
+void Dx::Msg_Shutdown(){
+	CoUninitialize();
 	gContext->ClearState();
 	
 }

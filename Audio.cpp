@@ -9,13 +9,16 @@ void Audio::Create(){
 
 	HRESULT hr;
 
+
 	if (FAILED(hr = XAudio2Create(&m_xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR)))	Error(L"Audio Error", L"xaudio2 device creation");
-	//if (FAILED(hr = m_xAudio2->CreateMasteringVoice(&m_masterVoice)))			Error(L"Audio Error", L"mastering voice creation");
+	if (FAILED(hr = m_xAudio2->CreateMasteringVoice(&m_masterVoice, m_sampleRate, m_channels)))			Error(L"Audio Error", L"mastering voice creation");
 
 
 }
 
-void Audio::CreateSourceVoice(){
+
+
+void Audio::tempwork(){
 
 
 
@@ -27,8 +30,8 @@ void Audio::CreateSourceVoice(){
 
 	XAUDIO2_VOICE_DETAILS voiceDetails01 = { 0 };
 	XAUDIO2_VOICE_DETAILS voiceDetails02 = { 0 };
-	m_xAudio2->CreateSubmixVoice(&subMix01, 2, 44100);//, 0, 0, 0, 0);
-	m_xAudio2->CreateSubmixVoice(&subMix02, 2, 44100);//, 0, 0, 0, 0);
+	m_xAudio2->CreateSubmixVoice(&subMix01, m_channels, m_sampleRate);//, 0, 0, 0, 0);
+	m_xAudio2->CreateSubmixVoice(&subMix02, m_channels, m_sampleRate);//, 0, 0, 0, 0);
 
 
 	SFXSend = { 0, subMix01 }; // This determines where audio will be sent
@@ -66,8 +69,31 @@ void Audio::CreateSourceVoice(){
 
 }
 
+IXAudio2MasteringVoice* Audio::CreateMasterVoice() {
+
+
+}
+
+IXAudio2SubmixVoice* Audio::CreateSubmixVoice(){
+
+	IXAudio2SubmixVoice* submixVoice;
+	m_xAudio2->CreateSubmixVoice(&submixVoice, 1, m_sampleRate, 0, 0, 0, 0);
+
+	return submixVoice;
+
+}
+
+IXAudio2SourceVoice* Audio::CreateSourceVoice() {
+
+	IXAudio2SourceVoice* sourceVoice;
+	m_xAudio2->CreateSourceVoice(&pSourceVoice2, waveData2.wfx);
+	return sourceVoice;
+}
+
+
+
 void Audio::Exit()
 {
 
-	//m_masterVoice->DestroyVoice();
+	m_masterVoice->DestroyVoice();
 }

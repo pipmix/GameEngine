@@ -16,16 +16,26 @@ public:
 
 	Audio();
 	void Create();
-	void CreateSourceVoice();
+	IXAudio2SourceVoice* CreateSourceVoice();
+	IXAudio2SubmixVoice* CreateSubmixVoice();
+	IXAudio2MasteringVoice* CreateMasterVoice();
+
+	void tempwork();
+
 
 	void Exit();
 
 
 private:
 
+	int m_sampleRate = 44100;
+	int m_channels = 2;
+
 
 	ComPtr<IXAudio2> m_xAudio2;
-	//ComPtr<IXAudio2MasteringVoice> m_masterVoice;
+	IXAudio2MasteringVoice*		m_masterVoice;
+	IXAudio2SourceVoice*		m_SourceVoice;
+	IXAudio2SubmixVoice*		m_submixVoice;
 
 
 	//ComPtr<IXAudio2SourceVoice> m_sourceVoice;
