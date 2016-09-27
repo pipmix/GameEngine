@@ -3,3 +3,5 @@
 clean.VC.VC.opendb
 Release/
 Debug/
+WAVFileReader.cpp
+WAVFileReader.h

@@ -54,6 +54,8 @@ void Player::Update(double deltaTime) {
 	if (pv.collidingBelow)vel.y = 0.0f;
 	if (pv.collidingAbove)vel.y = 0.0f;
 
+
+	if (pv.climbing && pv.collidingBelow)pv.climbing = false;
 	// Camera
 	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
 	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);

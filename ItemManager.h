@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+#include "Item.h"
 
 struct ItemStruct {
 	bool canPickup;
@@ -14,14 +15,6 @@ enum IT_ITEMS {
 	IT_CHEST, IT_COIN,
 };
 
-class Items{
-
-public:
-
-
-private:
-
-};
 
 
 class ItemManager {

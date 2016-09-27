@@ -35,6 +35,7 @@ Input gInput;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
+	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	int mainW = 1600;
 	int mainH = 900;
 	int dxWinW = 1360;
