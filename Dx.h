@@ -50,7 +50,7 @@ private:
 	ComPtr<ID3D11BlendState>		m_BS_transparent;
 
 	//Constant Buffers
-	
+	ComPtr<ID3D11Buffer>			m_cbPerResize;
 	
 
 	//Other

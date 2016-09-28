@@ -160,6 +160,7 @@
     <ClCompile Include="Emitter.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Geo.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Geo.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="Input.h" />
@@ -205,6 +207,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="NewSprite.h" />
     <ClInclude Include="Obstacles.h" />

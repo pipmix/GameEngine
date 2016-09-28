@@ -8,6 +8,11 @@ cbuffer cbPerMesh : register(b1) {
 
 }
 
+cbuffer cbPerResize : register(b2) {
+	float4 screenDim;
+
+}
+
 
 
 struct VS_IN {

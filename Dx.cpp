@@ -167,6 +167,16 @@ void Dx::CreateConstantBuffers(){
 
 	gDevice->CreateBuffer(&bd_perMesh, nullptr, &gcbPerMesh);
 
+	D3D11_BUFFER_DESC bd_perResize;
+	ZeroMemory(&bd_perResize, sizeof(bd_perResize));
+	bd_perResize.Usage = D3D11_USAGE_DEFAULT;
+	bd_perResize.ByteWidth = sizeof(XMFLOAT4);
+	bd_perResize.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+
+	gDevice->CreateBuffer(&bd_perResize, nullptr, &m_cbPerResize);
+
+	
+
 
 }
 
@@ -198,6 +208,10 @@ void Dx::Draw() {
 	
 	gContext->VSSetConstantBuffers(0, 1, gcbPerFrame.GetAddressOf());
 	gContext->VSSetConstantBuffers(1, 1, gcbPerMesh.GetAddressOf());
+	gContext->VSSetConstantBuffers(2, 1, m_cbPerResize.GetAddressOf());
+
+	XMFLOAT4 screenDim = { static_cast<float>(m_windowW), static_cast<float>(m_windowH), static_cast<float>(m_clientW),static_cast<float>(m_clientH) };
+	gContext->UpdateSubresource(m_cbPerResize.Get(), 0, 0, &screenDim, 0, 0);
 
 	game.Draw();
 	m_swapChain->Present(1, 0);

@@ -8,6 +8,12 @@ cbuffer cbPerMesh : register(b1) {
 
 }
 
+cbuffer cbPerResize : register(b2) {
+	float4 screenDim;
+
+}
+
+
 
 struct VS_OUT {
 	float4 position : SV_POSITION;
@@ -27,6 +33,8 @@ VS_OUT main(float4 position : POSITION, float3 normal : NORMAL, float2 texcoord 
 	vs_out.position = mul(finalMatrix, position);
 	vs_out.uv = texcoord;
 	vs_out.normal = mul((float3x3)worldMatrix, normal);
+
+
 
 	return vs_out;
 }

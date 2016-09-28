@@ -65,10 +65,10 @@ struct TexProp {
 };
 
 struct ResourceIDs {
-	UINT m_textureID;
-	UINT m_vsID;
-	UINT m_psID;
-	UINT m_topoID;
+	int m_textureID;
+	int m_vsID;
+	int m_psID;
+	int m_topoID;
 
 };
 
