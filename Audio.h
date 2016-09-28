@@ -1,7 +1,7 @@
 #pragma once
 #include "Headers.h"
 #include "Helpers.h"
-#include "WAVFileReader.h"
+
 
 #include <xaudio2.h>
 
@@ -45,14 +45,14 @@ private:
 	XAUDIO2_BUFFER buffer1;
 	IXAudio2SourceVoice* pSourceVoice;
 	std::unique_ptr<uint8_t[]> waveFile;
-	DirectX::WAVData waveData;
+	
 
 
 
 	XAUDIO2_BUFFER buffer2;
 	IXAudio2SourceVoice* pSourceVoice2;
 	std::unique_ptr<uint8_t[]> waveFile2;
-	WAVData waveData2;
+	
 
 	XAUDIO2_SEND_DESCRIPTOR SFXSend;
 	XAUDIO2_VOICE_SENDS SFXSendList;

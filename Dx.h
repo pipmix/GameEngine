@@ -51,7 +51,10 @@ private:
 
 	//Constant Buffers
 	ComPtr<ID3D11Buffer>			m_cbPerResize;
-	
+
+	ComPtr<ID3D11Buffer>			m_cbPS_amb;
+	ComPtr<ID3D11Buffer>			m_cbPS_lights;
+
 
 	//Other
 	D3D11_VIEWPORT					m_viewport;

@@ -19,6 +19,12 @@
     <Filter Include="Header Files\System">
       <UniqueIdentifier>{803df9fd-dd51-40c6-82b5-4e8e8f2bdd44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\PS">
+      <UniqueIdentifier>{0b02accd-94bd-4fa4-bb5d-82b95273e331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\VS">
+      <UniqueIdentifier>{d9ba46a0-2fff-4de0-834c-338e5b41dddd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="Audio.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WAVFileReader.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">
       <Filter>Source Files</Filter>
@@ -218,9 +221,6 @@
     <ClInclude Include="Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WAVFileReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -235,39 +235,45 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="BasicMatrixVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicTextureVS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicTexturePS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicMatrixPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="BasicPS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="UI_VS.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="UI_PS.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\VS</Filter>
     </FxCompile>
     <FxCompile Include="BasicNormalVS.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTextureVS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicVS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="UI_VS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicLightingPS.hlsl">
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicMatrixPS.hlsl">
+      <Filter>Shaders\PS</Filter>
     </FxCompile>
     <FxCompile Include="BasicNormalPS.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicPS.hlsl">
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="BasicTexturePS.hlsl">
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="UI_PS.hlsl">
+      <Filter>Shaders\PS</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sHeader.hlsli">
+    <None Include="PS_Func.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="VS_Func.hlsli">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

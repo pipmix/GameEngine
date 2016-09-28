@@ -179,7 +179,6 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="WAVFileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio.h" />
@@ -221,9 +220,14 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UI.h" />
-    <ClInclude Include="WAVFileReader.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="BasicLightingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="BasicMatrixPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -284,7 +288,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="sHeader.hlsli" />
+    <None Include="PS_Func.hlsli" />
+    <None Include="VS_Func.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Todo.txt" />

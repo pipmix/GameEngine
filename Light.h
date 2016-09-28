@@ -35,3 +35,9 @@ private:
 	XMFLOAT3 mRight;
 
 };
+
+class DirectionalLight {
+	XMFLOAT3 m_direction;
+	XMFLOAT3 m_lightColor;
+	float m_intensity;
+};

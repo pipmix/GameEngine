@@ -76,3 +76,9 @@ struct RefrenceData {
 	XMFLOAT3*	m_pos;
 	float*		m_direction;
 };
+
+
+struct B_F4F4 {
+	XMFLOAT4 f4a;
+	XMFLOAT4 f4b;
+};

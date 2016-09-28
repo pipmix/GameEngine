@@ -58,13 +58,13 @@ void Audio::tempwork(){
 
 
 
-	LoadWAVAudioFromFileEx(L"c:/sound2.wav", waveFile, waveData);
-	m_xAudio2->CreateSourceVoice(&pSourceVoice, waveData.wfx);
-	pSourceVoice->GetVoiceDetails(&voiceDetails01);
+	//LoadWAVAudioFromFileEx(L"c:/sound2.wav", waveFile, waveData);
+	//m_xAudio2->CreateSourceVoice(&pSourceVoice, waveData.wfx);
+	//pSourceVoice->GetVoiceDetails(&voiceDetails01);
 
-	LoadWAVAudioFromFileEx(L"c:/sound1.wav", waveFile2, waveData2);
-	m_xAudio2->CreateSourceVoice(&pSourceVoice2, waveData2.wfx);
-	pSourceVoice2->GetVoiceDetails(&voiceDetails02);
+	//LoadWAVAudioFromFileEx(L"c:/sound1.wav", waveFile2, waveData2);
+	//m_xAudio2->CreateSourceVoice(&pSourceVoice2, waveData2.wfx);
+	//pSourceVoice2->GetVoiceDetails(&voiceDetails02);
 
 
 }
@@ -86,7 +86,7 @@ IXAudio2SubmixVoice* Audio::CreateSubmixVoice(){
 IXAudio2SourceVoice* Audio::CreateSourceVoice() {
 
 	IXAudio2SourceVoice* sourceVoice;
-	m_xAudio2->CreateSourceVoice(&pSourceVoice2, waveData2.wfx);
+	//m_xAudio2->CreateSourceVoice(&pSourceVoice2, waveData2.wfx);
 	return sourceVoice;
 }
 

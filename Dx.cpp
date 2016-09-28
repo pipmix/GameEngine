@@ -151,6 +151,8 @@ void Dx::CreateStates(){
 
 void Dx::CreateConstantBuffers(){
 
+
+	// Vertex Shader Constant Buffers
 	D3D11_BUFFER_DESC bd_perFrame;
 	ZeroMemory(&bd_perFrame, sizeof(bd_perFrame));
 	bd_perFrame.Usage = D3D11_USAGE_DEFAULT;
@@ -174,6 +176,29 @@ void Dx::CreateConstantBuffers(){
 	bd_perResize.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
 	gDevice->CreateBuffer(&bd_perResize, nullptr, &m_cbPerResize);
+
+
+	// Pixel Shader Constant Buffers
+
+	D3D11_BUFFER_DESC bd_cbPS_amb;
+	ZeroMemory(&bd_cbPS_amb, sizeof(bd_cbPS_amb));
+	bd_cbPS_amb.Usage = D3D11_USAGE_DYNAMIC;
+	bd_cbPS_amb.ByteWidth = sizeof(XMFLOAT4)*2;
+	bd_cbPS_amb.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd_cbPS_amb.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	gDevice->CreateBuffer(&bd_cbPS_amb, nullptr, &m_cbPS_amb);
+
+
+	D3D11_BUFFER_DESC cbPS_lights;
+	ZeroMemory(&cbPS_lights, sizeof(cbPS_lights));
+	cbPS_lights.Usage = D3D11_USAGE_DYNAMIC;
+	cbPS_lights.ByteWidth = sizeof(XMFLOAT4) * 2;
+	cbPS_lights.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbPS_lights.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	gDevice->CreateBuffer(&cbPS_lights, nullptr, &m_cbPS_lights);
+
 
 	
 
@@ -210,8 +235,26 @@ void Dx::Draw() {
 	gContext->VSSetConstantBuffers(1, 1, gcbPerMesh.GetAddressOf());
 	gContext->VSSetConstantBuffers(2, 1, m_cbPerResize.GetAddressOf());
 
+	gContext->PSSetConstantBuffers(0, 1, m_cbPS_amb.GetAddressOf());
+	gContext->PSSetConstantBuffers(1, 1, m_cbPS_lights.GetAddressOf());
+
 	XMFLOAT4 screenDim = { static_cast<float>(m_windowW), static_cast<float>(m_windowH), static_cast<float>(m_clientW),static_cast<float>(m_clientH) };
 	gContext->UpdateSubresource(m_cbPerResize.Get(), 0, 0, &screenDim, 0, 0);
+
+
+
+
+	B_F4F4 tmp;
+	tmp.f4a = { 0.0f, 0.0f, 0.0f, 0.0f };
+	tmp.f4b = { 0.0f, 0.0f, 0.0f, 0.0f };
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gContext->Map(m_cbPS_amb.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	memcpy(mappedResource.pData, &tmp, sizeof(XMFLOAT4)* 2);
+	gContext->Unmap(m_cbPS_amb.Get(), 0);
+
 
 	game.Draw();
 	m_swapChain->Present(1, 0);
