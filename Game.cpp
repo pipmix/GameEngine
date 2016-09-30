@@ -22,6 +22,9 @@ void Game::Load(){
 	em01.SetFollowAngle(&player.dir);
 	em01.Create();
 
+	geo01.AssignResources(DT_COLORS, DV_BASICNORMAL, DP_BASICNORMAL);
+	geo01.Create(3.0f,2.0f,1.0f);
+
 
 }
 
@@ -68,6 +71,8 @@ void Game::Draw() {
 	itm01.Draw();
 	circShape.Draw();
 	em01.Draw();
+
+	geo01.Draw();
 
 
 	// UI

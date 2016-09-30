@@ -16,7 +16,7 @@ class Model{
 
 public:
 			Model();
-	void	AssignResources(UINT texID, UINT vsID, UINT psID);
+	void	AssignResources(int texID, int vsID, int psID);
 	
 
 

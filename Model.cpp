@@ -6,7 +6,7 @@ Model::Model() {
 	m_position = { 0.0f, 0.0f, 0.0f };
 }
 
-void Model::AssignResources(UINT texID, UINT vsID, UINT psID) {
+void Model::AssignResources(int texID, int vsID, int psID) {
 
 	m_rIds.m_textureID = texID;
 	m_rIds.m_vsID = vsID;
