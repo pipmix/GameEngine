@@ -31,8 +31,10 @@ void Game::Load(){
 	md02.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
 	md02.LoadMesh(L"b_cube");
 
-	//md03.AssignResources(DT_QUICKTEST, DV_BASICNORMAL, DP_BASICNORMAL);
-	//md03.LoadMesh(fN);
+	md03.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
+	md03.LoadMesh(L"b_cyl");
+
+	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
 
 
@@ -86,6 +88,7 @@ void Game::Draw() {
 
 	md01.Draw();
 	md02.Draw();
+	md03.Draw();
 
 
 	// UI
