@@ -4,7 +4,7 @@ SamplerState ss : register(s0);
 
 
 
-float4 main(float4 position : SV_POSITION, float4 normal : COLOR, float2 texcoord : TEXCOORD)  : SV_TARGET{
+float4 main(float4 position : SV_POSITION, float4 color : COLOR, float2 texcoord : TEXCOORD)  : SV_TARGET{
 
 
 

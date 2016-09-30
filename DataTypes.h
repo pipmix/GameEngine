@@ -82,3 +82,17 @@ struct B_F4F4 {
 	XMFLOAT4 f4a;
 	XMFLOAT4 f4b;
 };
+
+struct CB_m {
+	XMMATRIX mat1;
+
+};
+struct CB_mm {
+	XMMATRIX mat1;
+	XMMATRIX mat2;
+};
+struct CB_mmm {
+	XMMATRIX mat1;
+	XMMATRIX mat2;
+	XMMATRIX mat3;
+};

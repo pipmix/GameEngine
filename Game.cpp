@@ -22,17 +22,17 @@ void Game::Load(){
 	em01.SetFollowAngle(&player.dir);
 	em01.Create();
 
-	geo01.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
+	geo01.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
 	geo01.Create(3.0f,2.0f,1.0f);
 
-	md01.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
+	md01.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
 	md01.LoadMesh(L"plane");
 
-	md02.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
-	md02.LoadMesh(L"b_cube");
+	md02.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	md02.LoadMesh(L"b_sphere");
 
-	md03.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
-	md03.LoadMesh(L"b_cyl");
+	md03.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	md03.LoadMesh(L"b_sphere");
 
 	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
@@ -73,8 +73,12 @@ void Game::Collisions(double deltaTime) {
 }
 void Game::Draw() {
 
-	XMMATRIX tmpCameraScreen = gCam.GetCameraScreenMatrix();
-	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpCameraScreen, 0, 0);
+	CB_mmm perFrame;
+	perFrame.mat1 = gCam.GetCameraScreenMatrix();
+	perFrame.mat2 = gCam.GetCameraMatrix();
+	perFrame.mat3 = gCam.GetScreenMatrix();
+
+	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &perFrame, 0, 0);
 
 
 	map1.Draw();

@@ -1,5 +1,7 @@
 cbuffer cbPerFrame : register(b0) {
 	matrix cameraScreenMatrix;
+	matrix cameraMatrix;
+	matrix screenMatrix;
 
 }
 

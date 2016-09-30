@@ -156,7 +156,7 @@ void Dx::CreateConstantBuffers(){
 	D3D11_BUFFER_DESC bd_perFrame;
 	ZeroMemory(&bd_perFrame, sizeof(bd_perFrame));
 	bd_perFrame.Usage = D3D11_USAGE_DEFAULT;
-	bd_perFrame.ByteWidth = sizeof(XMMATRIX);
+	bd_perFrame.ByteWidth = sizeof(CB_mmm);
 	bd_perFrame.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
 	gDevice->CreateBuffer(&bd_perFrame, nullptr, &gcbPerFrame);
