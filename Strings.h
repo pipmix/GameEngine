@@ -6,7 +6,7 @@ const std::wstring CV_meshFileType			= L".mesh";
 const std::wstring CV_locationsFileType		= L".loc";
 
 const std::wstring CV_imageDir				= L"Images/";
-const std::wstring CV_meshDir				= L"Exporters/BoxCollision/";
+const std::wstring CV_meshDir				= L"Meshes/";
 const std::wstring CV_collisionDir			= L"Exporters/BoxCollision/";
 const std::wstring CV_locationsDir			= L"Exporters/BoxCollision/";
 const std::wstring CV_audioDir				= L"Audio/";

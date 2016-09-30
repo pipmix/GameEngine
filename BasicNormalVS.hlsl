@@ -23,7 +23,7 @@ struct VS_OUT {
 };
 
 
-VS_OUT main(float4 position : POSITION, float3 normal : NORMAL, float2 texcoord : TEXCOORD) {
+VS_OUT main(float4 position : POSITION, float4 normal : NORMAL, float2 texcoord : TEXCOORD) {
 
 
 	VS_OUT vs_out;
@@ -32,7 +32,9 @@ VS_OUT main(float4 position : POSITION, float3 normal : NORMAL, float2 texcoord 
 
 	vs_out.position = mul(finalMatrix, position);
 	vs_out.uv = texcoord;
-	vs_out.normal = mul((float3x3)worldMatrix, normal);
+	//vs_out.normal = mul((float3x3)worldMatrix, normal);
+
+	normalize(mul(worldMatrix, normal));
 
 
 

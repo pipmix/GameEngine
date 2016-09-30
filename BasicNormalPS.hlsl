@@ -18,15 +18,16 @@ float3 CalcAmbient(float3 normal, float3 color) {
 	return ambient * color;
 }
 
-float4 main(float4 position : SV_POSITION, float2 uv : TEXCOORD0, float3 normal : TEXCOORD1) : SV_TARGET{
+float4 main(float4 position : SV_POSITION, float4 normal : NORMAL, float2 texcoord : TEXCOORD)  : SV_TARGET{
 
 
-	float3 diffuseColor = Texture.Sample(ss, uv).rgb;
-	diffuseColor *= diffuseColor;
+	//float3 diffuseColor = Texture.Sample(ss, texcoord).rgb;
+	//diffuseColor *= diffuseColor;
 
-	float3 AmbientColor = CalcAmbient(normal, diffuseColor);
+	//float3 AmbientColor = CalcAmbient(normal, diffuseColor);
 
 	//return float4(AmbientColor, 1.0);
-	return Texture.Sample(ss, uv);
+	return Texture.Sample(ss, texcoord);
+
 }
 

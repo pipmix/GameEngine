@@ -22,8 +22,18 @@ void Game::Load(){
 	em01.SetFollowAngle(&player.dir);
 	em01.Create();
 
-	geo01.AssignResources(DT_COLORS, DV_BASICNORMAL, DP_BASICNORMAL);
+	geo01.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
 	geo01.Create(3.0f,2.0f,1.0f);
+
+	md01.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
+	md01.LoadMesh(L"plane");
+
+	md02.AssignResources(DT_WALL01, DV_BASICNORMAL, DP_BASICNORMAL);
+	md02.LoadMesh(L"b_cube");
+
+	//md03.AssignResources(DT_QUICKTEST, DV_BASICNORMAL, DP_BASICNORMAL);
+	//md03.LoadMesh(fN);
+
 
 
 }
@@ -72,7 +82,10 @@ void Game::Draw() {
 	circShape.Draw();
 	em01.Draw();
 
-	geo01.Draw();
+	//geo01.Draw();
+
+	md01.Draw();
+	md02.Draw();
 
 
 	// UI

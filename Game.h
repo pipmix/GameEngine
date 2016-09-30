@@ -45,4 +45,8 @@ public:
 
 	CubeGeo geo01;
 
+	Model md01;
+	Model md02;
+	Model md03;
+
 };
