@@ -6,7 +6,7 @@
 #include "Shape.h"
 
 enum STATE_PLAYER {
-	PSTATE_IDLE, PSTATE_JUMPING, PSTATE_CLIMBING
+	PSTATE_IDLE, PSTATE_JUMPING, PSTATE_CLIMBING, PSTATE_DUCKING, PSTATE_BLOCKING, PSTATE_ONWALL
 };
 
 extern Input gInput;
@@ -29,7 +29,7 @@ struct PlayerVariables {
 	bool holdDirection;
 	bool applyGrav;
 
-
+	bool wallStart;
 	bool leftLedgeTopCollide;
 	bool leftLedgeUnderCollide;
 

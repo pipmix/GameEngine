@@ -54,6 +54,7 @@ void Player::Update(double deltaTime) {
 	if (pv.collidingBelow) {
 		vel.y = 0.0f;
 		if (m_curState == PSTATE_CLIMBING)m_curState = PSTATE_IDLE;
+		if (m_curState == PSTATE_JUMPING)m_curState = PSTATE_IDLE;
 	}
 
 	if (pv.collidingAbove)vel.y = 0.0f;
@@ -64,7 +65,7 @@ void Player::Update(double deltaTime) {
 	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
 	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
 
-	if (gInput.b.y)MoveTo({ 0.0f,0.0f,0.0f });
+	if (gInput.b.y)MoveTo({ 0.0f, 0.0f, 0.0f });
 
 
 	// Is able to climb
@@ -74,8 +75,10 @@ void Player::Update(double deltaTime) {
 	// If able will climb if b pressed
 	if (pv.leftLedgeCollide || pv.rightLedgeCollide) {
 
-		if (gInput.b.x)vel.y += 0.4f;
-		m_curState = PSTATE_CLIMBING;
+		if (gInput.b.x && m_curState != PSTATE_CLIMBING) {
+			vel.y += 0.6f;
+			m_curState = PSTATE_CLIMBING;
+		}
 	}
 
 
@@ -84,11 +87,39 @@ void Player::Update(double deltaTime) {
 	
 	oGround += pv.collidingBelow;
 
-	if (pv.collidingRight && (vel.x > 0.0f)) {
+	if (pv.collidingRight && (gInput.b.leftStickFloatX > 0.0f) && !pv.collidingBelow) {
+		m_curState = PSTATE_ONWALL;
 		pv.onWall = true;
+		
 
 	}
+	else if (pv.collidingLeft && (gInput.b.leftStickFloatX < 0.0f) && !pv.collidingBelow) {
+		m_curState = PSTATE_ONWALL;
+		pv.onWall = true;
 		
+	}
+	else {
+		pv.onWall = false;
+		pv.wallStart = false;
+	}
+
+	if (pv.onWall && gInput.b.a) {
+		if (pv.wallStart) {
+			pv.onWall = false;
+			if (pv.collidingLeft) {
+				vel.x = 5.0f;
+				vel.y = 0.6f;
+			}
+			if (pv.collidingRight) {
+				vel.x = -5.0f;
+				vel.y = 0.6f;
+
+			}
+
+		}
+	}
+		
+	if (pv.onWall && !gInput.b.a)pv.wallStart = true;
 
 	
 
@@ -127,7 +158,7 @@ void Player::Update(double deltaTime) {
 
 	/// Gravity
 	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
-	if (pv.onWall)vel.y *= 0.75f;
+	if (pv.onWall && m_curState != PSTATE_CLIMBING)vel.y *= 0.75f;
 	/// Drag
 	vel.x *= 0.85;
 
@@ -142,7 +173,11 @@ void Player::Update(double deltaTime) {
 	Animation(deltaTime);
 
 	MoveBy(vel);
-	pv = { 0 };
+	//pv = { 0 };
+
+	pv.rightLedgeTopCollide = pv.rightLedgeUnderCollide = pv.leftLedgeTopCollide = 
+	pv.leftLedgeUnderCollide = pv.collidingBelow = pv.collidingLeft = pv.collidingRight = 
+	pv.collidingAbove = pv.leftLedgeCollide = pv.rightLedgeCollide = 0;
 
 }
 
