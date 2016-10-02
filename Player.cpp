@@ -51,7 +51,11 @@ void Player::Update(double deltaTime) {
 	pv.applyGrav = true;
 
 
-	if (pv.collidingBelow)vel.y = 0.0f;
+	if (pv.collidingBelow) {
+		vel.y = 0.0f;
+		if (m_curState == PSTATE_CLIMBING)m_curState = PSTATE_IDLE;
+	}
+
 	if (pv.collidingAbove)vel.y = 0.0f;
 
 
@@ -63,15 +67,15 @@ void Player::Update(double deltaTime) {
 	if (gInput.b.y)MoveTo({ 0.0f,0.0f,0.0f });
 
 
-
+	// Is able to climb
 	if (!pv.leftLedgeTopCollide && pv.leftLedgeUnderCollide)pv.leftLedgeCollide = true;
 	if (!pv.rightLedgeTopCollide && pv.rightLedgeUnderCollide)pv.rightLedgeCollide = true;
 
-
+	// If able will climb if b pressed
 	if (pv.leftLedgeCollide || pv.rightLedgeCollide) {
 
-
-		if (gInput.b.x)vel.y += 0.5f;
+		if (gInput.b.x)vel.y += 0.4f;
+		m_curState = PSTATE_CLIMBING;
 	}
 
 

@@ -5,6 +5,9 @@
 #include "Emitter.h"
 #include "Shape.h"
 
+enum STATE_PLAYER {
+	PSTATE_IDLE, PSTATE_JUMPING, PSTATE_CLIMBING
+};
 
 extern Input gInput;
 
@@ -96,6 +99,8 @@ private:
 	//Emitter	em01;
 
 	bool isDead;
+
+	STATE_PLAYER m_curState;
 	
 
 };
