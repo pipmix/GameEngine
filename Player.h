@@ -67,6 +67,11 @@ public:
 	float dir = 0.0f;
 	PointShapes ps1;
 
+	void GetItem(int msg, int value);
+	void Damage(int value);
+	void Heal(int value);
+	void AddToInv(int value);
+
 private:
 
 	void	Animate(double deltaTime);
@@ -102,5 +107,6 @@ private:
 
 	STATE_PLAYER m_curState;
 	
+	int m_statHP;
 
 };

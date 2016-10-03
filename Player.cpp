@@ -5,6 +5,7 @@ Player::Player(){
 	col = { 0.0f, 0.0f, 0.0f, 0.0f };
 	UpdateCollision();
 	pv = { 0 };
+	m_statHP = 10;
 
 }
 
@@ -194,6 +195,37 @@ void Player::Animation(double deltaTime) {
 	else if (vel.x < 0)animState = AS_PL_WALKRIGHT;
 	Animate(deltaTime);
 
+}
+
+void Player::GetItem(int msg, int value){
+
+	switch (msg) {
+	case 0:
+		Damage(value);
+		break;
+	case 1:
+		Heal(value);
+		break;
+	case 2:
+		AddToInv(value);
+		break;
+	}
+}
+
+void Player::Damage(int value) {
+
+	m_statHP -= value;
+}
+
+
+void Player::Heal(int value) {
+
+	m_statHP += value;
+}
+
+void Player::AddToInv(int value) {
+
+	
 }
 
 void Player::Animate(double deltaTime) {
