@@ -50,6 +50,19 @@ void Item::UpdateCollision(){
 	m_collision.w = m_pos.y - m_size.y;
 }
 
+int Item::GetType(){
+	return 0;
+}
+
+int Item::GetValue(){
+	return 0;
+}
+
+int Item::Destroy()
+{
+	avail = false;
+}
+
 
 
 void Item::MoveBy(XMFLOAT3 p) {

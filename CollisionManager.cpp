@@ -248,6 +248,7 @@ void CollisionManager::Collide(Player & p, Item & it){
 
 			it.avail = false;
 			it.MoveBy(velocity);
+			p.GetItem(it.GetType(),it.GetValue());
 
 		}
 

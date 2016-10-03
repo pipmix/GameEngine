@@ -21,6 +21,11 @@ public:
 	bool avail = true;
 	XMFLOAT4 m_collision;
 
+	int			GetType();
+	int			GetValue();
+
+	int			Destroy();
+
 private:
 
 	XMFLOAT3 m_pos;

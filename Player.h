@@ -72,6 +72,8 @@ public:
 	void Heal(int value);
 	void AddToInv(int value);
 
+	void GetObstacle(int msg, int value);
+
 private:
 
 	void	Animate(double deltaTime);

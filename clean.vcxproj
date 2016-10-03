@@ -165,6 +165,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
+    <ClCompile Include="Iventory.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
+    <ClInclude Include="Iventory.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Map.h" />

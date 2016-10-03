@@ -114,6 +114,9 @@
     <ClCompile Include="Geo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Iventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTypes.h">
@@ -231,6 +234,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Iventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

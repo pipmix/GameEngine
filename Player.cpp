@@ -196,7 +196,7 @@ void Player::Animation(double deltaTime) {
 	Animate(deltaTime);
 
 }
-
+/// ITEM
 void Player::GetItem(int msg, int value){
 
 	switch (msg) {
@@ -227,6 +227,26 @@ void Player::AddToInv(int value) {
 
 	
 }
+
+/// Obstacle 
+
+void Player::GetObstacle(int msg, int value) {
+	switch (msg) {
+	case 0:
+		Damage(value);
+		break;
+	case 1:
+		Heal(value);
+		break;
+	case 2:
+		AddToInv(value);
+		break;
+	}
+}
+
+
+
+
 
 void Player::Animate(double deltaTime) {
 
