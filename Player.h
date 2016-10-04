@@ -6,7 +6,11 @@
 #include "Shape.h"
 #include "GameData.h"
 
-#define GRAVITY 0.1
+#define GRAVITY			0.002f
+#define JUMPTIME		300
+#define MAXJUMPVEL		0.35f
+#define JUMPVEL			0.006f
+#define RUNMULTPLIER	1.14f
 
 enum POINTCOL {
 	PC_BottomLeft, PC_BottomRight, PC_BottomCenter, PC_Center, PC_TopLeft, PC_TopRight, PC_LeftLedge, PC_RightLedge, PC_TopCenter, PC_LeftCenter, PC_RightCenter, PC_COUNT
@@ -46,39 +50,7 @@ enum STATE_PLAYER {
 };
 
 extern Input gInput;
-/*
-struct PlayerVariables {
-	bool jumping;
-	bool falling;
-	bool doubleJumping;
-	bool wallJumping;
-	bool climbing;
-	bool ducking;
-	bool running;
-	bool onGround;
-	bool collidingLeft;
-	bool collidingRight;
-	bool collidingAbove;
-	bool collidingBelow;
-	bool collidingLadder;
-	bool onWall;
-	bool holdDirection;
-	bool applyGrav;
-	bool wallStart;
-	bool leftLedgeTopCollide;
-	bool leftLedgeUnderCollide;
-	bool rightLedgeTopCollide;
-	bool rightLedgeUnderCollide;
-	bool leftLedgeCollide;
-	bool rightLedgeCollide;
-	int facing;
-	int vFacing;
-	bool canMelee;
-	bool collidingWithDoor;
-	int  doorIdCollidedWith;
 
-};
-*/
 struct PlayerVariables {
 
 	bool AgainstWallLeft;
@@ -109,6 +81,7 @@ struct PlayerVariables {
 
 	UINT AgainstGroundCounter;
 	UINT AgainstWallCounter;
+	UINT JumpTimeCounter;
 
 	bool JumpButtonReset;
 };
@@ -148,6 +121,8 @@ public:
 
 	bool IsMeleeFunc();
 
+	
+
 	MeleeWeapon m_meleeWeapon;
 
 	GD_BASIC_TYPES m_basicType;
@@ -155,6 +130,10 @@ public:
 	bool contact[PC_COUNT];
 
 private:
+	void Jump();
+	void Run();
+	void LedgeClimb();
+	void Melee();
 
 	void	Animate(double deltaTime);
 	void	UpdateCollision();
@@ -194,6 +173,9 @@ private:
 	int m_statHP;
 
 
+	double dTime;
 
-
+	bool JumpButton;
+	bool RunButton;
+	bool tempVar = 0;
 };
