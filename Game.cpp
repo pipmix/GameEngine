@@ -9,7 +9,7 @@ void Game::Load(){
 	ui.Create();
 	player.pos = { -3.0f,0.0f,0.0f };
 
-	player.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
+	player.Create(DT_CHAR, DV_BASICMATRX, DP_BASICMATRX);
 	enemy.Create(DT_WALKTEST, DV_BASICMATRX, DP_BASICMATRX);
 	
 	map1.Load(L"level1");

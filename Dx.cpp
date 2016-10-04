@@ -226,7 +226,7 @@ void Dx::Draw() {
 
 	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
 	gContext->RSSetState(m_RS_default.Get());
-	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+	gContext->OMSetDepthStencilState(m_DS_ReadNoWrite.Get(), 0);
 	gContext->OMSetBlendState(m_BS_transparent.Get(), 0, 0xFFFFFFFF);
 
 

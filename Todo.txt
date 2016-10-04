@@ -1,3 +1,9 @@
+ladder
+downward platform
+item follow
+animated background
+animated menu
+
 vingetee 
 particles
 clumb up ledge

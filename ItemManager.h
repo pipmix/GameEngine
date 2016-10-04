@@ -38,6 +38,8 @@ public:
 
 	void Load(wstring fn);
 
+	vector<Item> items;
+
 
 private:
 

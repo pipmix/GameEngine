@@ -16,7 +16,7 @@ Player::Player(){
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 	// dot stuff
-	float xW = 0.5f;
+	float xW = 1.0f;
 	float yH = 1.0f;
 	float pOff = 0.002f;
 	float ledgeOff = 0.2f;
@@ -242,8 +242,24 @@ void Player::Draw() {
 }
 
 void Player::Animation(double deltaTime) {
-	if (vel.x > 0)animState = AS_PL_WALKLEFT;
-	else if (vel.x < 0)animState = AS_PL_WALKRIGHT;
+	if (vel.x < 0) {
+		animState = AS_PL_WALKLEFT;
+		if (gInput.b.x)animState = AS_PL_RUNLEFT;
+	}
+
+	else if (vel.x > 0) {
+		animState = AS_PL_WALKRIGHT;
+		if (gInput.b.x)animState = AS_PL_RUNRIGHT;
+	}
+	
+	if (gInput.b.leftStickFloatX == 0.0f) {
+
+		if (animState == AS_PL_WALKLEFT)animState = AS_PL_FACINGLEFT;
+		if (animState == AS_PL_WALKRIGHT)animState = AS_PL_FACINGRIGHT;
+	}
+	
+
+
 	Animate(deltaTime);
 
 }
@@ -309,8 +325,8 @@ void Player::Animate(double deltaTime) {
 
 	elapsedTime += deltaTime;
 
-	if (elapsedTime > 300) { //play frame
-		elapsedTime -= 300;
+	if (elapsedTime > 200) { //play frame
+		elapsedTime -= 200;
 
 		curAnimFrame++;
 		if (curAnimFrame >= AS_PL_FRAMES[animState].numFrames)curAnimFrame = 0;

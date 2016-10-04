@@ -5,6 +5,10 @@ Input::Input(){
 
 }
 
+void Input::Map() {
+
+}
+
 
 
 
@@ -31,7 +35,10 @@ void Input::Update() {
 	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) b.up = 1;
 	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)b.down = 1;
 
-	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A)b.a = 1;
+	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		b.a = 1;
+
+	}
 	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_B)b.b = 1;
 	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_X)b.x = 1;
 	if (state.Gamepad.wButtons & XINPUT_GAMEPAD_Y)b.y = 1;
