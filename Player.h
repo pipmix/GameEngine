@@ -5,8 +5,34 @@
 #include "Emitter.h"
 #include "Shape.h"
 
+struct MeleeWeapon {
+	XMFLOAT4 meleeCol;
+	bool active = 0;
+	XMFLOAT3* parent;
+	float meleeTime = 100.0f;
+	float curMeleeCounter = 0.0f;
+
+	float meleeX = 0.25f;
+	float meleeY = 0.25f;
+	float meleeOffsetX = 0.5f;
+	float meleeOffsetY = 0.5f;
+	XMFLOAT2 meleeOffset = {0.5f, 0.5f};
+
+	void UpdateCollision(XMFLOAT2 curCol) {
+		meleeCol = {
+			curCol.x - meleeX,
+			curCol.y + meleeY,
+			curCol.x + meleeX,
+			curCol.y - meleeY
+		};
+	}
+	XMFLOAT4 GetCollision() {
+		return meleeCol;
+	}
+};
+
 enum STATE_PLAYER {
-	PSTATE_IDLE, PSTATE_JUMPING, PSTATE_CLIMBING, PSTATE_DUCKING, PSTATE_BLOCKING, PSTATE_ONWALL
+	PSTATE_IDLE, PSTATE_JUMPING, PSTATE_CLIMBING, PSTATE_DUCKING, PSTATE_BLOCKING, PSTATE_ONWALL, PSTATE_MELEE
 };
 
 extern Input gInput;
@@ -40,6 +66,7 @@ struct PlayerVariables {
 	bool rightLedgeCollide;
 
 	int facing;
+	bool canMelee;
 
 };
 
@@ -95,6 +122,7 @@ private:
 	void				Animation(double deltaTime);
 
 	XMFLOAT4 col;
+	
 
 	int oGround = 0;
 
@@ -110,5 +138,8 @@ private:
 	STATE_PLAYER m_curState;
 	
 	int m_statHP;
+
+	MeleeWeapon m_meleeWeapon;
+
 
 };

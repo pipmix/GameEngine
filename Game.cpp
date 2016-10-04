@@ -90,9 +90,9 @@ void Game::Draw() {
 
 	//geo01.Draw();
 
-	md01.Draw();
-	md02.Draw();
-	md03.Draw();
+	//md01.Draw();
+	//md02.Draw();
+	//md03.Draw();
 
 
 	// UI

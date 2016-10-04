@@ -43,6 +43,11 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
 	cs1.Create(0.5f, 12);
 
+	/// melee weapon
+	m_meleeWeapon.parent = &pos;
+	m_meleeWeapon.active = false;
+
+
 }
 
 
@@ -66,7 +71,33 @@ void Player::Update(double deltaTime) {
 	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
 	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
 
-	if (gInput.b.y)MoveTo({ 0.0f, 0.0f, 0.0f });
+	//If melee attacking
+	if (gInput.b.y) {
+		if (pv.canMelee) {
+			pv.canMelee = false;
+			m_meleeWeapon.active = true;
+
+		}
+		
+	}
+
+	if (m_meleeWeapon.active) {
+
+		m_meleeWeapon.curMeleeCounter += deltaTime;
+		if (m_meleeWeapon.curMeleeCounter > m_meleeWeapon.meleeTime) { // Melee done
+			pv.canMelee = true;
+			m_meleeWeapon.active = false;
+			m_meleeWeapon.curMeleeCounter = 0;
+
+		}
+		else { // Melee Active
+			m_meleeWeapon.UpdateCollision(XMFLOAT2{ pos.x + (pv.facing * m_meleeWeapon.meleeOffset.x),  pos.y + (m_meleeWeapon.meleeOffset.y) });
+
+		}
+
+
+	}
+
 
 
 	// Is able to climb
