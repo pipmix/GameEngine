@@ -6,6 +6,12 @@
 #include "Shape.h"
 #include "GameData.h"
 
+#define GRAVITY 0.1
+
+enum POINTCOL {
+	PC_BottomLeft, PC_BottomRight, PC_BottomCenter, PC_Center, PC_TopLeft, PC_TopRight, PC_LeftLedge, PC_RightLedge, PC_TopCenter, PC_LeftCenter, PC_RightCenter, PC_COUNT
+};
+
 struct MeleeWeapon {
 	XMFLOAT4 meleeCol;
 	bool active = 0;
@@ -40,7 +46,7 @@ enum STATE_PLAYER {
 };
 
 extern Input gInput;
-
+/*
 struct PlayerVariables {
 	bool jumping;
 	bool falling;
@@ -58,24 +64,53 @@ struct PlayerVariables {
 	bool onWall;
 	bool holdDirection;
 	bool applyGrav;
-
 	bool wallStart;
 	bool leftLedgeTopCollide;
 	bool leftLedgeUnderCollide;
-
 	bool rightLedgeTopCollide;
 	bool rightLedgeUnderCollide;
-
 	bool leftLedgeCollide;
 	bool rightLedgeCollide;
-
 	int facing;
 	int vFacing;
 	bool canMelee;
-
 	bool collidingWithDoor;
 	int  doorIdCollidedWith;
 
+};
+*/
+struct PlayerVariables {
+
+	bool AgainstWallLeft;
+	bool AgainstWallRight;
+	bool AgainstLedgeLeft;
+	bool AgainstLedgeRight;
+	bool AgainstGround;
+	bool EffectedByGravity;
+
+	bool CanJump;
+	bool CanDoubleJump;
+	bool CanWallJump;
+	bool CanLedgeGrab;
+	bool CanMelee;
+	bool CanRun;
+	bool CanWallSlide;
+
+	bool IsJumping;
+	bool IsDoubleJumping;
+	bool IsWallJumping;
+	bool IsLedgeGrabbing;
+	bool IsMelee;
+	bool IsRunning;
+	bool IsWallSliding;
+
+	int xFacing;
+	int yFacing;
+
+	UINT AgainstGroundCounter;
+	UINT AgainstWallCounter;
+
+	bool JumpButtonReset;
 };
 
 
@@ -117,13 +152,15 @@ public:
 
 	GD_BASIC_TYPES m_basicType;
 
+	bool contact[PC_COUNT];
+
 private:
 
 	void	Animate(double deltaTime);
 	void	UpdateCollision();
 	Sprite		sprite;
 
-	
+	void				CheckContacts();
 
 	XMFLOAT3			acc;
 
@@ -138,6 +175,7 @@ private:
 	void				Animation(double deltaTime);
 
 	XMFLOAT4 col;
+	XMFLOAT4 colOff;
 	
 
 	int oGround = 0;

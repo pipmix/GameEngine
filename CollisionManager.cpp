@@ -15,9 +15,8 @@ bool CollisionManager::PointRectIntersect(XMFLOAT3 point, XMFLOAT4 r){
 
 void CollisionManager::Collide(Player& p, Map& m) {
 
-
 	XMFLOAT4 b1, b2;
-
+	/// Check Player against Map
 	for (int i = 0; i < m.m_numCollisionRects; i++) {
 
 		b1 = p.GetCollision();
@@ -29,22 +28,18 @@ void CollisionManager::Collide(Player& p, Map& m) {
 		float b = b2.y - b1.w;
 		float t = b2.w - b1.y;
 		if (l > 0 || r < 0 || t > 0 || b < 0) {
-			continue;
+			continue; /// No Collision
 		}
-		else {
+		else { /// Collides
 			velocity.x = abs(l) < r ? l : r;
 			velocity.y = abs(t) < b ? t : b;
-
 			abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
-
 			p.MoveBy(velocity);
-
 		}
 	}
+	/// Check contact points
+	for (int i = PC_BottomLeft; i != PC_COUNT; i++) {
 
-
-	//p.ps1.UpdatePoints(XMFLOAT3 p);
-	for (int i = 0; i < p.ps1.m_numPoints; i++) {
 		bool hit = false;
 		XMFLOAT3 tp = p.ps1.m_points[i];
 		tp.x += p.pos.x;
@@ -52,69 +47,8 @@ void CollisionManager::Collide(Player& p, Map& m) {
 		for (int j = 0; j < m.m_numCollisionRects; j++) {
 			if (PointRectIntersect(tp, m.m_collisionRects[j]))hit = true;
 		}
-		if (hit) {
-			switch (i){
-			case 0:
-				p.pv.collidingLeft = true;
-				break;
-			case 1:
-				p.pv.collidingAbove = true;
-				break;
-			case 2:
-				p.pv.collidingRight = true;
-				break;
-			case 3:
-				p.pv.collidingBelow = true;
-				break;
-			case 4:
-				p.pv.collidingLadder = true;
-				break;
-			case 5:
-				p.pv.leftLedgeTopCollide = true;
-				break;
-			case 6:
-				p.pv.leftLedgeUnderCollide = true;
-				break;
-			case 7:
-				p.pv.rightLedgeTopCollide = true;
-				break;
-			case 8:
-				p.pv.rightLedgeUnderCollide = true;
-				break;
-			}
-		}
-		else {
-			switch (i) {
-			case 0:
-				p.pv.collidingLeft = false;
-				break;
-			case 1:
-				p.pv.collidingAbove = false;
-				break;
-			case 2:
-				p.pv.collidingRight = false;
-				break;
-			case 3:
-				p.pv.collidingBelow = false;
-				break;
-			case 4:
-				p.pv.collidingLadder = false;
-				break;
-			case 5:
-				p.pv.leftLedgeTopCollide = false;
-				break;
-			case 6:
-				p.pv.leftLedgeUnderCollide = false;
-				break;
-			case 7:
-				p.pv.rightLedgeTopCollide = false;
-				break;
-			case 8:
-				p.pv.rightLedgeUnderCollide = false;
-				break;
-			}
-			
-		}
+		hit ? p.contact[i] = true : p.contact[i] = false;
+
 	}
 }
 

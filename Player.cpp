@@ -9,13 +9,13 @@ Player::Player(){
 
 	m_basicType = GD_BT_PLAYER;
 
+	colOff = { 0.4f, 0.2f, 0.4f, 0.0f };
 	
-
 }
 
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
 
-	// dot stuff
+
 	float xW = 1.0f;
 	float yH = 1.0f;
 	float pOff = 0.002f;
@@ -28,21 +28,28 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	
 	sprite.Create();
 
+	XMFLOAT2 temp = sprite.GetSprWH();
+	XMFLOAT4 bound;
+	bound.x = (temp.x - colOff.x);
+	bound.y = (temp.y - colOff.y);
+	bound.z = (temp.x - colOff.z);
+	bound.w = (temp.y - colOff.w);
 
-	ps1.m_numPoints = nPoints;
-	ps1.m_points = new XMFLOAT3[ps1.m_numPoints];
-	ps1.m_points[0] = { -xW - pOff,0.0f,0.0f };
-	ps1.m_points[1] = { 0.0f,yH + pOff,0.0f };
-	ps1.m_points[2] = { xW + pOff,0.0f,0.0f };
-	ps1.m_points[3] = { 0.0f, -yH-pOff,0.0f };
-	ps1.m_points[4] = { 0.0f, 0.0f,0.0f };
-
-	ps1.m_points[5] = { -xW - pOff, yH				,0.0f };
-	ps1.m_points[6] = { -xW - pOff, yH - ledgeOff	,0.0f };
-
-	ps1.m_points[7] = { xW + pOff, yH				,0.0f };
-	ps1.m_points[8] = { xW + pOff, yH - ledgeOff	,0.0f };
-	ps1.Create(ps1.m_points, nPoints);
+	/// Contact Points
+	ps1.m_numPoints					= PC_COUNT;
+	ps1.m_points					= new XMFLOAT3[PC_COUNT];
+	ps1.m_points[PC_BottomLeft]		= { bound.x, -bound.w -pOff,0.0f };
+	ps1.m_points[PC_BottomRight]	= { -bound.x, -bound.w - pOff,0.0f };
+	ps1.m_points[PC_BottomCenter]	= { 0.0f, -bound.w - pOff,  0.0f };
+	ps1.m_points[PC_Center]			= { 0.0f, 0.0f,  0.0f };
+	ps1.m_points[PC_TopLeft]		= { -bound.x - pOff, yH				,0.0f };
+	ps1.m_points[PC_TopRight]		= { bound.z + pOff, yH				,0.0f };
+	ps1.m_points[PC_LeftLedge]		= { -bound.x - pOff, yH - ledgeOff	,0.0f };
+	ps1.m_points[PC_RightLedge]		= { bound.z + pOff, yH - ledgeOff	,0.0f };
+	ps1.m_points[PC_LeftCenter]		= { -bound.x - pOff, 0.0f,0.0f };
+	ps1.m_points[PC_TopCenter]		= { 0.0f,bound.y + pOff,0.0f };
+	ps1.m_points[PC_RightCenter]	= { bound.z + pOff,0.0f,0.0f };
+	ps1.Create(ps1.m_points, PC_COUNT);
 
 
 	cs1.Create(0.5f, 12);
@@ -50,125 +57,120 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	/// melee weapon
 	m_meleeWeapon.parent = &pos;
 	m_meleeWeapon.active = false;
-	pv.canMelee = true;
+	pv.CanMelee = true;
 
+
+
+	memset(&contact, 0, sizeof(bool) * PC_COUNT);
+	pv = { 0 };
+	pv.EffectedByGravity = true;
 }
 
-
+/// UPDATE FUNCTIONS
 void Player::Update(double deltaTime) {
 
+	CheckContacts();
+
 	prev_animState = animState;
-	pv.applyGrav = true;
 
-
-	if (pv.collidingBelow) {
-		vel.y = 0.0f;
-		if (m_curState == PSTATE_CLIMBING)m_curState = PSTATE_IDLE;
-		if (m_curState == PSTATE_JUMPING)m_curState = PSTATE_IDLE;
-	}
-
-	if (pv.collidingAbove)vel.y = 0.0f;
-
-
-	if (pv.climbing && pv.collidingBelow)pv.climbing = false;
-	// Camera
+	/// GamePad Input
+	/// Camera
 	float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
 	gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
 
+
+	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
+
+
+
+	/// Apply Gravity if not on ground
+	pv.AgainstGround && pv.EffectedByGravity ? vel.y = 0.0f : vel.y -= (GRAVITY * deltaTime);
+		
+
+	
+	//if (pv.climbing && pv.collidingBelow)pv.climbing = false;
+
+
 	//If melee attacking
 	if (gInput.b.y) {
-		if (pv.canMelee) {
-			pv.canMelee = false;
+		if (pv.CanMelee) {
+			pv.CanMelee = false;
 			m_meleeWeapon.active = true;
-
 		}
-		
 	}
-
 	if (m_meleeWeapon.active) {
-
 		m_meleeWeapon.curMeleeCounter += deltaTime;
 		if (m_meleeWeapon.curMeleeCounter > m_meleeWeapon.meleeTime) { // Melee done
-			pv.canMelee = true;
+			pv.CanMelee = true;
 			m_meleeWeapon.active = false;
 			m_meleeWeapon.curMeleeCounter = 0;
 
 		}
 		else { // Melee Active
-			m_meleeWeapon.facing = pv.facing;
+			m_meleeWeapon.facing = pv.xFacing;
 			m_meleeWeapon.UpdateCollision();
-
 		}
-
-
-	}
+	} // End Melee
 
 
 
-	// Is able to climb
-	if (!pv.leftLedgeTopCollide && pv.leftLedgeUnderCollide)pv.leftLedgeCollide = true;
-	if (!pv.rightLedgeTopCollide && pv.rightLedgeUnderCollide)pv.rightLedgeCollide = true;
 
 	// If able will climb if b pressed
-	if (pv.leftLedgeCollide || pv.rightLedgeCollide) {
+	if (pv.AgainstLedgeLeft || pv.AgainstLedgeRight) {
 
-		if (gInput.b.x && m_curState != PSTATE_CLIMBING) {
+		if (gInput.b.x && pv.CanLedgeGrab) {
 			vel.y += 0.6f;
-			m_curState = PSTATE_CLIMBING;
+			pv.CanLedgeGrab = false;
 		}
 	}
-
-
-
-	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
-
-	/// Facing
-	if (vel.x < 0.0f) {
-		pv.facing = -1;
-		dir = XM_PI;
-	}
-	if (vel.x > 0.0f) {
-		pv.facing = 1;
-		dir = XM_2PI;
-	}
-	if (gInput.b.leftStickFloatY > 0.0f) pv.vFacing = 1;
-	else if (gInput.b.leftStickFloatY < 0.0f) pv.facing = -1;
-	else pv.facing = 0;
-		
-	if (pv.vFacing == 1 && pv.collidingWithDoor) {
-		// go through door
-	}
-
 
 
 
 	
-	oGround += pv.collidingBelow;
 
-	if (pv.collidingRight && (gInput.b.leftStickFloatX > 0.0f) && !pv.collidingBelow) {
-		m_curState = PSTATE_ONWALL;
-		pv.onWall = true;
-		
-
+	/// Facing
+	if (vel.x < 0.0f) {
+		pv.xFacing = -1;
+		dir = XM_PI;
 	}
-	else if (pv.collidingLeft && (gInput.b.leftStickFloatX < 0.0f) && !pv.collidingBelow) {
-		m_curState = PSTATE_ONWALL;
-		pv.onWall = true;
+	if (vel.x > 0.0f) {
+		pv.xFacing = 1;
+		dir = XM_2PI;
+	}
+	if (gInput.b.leftStickFloatY > 0.0f) pv.yFacing = 1;
+	else if (gInput.b.leftStickFloatY < 0.0f) pv.yFacing = -1;
+	else pv.yFacing = 0;
+		
+	///if (pv.yFacing == 1 && pv.collidingWithDoor) {
+	//	// go through door
+	//}
+
+
+	pv.AgainstGroundCounter += pv.AgainstGround;
+
+	if (pv.AgainstWallRight && (gInput.b.leftStickFloatX > 0.0f) && !pv.AgainstGround) {
+
+		pv.IsWallSliding = true;
+	}
+	else if (pv.AgainstWallLeft && (gInput.b.leftStickFloatX < 0.0f) && !pv.AgainstGround) {
+
+		pv.IsWallSliding = true;
+
 		
 	}
 	else {
-		pv.onWall = false;
-		pv.wallStart = false;
+		pv.IsWallSliding = false;
 	}
-
-	if (pv.onWall && gInput.b.a) {
-		if (pv.wallStart) {
-			pv.onWall = false;
-			if (pv.collidingLeft) {
+	/// Wall jumping
+	if (pv.IsWallSliding && gInput.b.a) {
+		if (pv.JumpButtonReset) {
+			pv.JumpButtonReset = false;
+			pv.IsWallSliding = false;
+			if (pv.AgainstWallLeft) {
 				vel.x = 5.0f;
 				vel.y = 0.6f;
 			}
-			if (pv.collidingRight) {
+			if (pv.AgainstWallRight) {
 				vel.x = -5.0f;
 				vel.y = 0.6f;
 
@@ -177,7 +179,7 @@ void Player::Update(double deltaTime) {
 		}
 	}
 		
-	if (pv.onWall && !gInput.b.a)pv.wallStart = true;
+	if (pv.IsWallSliding && !gInput.b.a)pv.JumpButtonReset = true;
 
 	
 
@@ -185,10 +187,11 @@ void Player::Update(double deltaTime) {
 	/// Jumping
 	if (gInput.b.a == false)jumpReleased = true;
 	if (gInput.b.a) {
-		if (pv.collidingBelow && jumpReleased && (oGround > 3)) {
-			vel.y += 0.3f;
+		if (pv.AgainstGround && jumpReleased && (pv.AgainstGroundCounter > 3)) {
+			pv.AgainstGroundCounter = 0;
+			vel.y += 0.6f;
 			jumpReleased = false;
-			oGround = 0;
+
 		}
 		
 	}
@@ -197,7 +200,7 @@ void Player::Update(double deltaTime) {
 
 
 	/// Running
-	if (gInput.b.x && pv.collidingBelow)vel.x *= 1.14f;
+	if (gInput.b.x && pv.AgainstGround)vel.x *= 1.14f;
 
 
 
@@ -206,15 +209,15 @@ void Player::Update(double deltaTime) {
 
 
 	/// Gravity
-	if (pv.applyGrav)vel.y -= (deltaTime / 1000);
-	if (pv.onWall && m_curState != PSTATE_CLIMBING)vel.y *= 0.75f;
+	//if (pv.EffectedByGravity)vel.y -= (deltaTime / 1000);
+	if (pv.IsWallSliding)vel.y *= 0.75f;
 	/// Drag
 	vel.x *= 0.85;
 
 
 	/// Velocity Protection
 	if (vel.y < -0.218f) vel.y = -0.218f;
-	if (vel.y > 0.3f)vel.y = 0.3f;
+	if (vel.y > 1.3f)vel.y = 1.3f;
 	if (vel.x < -0.19f) vel.x = -0.19f;
 	if (vel.x > 0.19f)vel.x = 0.19f;
 
@@ -224,9 +227,24 @@ void Player::Update(double deltaTime) {
 	MoveBy(vel);
 	//pv = { 0 };
 
-	pv.rightLedgeTopCollide = pv.rightLedgeUnderCollide = pv.leftLedgeTopCollide = 
-	pv.leftLedgeUnderCollide = pv.collidingBelow = pv.collidingLeft = pv.collidingRight = 
-	pv.collidingAbove = pv.leftLedgeCollide = pv.rightLedgeCollide = pv.collidingWithDoor = 0;
+	//pv.rightLedgeTopCollide = pv.rightLedgeUnderCollide = pv.leftLedgeTopCollide = 
+	//pv.leftLedgeUnderCollide = pv.collidingBelow = pv.collidingLeft = pv.collidingRight = 
+	//pv.collidingAbove = pv.leftLedgeCollide = pv.rightLedgeCollide = pv.collidingWithDoor = 0;
+
+}
+
+void Player::CheckContacts() {
+
+	//if (contact[PC_BottomCenter] && contact[PC_BottomLeft] && !contact[PC_BottomRight]);//overledge
+	//if (contact[PC_BottomCenter] && !contact[PC_BottomLeft] && contact[PC_BottomRight]);//overledge
+
+	contact[PC_BottomLeft] || contact[PC_BottomRight] ? pv.AgainstGround = true : pv.AgainstGround = false;
+	!contact[PC_TopLeft] && contact[PC_LeftLedge] ? pv.AgainstLedgeLeft = true : pv.AgainstLedgeLeft = false;
+	!contact[PC_TopRight] && contact[PC_RightLedge] ? pv.AgainstLedgeRight = true : pv.AgainstLedgeRight = false;
+	contact[PC_LeftCenter] ? pv.AgainstWallLeft = true : pv.AgainstWallLeft = false;
+	contact[PC_RightCenter] ? pv.AgainstWallRight = true : pv.AgainstWallRight = false;
+
+
 
 }
 
@@ -339,10 +357,10 @@ void Player::Animate(double deltaTime) {
 
 void Player::UpdateCollision(){
 	XMFLOAT2 temp = sprite.GetSprWH();
-	col.x = pos.x - temp.x;
-	col.y = pos.y + temp.y;
-	col.z = pos.x + temp.x;
-	col.w = pos.y - temp.y;
+	col.x = pos.x - (temp.x - colOff.x);
+	col.y = pos.y + (temp.y - colOff.y);
+	col.z = pos.x + (temp.x - colOff.z);
+	col.w = pos.y - (temp.y - colOff.w);
 
 }
 

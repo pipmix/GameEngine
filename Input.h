@@ -114,7 +114,7 @@ class Input {
 
 public:
 
-
+	bool bm[BUTTON_MAPPED_COUNT];
 
 	Input();
 	void Map();
