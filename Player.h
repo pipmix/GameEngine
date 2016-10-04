@@ -70,7 +70,11 @@ struct PlayerVariables {
 	bool rightLedgeCollide;
 
 	int facing;
+	int vFacing;
 	bool canMelee;
+
+	bool collidingWithDoor;
+	int  doorIdCollidedWith;
 
 };
 

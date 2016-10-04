@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "Item.h"
 #include "Geo.h"
+#include "Obstacles.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -48,5 +49,11 @@ public:
 	Model md01;
 	Model md02;
 	Model md03;
+
+	vector<Player>		playerList;
+	vector<Enemy>		enemyList;
+	vector<Item>		itemList;
+	vector<Obstacle>	obstacleList;
+	vector<Map>			mapList;
 
 };

@@ -121,6 +121,27 @@ void Player::Update(double deltaTime) {
 
 
 	vel.x += (deltaTime / 1000) * gInput.b.leftStickFloatX;
+
+	/// Facing
+	if (vel.x < 0.0f) {
+		pv.facing = -1;
+		dir = XM_PI;
+	}
+	if (vel.x > 0.0f) {
+		pv.facing = 1;
+		dir = XM_2PI;
+	}
+	if (gInput.b.leftStickFloatY > 0.0f) pv.vFacing = 1;
+	else if (gInput.b.leftStickFloatY < 0.0f) pv.facing = -1;
+	else pv.facing = 0;
+		
+	if (pv.vFacing == 1 && pv.collidingWithDoor) {
+		// go through door
+	}
+
+
+
+
 	
 	oGround += pv.collidingBelow;
 
@@ -179,15 +200,6 @@ void Player::Update(double deltaTime) {
 	if (gInput.b.x && pv.collidingBelow)vel.x *= 1.14f;
 
 
-	/// Facing
-	if (vel.x < 0.0f) {
-		pv.facing = -1;
-		dir = XM_PI;
-	}
-	if (vel.x > 0.0f) {
-		pv.facing = 1;
-		dir = XM_2PI;
-	}
 
 
 
@@ -214,7 +226,7 @@ void Player::Update(double deltaTime) {
 
 	pv.rightLedgeTopCollide = pv.rightLedgeUnderCollide = pv.leftLedgeTopCollide = 
 	pv.leftLedgeUnderCollide = pv.collidingBelow = pv.collidingLeft = pv.collidingRight = 
-	pv.collidingAbove = pv.leftLedgeCollide = pv.rightLedgeCollide = 0;
+	pv.collidingAbove = pv.leftLedgeCollide = pv.rightLedgeCollide = pv.collidingWithDoor = 0;
 
 }
 
