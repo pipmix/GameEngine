@@ -7,6 +7,10 @@ Player::Player(){
 	pv = { 0 };
 	m_statHP = 10;
 
+	m_basicType = GD_BT_PLAYER;
+
+	
+
 }
 
 void Player::Create(UINT tex, UINT vShader, UINT pShader){
@@ -46,7 +50,7 @@ void Player::Create(UINT tex, UINT vShader, UINT pShader){
 	/// melee weapon
 	m_meleeWeapon.parent = &pos;
 	m_meleeWeapon.active = false;
-
+	pv.canMelee = true;
 
 }
 
@@ -91,7 +95,8 @@ void Player::Update(double deltaTime) {
 
 		}
 		else { // Melee Active
-			m_meleeWeapon.UpdateCollision(XMFLOAT2{ pos.x + (pv.facing * m_meleeWeapon.meleeOffset.x),  pos.y + (m_meleeWeapon.meleeOffset.y) });
+			m_meleeWeapon.facing = pv.facing;
+			m_meleeWeapon.UpdateCollision();
 
 		}
 
@@ -219,6 +224,9 @@ void Player::Draw() {
 	ps1.Draw(pos);
 	cs1.Draw(pos);
 
+
+	if (m_meleeWeapon.active)sprite.Draw({ 0.0f,0.0f,0.0f });
+
 }
 
 void Player::Animation(double deltaTime) {
@@ -336,4 +344,17 @@ void Player::MoveTo(XMFLOAT3 p) {
 	pos.z = p.z;
 	UpdateCollision();
 
+}
+
+void Player::CollidedWith(int type, int value) {
+	switch (type) {
+	
+	case GD_BT_ENEMY:
+		
+		break;
+	}
+}
+
+bool Player::IsMeleeFunc() {
+	return m_meleeWeapon.active;
 }

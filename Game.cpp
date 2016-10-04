@@ -61,7 +61,7 @@ void Game::Collisions(double deltaTime) {
 
 	cm.Collide(player, map1);
 	cm.Collide(enemy, map1);
-	//cm.Collide(player, enemy);
+	cm.Collide(player, enemy);
 	cm.Collide(itm01, map1);
 	cm.Collide(player, itm01);
 	//cm.Collide(enemy, em01);

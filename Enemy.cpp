@@ -5,6 +5,7 @@ Enemy::Enemy() {
 	col = { 0.0f, 0.0f, 0.0f, 0.0f };
 	UpdateCollision();
 	ev = { 0 };
+	m_basicType = GD_BT_ENEMY;
 
 }
 
@@ -40,6 +41,8 @@ void Enemy::Create(UINT tex, UINT vShader, UINT pShader) {
 
 void Enemy::Update(double deltaTime) {
 
+	if (!m_Alive)return;
+
 
 	prev_animState = animState;
 
@@ -73,10 +76,28 @@ void Enemy::Update(double deltaTime) {
 }
 
 void Enemy::Draw() {
-
-	sprite.Draw(pos);
+	if (m_Alive)sprite.Draw(pos);
 	ps1.Draw(pos);
 
+}
+
+void Enemy::CollidedWith(int type, int value){
+
+	switch (type) {
+		case GD_BT_MELEE_ATTACK:
+			m_Alive = false;
+			break;
+		case GD_BT_PLAYER:
+			//m_Alive = false;
+			break;
+	}
+
+
+}
+
+int Enemy::GetType()
+{
+	return 0;
 }
 
 void Enemy::Animate(double deltaTime) {

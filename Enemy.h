@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Collision.h"
 #include "Shape.h"
+#include "GameData.h"
 
 
 struct EnemyVariables {
@@ -51,6 +52,11 @@ public:
 
 	PointShapes ps1;
 
+	void CollidedWith(int type, int value);
+	int GetType();
+
+	GD_BASIC_TYPES m_basicType;
+
 private:
 
 	void		Animate(double deltaTime);
@@ -75,6 +81,6 @@ private:
 	float				m_lookRadius;
 
 
-
+	bool m_Alive = true;
 
 };

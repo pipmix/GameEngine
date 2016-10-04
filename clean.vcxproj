@@ -198,6 +198,7 @@
     <ClInclude Include="Emitter.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameData.h" />
     <ClInclude Include="Geo.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Helpers.h" />

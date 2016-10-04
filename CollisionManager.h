@@ -29,5 +29,7 @@ public:
 	bool RectCircleIntersect(XMFLOAT4 rect, XMFLOAT3 circPos, float circRadius);
 	bool PointRectIntersect(XMFLOAT3 point, XMFLOAT4 rect);
 
+	bool RectRectIntersect(XMFLOAT4& b1, XMFLOAT4& b2);
+
 
 };

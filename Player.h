@@ -4,21 +4,25 @@
 #include "Collision.h"
 #include "Emitter.h"
 #include "Shape.h"
+#include "GameData.h"
 
 struct MeleeWeapon {
 	XMFLOAT4 meleeCol;
 	bool active = 0;
 	XMFLOAT3* parent;
-	float meleeTime = 100.0f;
+	float meleeTime = 500.0f;
 	float curMeleeCounter = 0.0f;
+	int facing = 0;
 
 	float meleeX = 0.25f;
 	float meleeY = 0.25f;
-	float meleeOffsetX = 0.5f;
-	float meleeOffsetY = 0.5f;
+	float meleeOffsetX = 1.5f;
+	float meleeOffsetY = 1.5f;
 	XMFLOAT2 meleeOffset = {0.5f, 0.5f};
 
-	void UpdateCollision(XMFLOAT2 curCol) {
+	void UpdateCollision() {
+
+		XMFLOAT2 curCol = { parent->x + (facing * meleeOffset.x),  parent->y + (meleeOffset.y) };
 		meleeCol = {
 			curCol.x - meleeX,
 			curCol.y + meleeY,
@@ -101,6 +105,14 @@ public:
 
 	void GetObstacle(int msg, int value);
 
+	void CollidedWith(int type, int value);
+
+	bool IsMeleeFunc();
+
+	MeleeWeapon m_meleeWeapon;
+
+	GD_BASIC_TYPES m_basicType;
+
 private:
 
 	void	Animate(double deltaTime);
@@ -139,7 +151,7 @@ private:
 	
 	int m_statHP;
 
-	MeleeWeapon m_meleeWeapon;
+
 
 
 };

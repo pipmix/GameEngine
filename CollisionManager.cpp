@@ -204,8 +204,50 @@ void CollisionManager::Collide(Enemy & e, Map & m){
 
 }
 
-void CollisionManager::Collide(Player & p, Enemy & e)
-{
+void CollisionManager::Collide(Player & p, Enemy & e){
+
+	XMFLOAT4 b1, b2;
+
+		b1 = p.GetCollision();
+		b2 = e.GetCollision();
+
+		XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
+		float l = b2.x - b1.z;
+		float r = b2.z - b1.x;
+		float b = b2.y - b1.w;
+		float t = b2.w - b1.y;
+		if (l > 0 || r < 0 || t > 0 || b < 0) {
+			;
+		}
+		else {
+			velocity.x = abs(l) < r ? l : r;
+			velocity.y = abs(t) < b ? t : b;
+
+			abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
+
+
+			p.CollidedWith(e.m_basicType, 0);
+			e.CollidedWith(p.m_basicType, 0);
+
+		}
+
+		if (p.m_meleeWeapon.active) {
+
+
+
+			p.m_meleeWeapon.UpdateCollision();
+			b1 = p.m_meleeWeapon.meleeCol;
+
+			if (RectRectIntersect(b1, b2)) {
+				e.CollidedWith(GD_BT_MELEE_ATTACK, 5);
+			}
+
+		}
+
+
+
+
+
 }
 
 void CollisionManager::Collide(Player & p, Item & it){
@@ -396,5 +438,31 @@ void CollisionManager::Collide(Player & play, Emitter & emit){
 
 void CollisionManager::Collide(Emitter & emit, Map & mp){
 
+
+}
+
+
+bool CollisionManager::RectRectIntersect(XMFLOAT4& b1, XMFLOAT4& b2) {
+
+
+
+	XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
+	float l = b2.x - b1.z;
+	float r = b2.z - b1.x;
+	float b = b2.y - b1.w;
+	float t = b2.w - b1.y;
+	if (l > 0 || r < 0 || t > 0 || b < 0) {
+		return false;
+	}
+	else {
+		velocity.x = abs(l) < r ? l : r;
+		velocity.y = abs(t) < b ? t : b;
+
+		abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
+
+
+		return true;
+
+	}
 
 }
