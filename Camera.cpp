@@ -93,8 +93,8 @@ void Camera::Update(double deltaTime) {
 	if (m_FollowingTarget) {
 
 		float lerp = 0.005f;
-		_CamPosition.x += (_target.x - _CamPosition.x) * lerp * deltaTime;
-		_CamPosition.y += (_target.y - _CamPosition.y) * lerp * deltaTime;
+		_CamPosition.x += (_target->x - _CamPosition.x) * lerp * deltaTime;
+		_CamPosition.y += (_target->y - _CamPosition.y) * lerp * deltaTime;
 
 		_CamLookAt.x = _CamPosition.x;
 		_CamLookAt.y = _CamPosition.y;
@@ -131,9 +131,10 @@ void Camera::MoveBy(float vecX, float vecY, float vecZ){
 	UpdatePerspective();
 }
 
-void Camera::SetTarget(float tx, float ty, float tz) {
+void Camera::SetTarget(XMFLOAT3& target) {
 
-	_target = { tx, ty, tz };
+	_target = &target;
+	m_FollowingTarget = true;
 }
 
 

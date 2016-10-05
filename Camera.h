@@ -18,7 +18,7 @@ public:
 	void			MoveTo(float posX, float posY, float posZ);
 	void			MoveBy(float vecX, float vecY, float vecZ);
 	void			MoveInDirection(XMFLOAT3 mv, float dist);
-	void			SetTarget(float tx, float ty, float tz);
+	void			SetTarget(XMFLOAT3& target);
 
 
 
@@ -63,7 +63,7 @@ private:
 	bool			_IsCamPerspective;
 	bool			_IsCamLookAt;
 
-	XMFLOAT3		_target;
+	XMFLOAT3*		_target;
 	XMFLOAT3		_vel;
 
 	long m_screenX, m_screenY;

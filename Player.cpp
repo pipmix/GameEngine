@@ -115,7 +115,8 @@ void Player::Update(double deltaTime) {
 		
 
 	/// Drag
-	vel.x *= 0.85;
+	vel.x *= 0.85f;
+	vel.y *= 0.95f;
 
 
 	/// Velocity Protection

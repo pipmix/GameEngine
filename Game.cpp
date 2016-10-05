@@ -36,6 +36,8 @@ void Game::Load(){
 
 	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
+	gCam.SetTarget(player.pos);
+
 
 
 }
@@ -44,14 +46,14 @@ void Game::Update(double deltaTime) {
 
 	
 
-	gCam.Update(deltaTime);
+	
 	player.Update(deltaTime);
 	enemy.Update(deltaTime);
 	itm01.Update(deltaTime);
 	em01.Update(deltaTime);
 
 	Collisions(deltaTime);
-
+	gCam.Update(deltaTime);
 
 	ui.Update(deltaTime);
 }
