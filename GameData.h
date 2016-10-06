@@ -1,6 +1,10 @@
 #pragma once
 #include "Data.h"
 
+enum POINTCOL {
+	PC_BottomLeft, PC_BottomRight, PC_BottomCenter, PC_Center, PC_TopLeft, PC_TopRight, PC_LeftLedge, PC_RightLedge, PC_TopCenter, PC_LeftCenter, PC_RightCenter, PC_COUNT
+};
+
 enum GD_BASIC_TYPES {
 	GD_BT_PLAYER, GD_BT_ENEMY, GD_BT_ITEM, GD_BT_OBSTACLE, GD_BT_MAPCOLLISION, GD_BT_MELEE_ATTACK, 
 	GD_BT_SWORD, GD_BT_ARMOR, GD_BT_BOW, GD_BT_MONEY, GD_BT_KEY, GD_BT_COUNT

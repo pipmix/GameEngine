@@ -12,9 +12,7 @@
 #define JUMPVEL			0.006f
 #define RUNMULTPLIER	1.14f
 
-enum POINTCOL {
-	PC_BottomLeft, PC_BottomRight, PC_BottomCenter, PC_Center, PC_TopLeft, PC_TopRight, PC_LeftLedge, PC_RightLedge, PC_TopCenter, PC_LeftCenter, PC_RightCenter, PC_COUNT
-};
+
 
 struct MeleeWeapon {
 	XMFLOAT4 meleeCol;
@@ -178,4 +176,5 @@ private:
 	bool JumpButton;
 	bool RunButton;
 	bool tempVar = 0;
+	float animationSpeed = 200.0f;
 };

@@ -36,6 +36,9 @@ void Enemy::Create(UINT tex, UINT vShader, UINT pShader) {
 
 
 
+
+
+
 }
 
 
