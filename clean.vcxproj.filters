@@ -280,6 +280,9 @@
     <FxCompile Include="BasicLightingVS.hlsl">
       <Filter>Shaders\VS</Filter>
     </FxCompile>
+    <FxCompile Include="PostProcessPs.hlsl">
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="PS_Func.hlsli">

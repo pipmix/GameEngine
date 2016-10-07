@@ -12,8 +12,8 @@ enum D_VS							{	DV_BASIC,		DV_BASICTEXTURE,		DV_BASICMATRX,		DV_UI,		DV_BASICN
 static const wstring DV_STR[] =		{	L"BasicVS",		L"BasicTextureVS",		L"BasicMatrixVS",	L"UI_VS",	L"BasicNormalVS",	L"BasicLightingVS",			};
 static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_PU,				VT_PU,		VT_PNU,				VT_PNU,						};
 
-enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_UI,		DP_BASICNORMAL,		DP_BASICLIGHTING,		DP_SIZE							};
-static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",	L"UI_PS",	L"BasicNormalPS",	L"BasicLightingPS",		 };
+enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_UI,		DP_BASICNORMAL,		DP_BASICLIGHTING,	DP_POSTPROCESS,		DP_SIZE							};
+static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",	L"UI_PS",	L"BasicNormalPS",	L"BasicLightingPS",	L"PostProcessPS",		 };
 
 
 
