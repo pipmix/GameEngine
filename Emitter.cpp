@@ -9,8 +9,18 @@ void	Particle::SetPos(XMFLOAT3 p) {
 	m_pos = p;
 }
 
+void	Particle::MovePos(XMFLOAT3 v) {
+	m_vel.x += v.x;
+	m_vel.y += v.y;
+	m_vel.z += v.z;
+
+	hit = 1;
+}
+
 
 void		Particle::Update(float t){
+
+
 
 	m_pos.x += m_vel.x * 0.01f * t;
 	m_pos.y += m_vel.y * 0.01f * t;
@@ -88,6 +98,14 @@ XMFLOAT4 Emitter::GetCollision(int i) {
 
 	
 }
+
+void Emitter::MoveBy(int i, XMFLOAT3 v) {
+
+	m_particles[i].MovePos(v);
+
+
+}
+
 void	Emitter::Create		() {
 
 	
@@ -150,6 +168,6 @@ void Emitter::Fire() {
 }
 
 void	Emitter::ParticleMoveBy(XMFLOAT3 pos, int index) {
-	m_particles[index].SetPos(pos);
+	m_particles[index].MovePos(pos);
 
 }

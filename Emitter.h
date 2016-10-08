@@ -19,6 +19,7 @@ public:
 	void	SetAcc		(XMFLOAT3 acceleration);
 	XMFLOAT3	GetPos();
 	bool		GetAlive();
+	void	MovePos		(XMFLOAT3 v);
 
 private:
 
@@ -27,6 +28,7 @@ private:
 	XMFLOAT3	m_pos;
 	XMFLOAT3	m_vel; //(spd, angle)
 	XMFLOAT3	m_acc; //(spd, angle)
+	bool hit = 0;
 
 };
 
@@ -43,6 +45,7 @@ public:
 	void	Draw();
 	void	Fire();
 	XMFLOAT4	GetCollision(int i);
+	void MoveBy(int i, XMFLOAT3 v);
 
 	void	ParticleMoveBy(XMFLOAT3 pos, int index);
 
@@ -65,6 +68,8 @@ private:
 	float*		m_followAngle;
 	bool		m_useFollowPos = 0;
 	bool		m_useFollowAngle = 0;
+
+
 
 
 };

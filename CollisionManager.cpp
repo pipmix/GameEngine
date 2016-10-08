@@ -370,7 +370,48 @@ void CollisionManager::Collide(Enemy & enem, Emitter & emit){
 void CollisionManager::Collide(Player & play, Emitter & emit){
 }
 
-void CollisionManager::Collide(Emitter & emit, Map & mp){
+void CollisionManager::Collide(Emitter & emit, Map & m){
+
+
+	XMFLOAT4 b1, b2;
+
+	for (int i = 0; i < emit.m_numParticles; i++) {
+		b1 = emit.GetCollision(i);
+		
+
+		for (int j = 0; j< m.m_numCollisionRects; j++) {
+			b2 = m.m_collisionRects[j];
+
+
+			XMFLOAT3 velocity = { 0.0f, 0.0f, 0.0f };
+			float l = b2.x - b1.z;
+			float r = b2.z - b1.x;
+			float b = b2.y - b1.w;
+			float t = b2.w - b1.y;
+			if (l > 0 || r < 0 || t > 0 || b < 0) {
+				continue; /// No Collision
+			}
+			else { /// Collides
+				velocity.x = abs(l) < r ? l : r;
+				velocity.y = abs(t) < b ? t : b;
+				abs(velocity.x) < abs(velocity.y) ? velocity.y = 0.0f : velocity.x = 0.0f;
+
+				emit.MoveBy(j, velocity);
+				b1 = emit.GetCollision(i);
+			}
+
+
+
+		
+		
+		
+		
+		
+		}
+
+
+
+	}
 
 
 }
