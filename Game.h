@@ -23,6 +23,10 @@ extern Input gInput;
 
 class Dx;
 
+enum GAMESTATE {
+	GS_TITLE, GS_MAINMENU, GS_GAME 
+};
+
 class Game {
 public:
 
@@ -55,5 +59,6 @@ public:
 	vector<Item>		itemList;
 	vector<Obstacle>	obstacleList;
 	vector<Map>			mapList;
+	GAMESTATE m_gameState;
 
 };

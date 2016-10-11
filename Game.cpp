@@ -38,24 +38,29 @@ void Game::Load(){
 
 	gCam.SetTarget(player.pos);
 
-
+	m_gameState = GS_GAME;
 
 }
 
 void Game::Update(double deltaTime) {
 
-	
+	switch (m_gameState) {
+	case GS_MAINMENU:
+		break;
+	case GS_GAME:
+		player.Update(deltaTime);
+		enemy.Update(deltaTime);
+		itm01.Update(deltaTime);
+		em01.Update(deltaTime);
+		Collisions(deltaTime);
+		gCam.Update(deltaTime);
+		ui.Update(deltaTime);
+
+		break;
+	}
 
 	
-	player.Update(deltaTime);
-	enemy.Update(deltaTime);
-	itm01.Update(deltaTime);
-	em01.Update(deltaTime);
 
-	Collisions(deltaTime);
-	gCam.Update(deltaTime);
-
-	ui.Update(deltaTime);
 }
 
 
@@ -85,25 +90,27 @@ void Game::Draw() {
 	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &perFrame, 0, 0);
 
 
-	map1.Draw();
-	player.Draw();
-	enemy.Draw();
-	itm01.Draw();
-	circShape.Draw();
-	em01.Draw();
+	switch (m_gameState) {
+	case GS_MAINMENU:
+	break;
+	case GS_GAME:
+		map1.Draw();
+		player.Draw();
+		enemy.Draw();
+		itm01.Draw();
+		circShape.Draw();
+		em01.Draw();
+		XMMATRIX tmpScreen = gCam.GetScreenMatrix();
+		gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
 
-	//geo01.Draw();
+		ui.Draw();
+	break;
 
-	//md01.Draw();
-	//md02.Draw();
-	//md03.Draw();
+	}
 
 
-	// UI
-	XMMATRIX tmpScreen = gCam.GetScreenMatrix();
-	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
 
-	ui.Draw();
+
 
 
 
