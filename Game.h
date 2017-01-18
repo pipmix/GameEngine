@@ -11,6 +11,7 @@
 #include "Item.h"
 #include "Geo.h"
 #include "Obstacles.h"
+#include "MenuControl.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -37,6 +38,8 @@ public:
 	void	Collisions(double deltaTime);
 
 
+
+
 	Player player;
 	Enemy enemy;
 	UI		ui;
@@ -54,11 +57,31 @@ public:
 	Model md02;
 	Model md03;
 
+	Model model_TitleMesh;
+	Model mainMenuCursor;
+
 	vector<Player>		playerList;
 	vector<Enemy>		enemyList;
 	vector<Item>		itemList;
 	vector<Obstacle>	obstacleList;
 	vector<Map>			mapList;
 	GAMESTATE m_gameState;
+
+	MenuControl menuControl;
+
+
+
+	/// Main Menu 
+	float mainMenuTimeCounter = 0.0f;
+	int mainMenuCurSelection = 0;
+	int mainMenuPrevSelection = -1;
+	const int mainMenuNumOfSelection = 5;
+	const XMFLOAT3 mainMenuLocationPoints[5] = {
+		XMFLOAT3{0.0f,2.0f,0.0f},
+		XMFLOAT3{0.0f,0.0f,0.0f},
+		XMFLOAT3{0.0f,-2.0f,0.0f},
+		XMFLOAT3{0.0f,-4.0f,0.0f},
+		XMFLOAT3{0.0f,-5.0f,0.0f}
+	};
 
 };

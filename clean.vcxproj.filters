@@ -117,6 +117,12 @@
     <ClCompile Include="Iventory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HeroCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTypes.h">
@@ -240,6 +246,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeroCharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

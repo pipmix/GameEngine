@@ -162,6 +162,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Geo.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="HeroCharacter.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MenuControl.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="NewSprite.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -202,6 +204,7 @@
     <ClInclude Include="Geo.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="HeroCharacter.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -210,6 +213,7 @@
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MenuControl.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="NewSprite.h" />
     <ClInclude Include="Obstacles.h" />

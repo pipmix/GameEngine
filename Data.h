@@ -4,9 +4,9 @@
 #include "Shader.h"
 using namespace std;
 
-enum  D_TEX							{	DT_BOX1,		DT_SET,					DT_WALKTEST,		DT_ITEMS,				DT_IMGLIGHT,	DT_HUDTOP,	DT_QUICKTEST,	DT_COLORS,		DT_WALL01,	DT_CHAR,		DT_SIZE			};
-static const wstring DT_STR[] =		{	L"box1",		L"set",					L"walkTest",		L"items",	L"imgLight",	L"aars",	L"quicktest",	L"hudItems",	L"wall01",		L"char",				};
-static const TexProp DT_P[]	=		{	{0,0,0,0},		{ 7,6,16,16 },			{ 8,8,16,16 },		{ 8,8,16,16 },			{1,1,1,1},		{1,1,1,1},	{16,16,24,24},	{10,10,24,24},	{0,0,0,0}, {8,8,16,16},						};
+enum  D_TEX							{	DT_BOX1,		DT_SET,					DT_WALKTEST,		DT_ITEMS,				DT_IMGLIGHT,	DT_HUDTOP,	DT_QUICKTEST,	DT_COLORS,		DT_WALL01,	DT_CHAR, DT_MAINMENU,		DT_SIZE			};
+static const wstring DT_STR[] =		{	L"box1",		L"set",					L"walkTest",		L"items",	L"imgLight",	L"aars",	L"quicktest",	L"hudItems",	L"wall01",		L"char",	L"mainMenu" ,};
+static const TexProp DT_P[]	=		{	{0,0,0,0},		{ 7,6,16,16 },			{ 8,8,16,16 },		{ 8,8,16,16 },			{1,1,1,1},		{1,1,1,1},	{16,16,24,24},	{10,10,24,24},	{0,0,0,0}, {8,8,16,16}, {1,1,1,1},						}; //mainMenu
 
 enum D_VS							{	DV_BASIC,		DV_BASICTEXTURE,		DV_BASICMATRX,		DV_UI,		DV_BASICNORMAL,		DV_BASICLIGHTING,		DV_SIZE							};
 static const wstring DV_STR[] =		{	L"BasicVS",		L"BasicTextureVS",		L"BasicMatrixVS",	L"UI_VS",	L"BasicNormalVS",	L"BasicLightingVS",			};
@@ -53,3 +53,4 @@ static const AnimationStruct AS_PL_FRAMES[AS_PL_SIZE] = {	{ 2, true, 0,1 },		{4,
 
 const XMFLOAT4 DCOLOR_black = { 0.0f, 0.0f, 0.0f, 1.0f };
 const XMFLOAT4 DCOLOR_white = { 1.0f, 1.0f, 1.0f, 1.0f };
+

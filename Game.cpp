@@ -36,9 +36,22 @@ void Game::Load(){
 
 	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
+
+	
+
+	model_TitleMesh.AssignResources(DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	model_TitleMesh.LoadMesh(L"titleMesh");
+	model_TitleMesh.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
+
+	mainMenuCursor.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	mainMenuCursor.LoadMesh(L"b_sphere");
+	mainMenuCursor.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
+
+
+
 	gCam.SetTarget(player.pos);
 
-	m_gameState = GS_GAME;
+	m_gameState = GS_MAINMENU;
 
 }
 
@@ -46,6 +59,26 @@ void Game::Update(double deltaTime) {
 
 	switch (m_gameState) {
 	case GS_MAINMENU:
+		menuControl.Update(deltaTime);
+
+		switch (menuControl.GetCurrentDirection()) {
+		case MCD_UP:
+			mainMenuCurSelection--;
+			if (mainMenuCurSelection < 0)mainMenuCurSelection = mainMenuNumOfSelection;
+			break;
+		case MCD_DOWN:
+			mainMenuCurSelection++;
+			if (mainMenuCurSelection > mainMenuNumOfSelection)mainMenuCurSelection = 0;
+			break;
+
+		}
+
+		if (mainMenuPrevSelection != mainMenuCurSelection) 
+			mainMenuCursor.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+
+		mainMenuPrevSelection = mainMenuCurSelection;
+
+
 		break;
 	case GS_GAME:
 		player.Update(deltaTime);
@@ -92,6 +125,8 @@ void Game::Draw() {
 
 	switch (m_gameState) {
 	case GS_MAINMENU:
+		model_TitleMesh.Draw();
+		mainMenuCursor.Draw();
 	break;
 	case GS_GAME:
 		map1.Draw();
@@ -100,6 +135,7 @@ void Game::Draw() {
 		itm01.Draw();
 		circShape.Draw();
 		em01.Draw();
+		
 		XMMATRIX tmpScreen = gCam.GetScreenMatrix();
 		gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
 
