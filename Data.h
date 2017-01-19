@@ -15,6 +15,13 @@ static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_PU,				VT_PU,		VT_PNU,	
 enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_UI,		DP_BASICNORMAL,		DP_BASICLIGHTING,	DP_POSTPROCESS,		DP_SIZE							};
 static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",	L"UI_PS",	L"BasicNormalPS",	L"BasicLightingPS",	L"PostProcessPS",		 };
 
+enum D_MODELS						{ DMOD_TRIANGLESELECTOR,	DMOD_TITLEMESH,		DMOD_TEAMSELECT,	DMOD_CIRCLE_SELCT,	DMOD_CIRCURRENTSELECT,	DMOD_RECTSELECT,	D_MOD_SIZE };
+static const wstring DMOD_STR[] =	{ L"triangleSelector",		L"titleMesh",		L"teamSelect",		L"circleSelect",	L"cirCurrentSelect",	L"rectSelect", };
+
+
+
+
+
 
 
 class Data {

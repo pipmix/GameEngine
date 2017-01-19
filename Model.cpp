@@ -47,7 +47,7 @@ void Model::SetResources() {
 
 void Model::Draw() {
 
-
+	if (!m_isVisible)return;
 
 	SetResources();
 
@@ -57,9 +57,25 @@ void Model::Draw() {
 
 }
 
+void Model::DrawAt(XMFLOAT3 toDrawAt){
+
+	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(toDrawAt.x, toDrawAt.y, toDrawAt.z);
+	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
+	gContext->DrawIndexed(indexCount, 0, 0);
+
+}
+
 void Model::Update() {
 
 
+}
+
+void Model::Hide(){
+	m_isVisible = false;
+}
+
+void Model::Unhide(){
+	m_isVisible = true;
 }
 
 

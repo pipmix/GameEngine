@@ -43,6 +43,17 @@ void MenuControl::Update(double dt){
 				m_currentDirection = MCD_DOWN;
 				Moved();
 			}
+			else if (gInput.b.left) {
+				m_currentDirection = MCD_LEFT;
+				Moved();
+			}
+			else if (gInput.b.right) {
+				m_currentDirection = MCD_RIGHT;
+				Moved();
+			}
+
+
+
 		}
 
 	}
@@ -69,7 +80,7 @@ void MenuControl::Moved(){
 
 
 bool MenuControl::IsButtonActionPressed() {
-	if (gInput.b.y)return true;
+	if (gInput.b.a)return true;
 	else return false;
 
 }

@@ -100,4 +100,27 @@ public:
 		XMFLOAT3{ 0.0f,2.0f,0.0f },
 	};
 
+	///Team Select
+	bool charSelected[8];
+	const int maxCharSelection = 4;
+	int curNumOfCharSelected = 0;
+	int currentTeamSelectCursorLocation = 0;
+	const int maxLocations = 10;
+
+
+	const XMFLOAT3 teamSelectLocationPoints[10] = {
+		XMFLOAT3{ -12.0f, 3.0f, 0.2f},
+		XMFLOAT3{ -4.0f, 3.0f, 0.2f },
+		XMFLOAT3{  4.0f, 3.0f, -0.2f },
+		XMFLOAT3{ 12.0f, 3.0f, -0.2f },
+		XMFLOAT3{ -12.0f, -4.0f, 0.0f },
+		XMFLOAT3{ -4.0f, -4.0f, 0.0f },
+		XMFLOAT3{ 4.0f, -4.0f, 0.0f },
+		XMFLOAT3{ 12.0f, -4.0f, 0.0f },
+		XMFLOAT3{ -13.0f, -11.0f, 0.0f },
+		XMFLOAT3{ 13.0f, -11.0f, 0.0f },
+	};
+
+
+
 };

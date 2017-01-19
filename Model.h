@@ -27,8 +27,14 @@ public:
 	void	LoadMesh(wstring fN);
 
 	void	Draw();
+	void	DrawAt(XMFLOAT3 toDrawAt);
 	void	Update();
 
+
+	void	Hide();
+	void	Unhide();
+
+	
 
 
 
@@ -52,6 +58,6 @@ private:
 
 	ResourceIDs	m_rIds;
 
-
+	bool m_isVisible = 1;
 };
 

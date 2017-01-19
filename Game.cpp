@@ -36,32 +36,28 @@ void Game::Load(){
 
 	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
-	triSelectModel.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	triSelectModel.LoadMesh(L"triangleSelector");
-	triSelectModel.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
-	
 
-	model_TitleMesh.AssignResources(DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	model_TitleMesh.LoadMesh(L"titleMesh");
-	model_TitleMesh.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
-	mainMenuCursor.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	mainMenuCursor.LoadMesh(L"b_sphere");
-	mainMenuCursor.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
 	gCam.SetTarget(player.pos);
 
 
 
-	//mainMenuScene.AddModel("mId_triSelct", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	mainMenuScene.AddModel("triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	mainMenuScene.AddModel("titleMesh", L"titleMesh", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
+
 	//gameScene;
-	//teamSelectScene;
 
-
-
+	teamSelectScene.AddModel("teamSelect", L"teamSelect", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	teamSelectScene.AddModel("circleSelect", L"circleSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	teamSelectScene.AddModel("cirCurrentSelect", L"cirCurrentSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	teamSelectScene.AddModel("rectSelect", L"rectSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
 
 	m_gameState = GS_MAINMENU;
+
+
+
 
 }
 
@@ -122,10 +118,16 @@ void Game::Draw() {
 
 	switch (m_gameState) {
 	case GS_MAINMENU:
-		model_TitleMesh.Draw();
-		//mainMenuCursor.Draw();
-		triSelectModel.Draw();
+		mainMenuScene.DrawScene();
 	break;
+	case GS_TEAMSELECT:
+		teamSelectScene.DrawScene();
+
+		for (int i = 0; i < 8; i++) {
+			if (charSelected[i]) teamSelectScene.DrawModelAt("cirCurrentSelect", teamSelectLocationPoints[i]);//teamSelectScene.GetModel("modId_cirCurrentSelect")->DrawAt(teamSelectLocationPoints[i]);
+		}
+
+		break;
 	case GS_GAME:
 		map1.Draw();
 		player.Draw();
@@ -150,9 +152,27 @@ void Game::Draw() {
 
 }
 
-
 void Game::ChangeState(GAMESTATE g) {
+	int prevGameState = m_gameState;
 	m_gameState = g;
+
+	switch (g) {
+		case GS_MAINMENU:
+			break;
+		case GS_TEAMSELECT:
+			gCam.MoveTo(0.0f, -3.0f, -32.0f);
+			teamSelectScene.GetModel("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
+			teamSelectScene.GetModel("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
+
+			///Reset if re-entering
+			for (int i = 0; i < 8; i++) charSelected[i] = 0;
+			curNumOfCharSelected = 0;
+			
+			break;
+		case GS_GAME:
+			break;
+
+	}
 
 }
 
@@ -197,7 +217,9 @@ void Game::UpdateMainMenu(double dt) {
 	}
 
 	if (mainMenuPrevSelection != mainMenuCurSelection) {
-		triSelectModel.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+		//mainMenuScene.AddModel("modId_triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+		mainMenuScene.GetModel("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+		//triSelectModel.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
 	}
 
 
@@ -208,8 +230,67 @@ void Game::UpdateMainMenu(double dt) {
 
 
 }
+
+//modId_circleSelect
+//modId_cirCurrentSelect
 void Game::UpdateTeamSelect(double dt) {
 
+	menuControl.Update(dt);
+
+	switch (menuControl.GetCurrentDirection()) {
+	case MCD_UP:
+		currentTeamSelectCursorLocation--;
+		if (currentTeamSelectCursorLocation < 0)currentTeamSelectCursorLocation = maxLocations - 1;
+		break;
+	case MCD_DOWN:
+		currentTeamSelectCursorLocation++;
+		if (currentTeamSelectCursorLocation > maxLocations - 1 )currentTeamSelectCursorLocation = 0;
+		break;
+
+	}
+	teamSelectScene.GetModel("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
+
+
+
+	if (menuControl.IsButtonActionPressed()) {
+
+		if (curNumOfCharSelected <= maxCharSelection) { // If already selected, deselect
+			if (charSelected[currentTeamSelectCursorLocation] == true) {
+				charSelected[currentTeamSelectCursorLocation] = false;
+				curNumOfCharSelected--;
+			}
+			else { // select
+				curNumOfCharSelected++;
+				charSelected[currentTeamSelectCursorLocation] = true;
+			}
+
+		}
+			//currentTeamSelectCursorLocation
+	}
 
 
 }
+
+/*
+
+///Team Select
+bool charSelected[8] = { 0 };
+const int maxCharSelection = 4;
+int curNumOfCharSelected = 0;
+int currentTeamSelectCursorLocation = 0;
+const int maxLocations = 10;
+
+const XMFLOAT3 teamSelectLocationPoints[10] = {
+XMFLOAT3{ -12.0f, 3.0f, 0.0f},
+XMFLOAT3{ -4.0f, 3.0f, 0.0f },
+XMFLOAT3{  4.0f, 3.0f, 0.0f },
+XMFLOAT3{ 12.0f, 3.0f, 0.0f },
+XMFLOAT3{ -12.0f, -4.0f, 0.0f },
+XMFLOAT3{ -4.0f, -4.0f, 0.0f },
+XMFLOAT3{ 4.0f, -4.0f, 0.0f },
+XMFLOAT3{ 12.0f, -4.0f, 0.0f },
+XMFLOAT3{ -13.0f, -11.0f, 0.0f },
+XMFLOAT3{ 13.0f, -11.0f, 0.0f },
+};
+
+*/
