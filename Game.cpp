@@ -36,6 +36,9 @@ void Game::Load(){
 
 	md03.MoveTo(XMFLOAT3{ -5.0f, 0.0f, 0.0f });
 
+	triSelectModel.AssignResources(DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	triSelectModel.LoadMesh(L"triangleSelector");
+	triSelectModel.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
 	
 
@@ -58,27 +61,14 @@ void Game::Load(){
 void Game::Update(double deltaTime) {
 
 	switch (m_gameState) {
+
+		
+		
 	case GS_MAINMENU:
-		menuControl.Update(deltaTime);
-
-		switch (menuControl.GetCurrentDirection()) {
-		case MCD_UP:
-			mainMenuCurSelection--;
-			if (mainMenuCurSelection < 0)mainMenuCurSelection = mainMenuNumOfSelection;
-			break;
-		case MCD_DOWN:
-			mainMenuCurSelection++;
-			if (mainMenuCurSelection > mainMenuNumOfSelection)mainMenuCurSelection = 0;
-			break;
-
-		}
-
-		if (mainMenuPrevSelection != mainMenuCurSelection) 
-			mainMenuCursor.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
-
-		mainMenuPrevSelection = mainMenuCurSelection;
-
-
+		UpdateMainMenu(deltaTime);
+		break;
+	case GS_TEAMSELECT:
+		UpdateTeamSelect(deltaTime);
 		break;
 	case GS_GAME:
 		player.Update(deltaTime);
@@ -126,7 +116,8 @@ void Game::Draw() {
 	switch (m_gameState) {
 	case GS_MAINMENU:
 		model_TitleMesh.Draw();
-		mainMenuCursor.Draw();
+		//mainMenuCursor.Draw();
+		triSelectModel.Draw();
 	break;
 	case GS_GAME:
 		map1.Draw();
@@ -152,3 +143,66 @@ void Game::Draw() {
 
 }
 
+
+void Game::ChangeState(GAMESTATE g) {
+	m_gameState = g;
+
+}
+
+
+
+
+void Game::UpdateMainMenu(double dt) {
+	gCam.MoveTo(0.0f, 0.0f, -17.0f);
+
+
+	menuControl.Update(dt);
+
+	switch (menuControl.GetCurrentDirection()) {
+	case MCD_UP:
+		mainMenuCurSelection--;
+		if (mainMenuCurSelection < 0)mainMenuCurSelection = ES_MAINMENU_SELECTION_COUNT - 1;
+		break;
+	case MCD_DOWN:
+		mainMenuCurSelection++;
+		if (mainMenuCurSelection > ES_MAINMENU_SELECTION_COUNT-1)mainMenuCurSelection = 0;
+		break;
+
+	}
+
+	if (menuControl.IsButtonActionPressed()) {
+
+		switch (mainMenuCurSelection) {
+		case ES_MAINMENU_SELECTION_CAMPAIGN:
+			ChangeState(GS_TEAMSELECT);
+			break;
+		case ES_MAINMENU_SELECTION_SKIRMISH:
+			ChangeState(GS_GAME);
+			break;
+		case ES_MAINMENU_OPTIONS:
+			ChangeState(GS_OPTIONS);
+			break;
+		case ES_MAINMENU_SELECTION_EXIT:
+			ChangeState(GS_EXIT);
+			break;
+		};
+
+	}
+
+	if (mainMenuPrevSelection != mainMenuCurSelection) {
+		triSelectModel.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+	}
+
+
+	mainMenuPrevSelection = mainMenuCurSelection;
+
+
+
+
+
+}
+void Game::UpdateTeamSelect(double dt) {
+
+
+
+}

@@ -25,7 +25,13 @@ extern Input gInput;
 class Dx;
 
 enum GAMESTATE {
-	GS_TITLE, GS_MAINMENU, GS_GAME 
+	GS_TITLE, GS_MAINMENU, GS_TEAMSELECT, GS_GAME, GS_OPTIONS, GS_EXIT
+};
+
+enum E_MAINMENU_SELECTION {
+
+	ES_MAINMENU_SELECTION_CAMPAIGN, ES_MAINMENU_SELECTION_SKIRMISH, ES_MAINMENU_OPTIONS, ES_MAINMENU_SELECTION_EXIT, ES_MAINMENU_SELECTION_COUNT
+
 };
 
 class Game {
@@ -37,7 +43,12 @@ public:
 	void	Draw();
 	void	Collisions(double deltaTime);
 
+	void	ChangeState(GAMESTATE g);
 
+
+	///updates
+	void UpdateMainMenu(double dt);
+	void UpdateTeamSelect(double dt);
 
 
 	Player player;
@@ -56,6 +67,7 @@ public:
 	Model md01;
 	Model md02;
 	Model md03;
+	Model triSelectModel;
 
 	Model model_TitleMesh;
 	Model mainMenuCursor;
@@ -77,11 +89,12 @@ public:
 	int mainMenuPrevSelection = -1;
 	const int mainMenuNumOfSelection = 5;
 	const XMFLOAT3 mainMenuLocationPoints[5] = {
-		XMFLOAT3{0.0f,2.0f,0.0f},
-		XMFLOAT3{0.0f,0.0f,0.0f},
-		XMFLOAT3{0.0f,-2.0f,0.0f},
-		XMFLOAT3{0.0f,-4.0f,0.0f},
-		XMFLOAT3{0.0f,-5.0f,0.0f}
+
+		XMFLOAT3{-2.5f, -1.5f,0.0f},
+		XMFLOAT3{ -2.5f, -2.5f,0.0f },
+		XMFLOAT3{ -2.5f, -3.5f,0.0f },
+		XMFLOAT3{ -2.5f, -4.5f,0.0f },
+		XMFLOAT3{ 0.0f,2.0f,0.0f },
 	};
 
 };

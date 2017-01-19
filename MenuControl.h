@@ -18,9 +18,24 @@ public:
 	void Moved();
 
 
+	bool IsButtonActionPressed();
+
+
 private:
 
 	MENUCONTROL_DIRECTION m_currentDirection;
 
+	double m_elapsedTimeSinceMove = 0.0f;
+	double m_timeBeforeCanMove = 70.0f;
 
+	bool m_hasActionBeenReleased = 0;
+	bool m_hasBacktBeenReleased = 0;
+	bool m_hasMoveBeenReleased = 0;
+
+	bool m_actionPressed = 0;
+	bool m_backPressed = 0;
+
+	bool m_canMove = 0;
+	bool m_canAction = 0;
+	bool m_canBack = 0;
 };
