@@ -7,11 +7,11 @@
 #include "Input.h"
 #include "UI.h"
 #include "Map.h"
-#include "Model.h"
 #include "Item.h"
 #include "Geo.h"
 #include "Obstacles.h"
 #include "MenuControl.h"
+#include "Scene.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -82,6 +82,9 @@ public:
 	MenuControl menuControl;
 
 
+	Scene mainMenuScene;
+	Scene gameScene;
+	Scene teamSelectScene;
 
 	/// Main Menu 
 	float mainMenuTimeCounter = 0.0f;

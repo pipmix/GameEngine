@@ -50,9 +50,16 @@ void Game::Load(){
 	mainMenuCursor.LoadMesh(L"b_sphere");
 	mainMenuCursor.MoveTo(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
-
-
 	gCam.SetTarget(player.pos);
+
+
+
+	//mainMenuScene.AddModel("mId_triSelct", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//gameScene;
+	//teamSelectScene;
+
+
+
 
 	m_gameState = GS_MAINMENU;
 
