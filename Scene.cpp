@@ -31,7 +31,7 @@ void Scene::DrawScene(){
 }
 
 void Scene::DrawModelAt(std::string model_ID, XMFLOAT3 locationToDrawAt){
-	modelMap[model_ID]->DrawAt(locationToDrawAt);
+	this->modelMap[model_ID]->DrawAt(locationToDrawAt);
 }
 
 void Scene::UpdateScene(){

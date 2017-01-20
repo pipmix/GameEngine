@@ -5,7 +5,7 @@ Data::Data() {
 }
 
 void Data::Reset() {
-	m_curTex = m_curPS = m_curVS = m_curTopo = -1;
+	m_curTex = m_curPS = m_curVS = m_curTopo = m_curMod = -1;
 }
 
 void Data::LoadData() {
@@ -19,6 +19,10 @@ void Data::LoadData() {
 
 	for (int i = 0; i < DV_SIZE; i++) m_VShaders[i].Load(DV_STR[i], DV_VT[i]);
 	for (int i = 0; i < DP_SIZE; i++) m_PShaders[i].Load(DP_STR[i]);
+
+	for (int i = 0; i < D_MOD_SIZE; i++) m_Models[i].LoadMesh(DMOD_STR[i]);
+	for (int i = 0; i < D_MOD_SIZE; i++) m_Models[i].AssignResources(DMOD_RESOURCES[i].first, DMOD_RESOURCES[i].second, DMOD_RESOURCES[i].third);
+
 
 }
 
@@ -76,6 +80,23 @@ void Data::SetResources(ResourceIDs & rid){
 		m_curTopo = rid.m_topoID;
 
 	}
+
+
+}
+
+void Data::DrawModel(int n){
+
+	SetResources(m_Models[n].m_rIds);
+	m_Models[n].Draw();
+
+
+}
+
+void Data::DrawModelAt(int n, XMFLOAT3 pos){
+
+
+	SetResources(m_Models[n].m_rIds);
+	m_Models[n].DrawAt(pos);
 
 
 }

@@ -11,7 +11,7 @@
 #include "Geo.h"
 #include "Obstacles.h"
 #include "MenuControl.h"
-#include "Scene.h"
+#include "MeshGroup.h"
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
@@ -82,9 +82,13 @@ public:
 	MenuControl menuControl;
 
 
-	Scene mainMenuScene;
-	Scene gameScene;
-	Scene teamSelectScene;
+	//Scene mainMenuScene;
+	//Scene gameScene;
+	//Scene teamSelectScene;
+
+	MeshGroup mainMenuMeshGroup;
+	MeshGroup gameMeshGroup;
+	MeshGroup teamSelectMeshGroup;
 
 	/// Main Menu 
 	float mainMenuTimeCounter = 0.0f;

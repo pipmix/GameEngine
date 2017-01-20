@@ -1,13 +1,14 @@
 #pragma once
 #include "Headers.h"
-#include "Data.h"
 #include "DataTypes.h"
+#include "Helpers.h"
+#include "Strings.h"
 
 
 
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
-extern Data								gDat;
+//extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 
 
@@ -24,7 +25,7 @@ public:
 	void	MoveTo(XMFLOAT3 moveTo);
 
 
-	void	LoadMesh(wstring fN);
+	void	LoadMesh(std::wstring fN);
 
 	void	Draw();
 	void	DrawAt(XMFLOAT3 toDrawAt);
@@ -36,7 +37,7 @@ public:
 
 	
 
-
+	ResourceIDs	m_rIds;
 
 private:
 
@@ -56,7 +57,7 @@ private:
 	int numOfVertices;
 	int numOfIndices;
 
-	ResourceIDs	m_rIds;
+	
 
 	bool m_isVisible = 1;
 };

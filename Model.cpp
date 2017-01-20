@@ -30,7 +30,7 @@ void Model::MoveTo(XMFLOAT3 moveTo){
 
 void Model::SetResources() {
 
-	gDat.SetResources(m_rIds);
+	//gDat.SetResources(m_rIds);
 
 
 
@@ -49,7 +49,12 @@ void Model::Draw() {
 
 	if (!m_isVisible)return;
 
-	SetResources();
+	//SetResources();
+	UINT stride = sizeof(VertexPNU); // make automatic
+	UINT offset = 0;
+
+	gContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
+	gContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 
 	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(m_position.x, m_position.y, m_position.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
@@ -58,6 +63,15 @@ void Model::Draw() {
 }
 
 void Model::DrawAt(XMFLOAT3 toDrawAt){
+
+	if (!m_isVisible)return;
+
+	//SetResources();
+	UINT stride = sizeof(VertexPNU); // make automatic
+	UINT offset = 0;
+
+	gContext->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
+	gContext->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 
 	XMMATRIX tmpWorldMatrix = XMMatrixTranslation(toDrawAt.x, toDrawAt.y, toDrawAt.z);
 	gContext->UpdateSubresource(gcbPerMesh.Get(), 0, 0, &tmpWorldMatrix, 0, 0);
@@ -79,12 +93,12 @@ void Model::Unhide(){
 }
 
 
-void Model::LoadMesh(wstring fN) {
+void Model::LoadMesh(std::wstring fN) {
 
-	wstring completePathAndName = CV_baseDir + CV_meshDir + fN + CV_meshFileType;
+	std::wstring completePathAndName = CV_baseDir + CV_meshDir + fN + CV_meshFileType;
 
-	ifstream file(completePathAndName);
-	string materialName, textureName;
+	std::ifstream file(completePathAndName);
+	std::string materialName, textureName;
 
 	if (file) {
 

@@ -2,7 +2,14 @@
 #include "Headers.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Model.h"
 using namespace std;
+
+struct tripleInt {
+	int first;
+	int second;
+	int third;
+};
 
 enum  D_TEX							{	DT_BOX1,		DT_SET,					DT_WALKTEST,		DT_ITEMS,				DT_IMGLIGHT,	DT_HUDTOP,	DT_QUICKTEST,	DT_COLORS,		DT_WALL01,	DT_CHAR, DT_MAINMENU,		DT_SIZE			};
 static const wstring DT_STR[] =		{	L"box1",		L"set",					L"walkTest",		L"items",	L"imgLight",	L"aars",	L"quicktest",	L"hudItems",	L"wall01",		L"char",	L"mainMenu" ,};
@@ -17,9 +24,16 @@ static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatri
 
 enum D_MODELS						{ DMOD_TRIANGLESELECTOR,	DMOD_TITLEMESH,		DMOD_TEAMSELECT,	DMOD_CIRCLE_SELCT,	DMOD_CIRCURRENTSELECT,	DMOD_RECTSELECT,	D_MOD_SIZE };
 static const wstring DMOD_STR[] =	{ L"triangleSelector",		L"titleMesh",		L"teamSelect",		L"circleSelect",	L"cirCurrentSelect",	L"rectSelect", };
+static const tripleInt DMOD_RESOURCES[] {
 
+	{ DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING },
+	{ DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING},
+	{ DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING },
+	{ DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING },
+	{ DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING },
+	{ DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING }
 
-
+};
 
 
 
@@ -35,13 +49,17 @@ public:
 	VertexShader*		GetVertexShader		(int n);
 	void				SetResources		(ResourceIDs& rid);
 
-	int					m_curTex, m_curPS, m_curVS, m_curTopo;
+	int					m_curTex, m_curPS, m_curVS, m_curTopo, m_curMod;
+
+	void				DrawModel(int n);
+	void				DrawModelAt(int n, XMFLOAT3 pos);
 
 private:
 
 	Texture				m_Textures	[DT_SIZE];
 	PixelShader			m_PShaders	[DV_SIZE];
 	VertexShader		m_VShaders	[DP_SIZE];
+	Model				m_Models	[D_MOD_SIZE];
 
 
 

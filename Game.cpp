@@ -44,19 +44,32 @@ void Game::Load(){
 
 
 
-	mainMenuScene.AddModel("triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	mainMenuScene.AddModel("titleMesh", L"titleMesh", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//mainMenuScene.AddModel("triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//mainMenuScene.AddModel("titleMesh", L"titleMesh", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
 
 	//gameScene;
 
-	teamSelectScene.AddModel("teamSelect", L"teamSelect", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	teamSelectScene.AddModel("circleSelect", L"circleSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	teamSelectScene.AddModel("cirCurrentSelect", L"cirCurrentSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	teamSelectScene.AddModel("rectSelect", L"rectSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//teamSelectScene.AddModel("teamSelect", L"teamSelect", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//teamSelectScene.AddModel("circleSelect", L"circleSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//teamSelectScene.AddModel("cirCurrentSelect", L"cirCurrentSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+	//teamSelectScene.AddModel("rectSelect", L"rectSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
 
-	m_gameState = GS_MAINMENU;
+	ChangeState(GS_MAINMENU);
 
 
+
+	mainMenuMeshGroup.AddMesh("triangleSelector", DMOD_TRIANGLESELECTOR);
+	mainMenuMeshGroup.AddMesh("titleMesh", DMOD_TITLEMESH);
+
+	teamSelectMeshGroup.AddMesh("teamSelect", DMOD_TEAMSELECT);
+	teamSelectMeshGroup.AddMesh("circleSelect", DMOD_CIRCLE_SELCT);
+	teamSelectMeshGroup.AddMesh("cirCurrentSelect", DMOD_CIRCURRENTSELECT);
+	teamSelectMeshGroup.AddMesh("rectSelect", DMOD_RECTSELECT);
+
+
+	
+
+	//enum D_MODELS { DMOD_TRIANGLESELECTOR, DMOD_TITLEMESH, DMOD_TEAMSELECT, DMOD_CIRCLE_SELCT, DMOD_CIRCURRENTSELECT, DMOD_RECTSELECT, D_MOD_SIZE };
 
 
 }
@@ -118,14 +131,20 @@ void Game::Draw() {
 
 	switch (m_gameState) {
 	case GS_MAINMENU:
-		mainMenuScene.DrawScene();
+
+		mainMenuMeshGroup.Draw();
+		//gDat.DrawModel(0);
+		//gDat.DrawModel(1);
+		//gDat.DrawModel(2);
 	break;
 	case GS_TEAMSELECT:
-		teamSelectScene.DrawScene();
 
-		for (int i = 0; i < 8; i++) {
-			if (charSelected[i]) teamSelectScene.DrawModelAt("cirCurrentSelect", teamSelectLocationPoints[i]);//teamSelectScene.GetModel("modId_cirCurrentSelect")->DrawAt(teamSelectLocationPoints[i]);
-		}
+		teamSelectMeshGroup.Draw();
+		//teamSelectScene.DrawScene();
+
+		//for (int i = 0; i < 8; i++) {
+		//	if (charSelected[i]) teamSelectScene.DrawModelAt("cirCurrentSelect", teamSelectLocationPoints[i]);//teamSelectScene.GetModel("modId_cirCurrentSelect")->DrawAt(teamSelectLocationPoints[i]);
+		//}
 
 		break;
 	case GS_GAME:
@@ -161,8 +180,14 @@ void Game::ChangeState(GAMESTATE g) {
 			break;
 		case GS_TEAMSELECT:
 			gCam.MoveTo(0.0f, -3.0f, -32.0f);
-			teamSelectScene.GetModel("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
-			teamSelectScene.GetModel("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
+
+
+			teamSelectMeshGroup.GetSlimMesh("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
+			teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
+
+
+			//teamSelectScene.GetModel("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
+			//teamSelectScene.GetModel("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
 
 			///Reset if re-entering
 			for (int i = 0; i < 8; i++) charSelected[i] = 0;
@@ -180,6 +205,7 @@ void Game::ChangeState(GAMESTATE g) {
 
 
 void Game::UpdateMainMenu(double dt) {
+
 	gCam.MoveTo(0.0f, 0.0f, -17.0f);
 
 
@@ -202,15 +228,19 @@ void Game::UpdateMainMenu(double dt) {
 		switch (mainMenuCurSelection) {
 		case ES_MAINMENU_SELECTION_CAMPAIGN:
 			ChangeState(GS_TEAMSELECT);
+			return;
 			break;
 		case ES_MAINMENU_SELECTION_SKIRMISH:
 			ChangeState(GS_GAME);
+			return;
 			break;
 		case ES_MAINMENU_OPTIONS:
 			ChangeState(GS_OPTIONS);
+			return;
 			break;
 		case ES_MAINMENU_SELECTION_EXIT:
 			ChangeState(GS_EXIT);
+			return;
 			break;
 		};
 
@@ -218,7 +248,8 @@ void Game::UpdateMainMenu(double dt) {
 
 	if (mainMenuPrevSelection != mainMenuCurSelection) {
 		//mainMenuScene.AddModel("modId_triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-		mainMenuScene.GetModel("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+		mainMenuMeshGroup.GetSlimMesh("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+		//mainMenuScene.GetModel("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
 		//triSelectModel.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
 	}
 
@@ -248,7 +279,8 @@ void Game::UpdateTeamSelect(double dt) {
 		break;
 
 	}
-	teamSelectScene.GetModel("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
+	teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
+	//teamSelectScene.GetModel("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
 
 
 
