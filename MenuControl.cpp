@@ -32,7 +32,10 @@ void MenuControl::Update(double dt){
 
 
 	if (m_canMove) {
-		if (gInput.b.up == 0 && gInput.b.down == 0)m_hasMoveBeenReleased = true;
+		if (gInput.b.up == 0 && gInput.b.down == 0 && gInput.b.left == 0 && gInput.b.right == 0)m_hasMoveBeenReleased = true;
+
+		if (gInput.b.a == 0)m_hasActionBeenReleased = true;
+		
 
 		if (m_hasMoveBeenReleased) {
 			if (gInput.b.up) {
@@ -80,7 +83,10 @@ void MenuControl::Moved(){
 
 
 bool MenuControl::IsButtonActionPressed() {
-	if (gInput.b.a)return true;
+	if (gInput.b.a && m_hasActionBeenReleased) {
+		m_hasActionBeenReleased = false;
+		return true;
+	}
 	else return false;
 
 }

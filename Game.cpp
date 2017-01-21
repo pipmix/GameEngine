@@ -140,11 +140,10 @@ void Game::Draw() {
 	case GS_TEAMSELECT:
 
 		teamSelectMeshGroup.Draw();
-		//teamSelectScene.DrawScene();
 
-		//for (int i = 0; i < 8; i++) {
-		//	if (charSelected[i]) teamSelectScene.DrawModelAt("cirCurrentSelect", teamSelectLocationPoints[i]);//teamSelectScene.GetModel("modId_cirCurrentSelect")->DrawAt(teamSelectLocationPoints[i]);
-		//}
+		for (int i = 0; i < 8; i++) {
+			if (charSelected[i]) gDat.DrawModelAt(DMOD_CIRCURRENTSELECT, teamSelectLocationPoints[i]);
+		}
 
 		break;
 	case GS_GAME:
@@ -247,10 +246,9 @@ void Game::UpdateMainMenu(double dt) {
 	}
 
 	if (mainMenuPrevSelection != mainMenuCurSelection) {
-		//mainMenuScene.AddModel("modId_triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
+
 		mainMenuMeshGroup.GetSlimMesh("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
-		//mainMenuScene.GetModel("triangleSelector")->MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
-		//triSelectModel.MoveTo(mainMenuLocationPoints[mainMenuCurSelection]);
+
 	}
 
 
@@ -270,13 +268,26 @@ void Game::UpdateTeamSelect(double dt) {
 
 	switch (menuControl.GetCurrentDirection()) {
 	case MCD_UP:
+		
+
+			if (currentTeamSelectCursorLocation < 8 && currentTeamSelectCursorLocation >= 4) currentTeamSelectCursorLocation -= 4;
+			else if (currentTeamSelectCursorLocation == 9)currentTeamSelectCursorLocation == 7;
+		break;
+	case MCD_DOWN:
+		if (currentTeamSelectCursorLocation < 4)currentTeamSelectCursorLocation += 4;
+		else if (currentTeamSelectCursorLocation < 8) currentTeamSelectCursorLocation = 9;
+		break;
+	case MCD_LEFT:
 		currentTeamSelectCursorLocation--;
 		if (currentTeamSelectCursorLocation < 0)currentTeamSelectCursorLocation = maxLocations - 1;
 		break;
-	case MCD_DOWN:
+	case MCD_RIGHT:
 		currentTeamSelectCursorLocation++;
-		if (currentTeamSelectCursorLocation > maxLocations - 1 )currentTeamSelectCursorLocation = 0;
+		if (currentTeamSelectCursorLocation > maxLocations - 1)currentTeamSelectCursorLocation = 0;
 		break;
+
+
+
 
 	}
 	teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
