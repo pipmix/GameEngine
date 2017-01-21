@@ -25,7 +25,7 @@ extern Input gInput;
 class Dx;
 
 enum GAMESTATE {
-	GS_TITLE, GS_MAINMENU, GS_TEAMSELECT, GS_GAME, GS_OPTIONS, GS_EXIT
+	GS_TITLE, GS_MAINMENU, GS_TEAMSELECT, GS_GAME, GS_OPTIONS, GS_CAMPAIGN, GS_EXIT
 };
 
 enum E_MAINMENU_SELECTION {
@@ -49,6 +49,7 @@ public:
 	///updates
 	void UpdateMainMenu(double dt);
 	void UpdateTeamSelect(double dt);
+	void UpdateCampaign(double dt);
 
 
 	Player player;
@@ -81,16 +82,14 @@ public:
 
 	MenuControl menuControl;
 
-
-	//Scene mainMenuScene;
-	//Scene gameScene;
-	//Scene teamSelectScene;
-
 	MeshGroup mainMenuMeshGroup;
 	MeshGroup gameMeshGroup;
 	MeshGroup teamSelectMeshGroup;
 
-	/// Main Menu 
+	MeshGroup MG_campaign;
+	MeshGroup MG_C01;
+
+	/// Main Menu Vars
 	float mainMenuTimeCounter = 0.0f;
 	int mainMenuCurSelection = 0;
 	int mainMenuPrevSelection = -1;
@@ -104,13 +103,12 @@ public:
 		XMFLOAT3{ 0.0f,2.0f,0.0f },
 	};
 
-	///Team Select
+	///Team Select Vars
 	bool charSelected[8];
 	const int maxCharSelection = 4;
 	int curNumOfCharSelected = 0;
 	int currentTeamSelectCursorLocation = 0;
 	const int maxLocations = 10;
-
 
 	const XMFLOAT3 teamSelectLocationPoints[10] = {
 		XMFLOAT3{ -12.0f, 3.0f, 0.2f},

@@ -44,18 +44,7 @@ void Game::Load(){
 
 
 
-	//mainMenuScene.AddModel("triangleSelector", L"triangleSelector", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	//mainMenuScene.AddModel("titleMesh", L"titleMesh", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
-
-	//gameScene;
-
-	//teamSelectScene.AddModel("teamSelect", L"teamSelect", DT_MAINMENU, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	//teamSelectScene.AddModel("circleSelect", L"circleSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	//teamSelectScene.AddModel("cirCurrentSelect", L"cirCurrentSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-	//teamSelectScene.AddModel("rectSelect", L"rectSelect", DT_WALL01, DV_BASICLIGHTING, DP_BASICLIGHTING);
-
 	ChangeState(GS_MAINMENU);
-
 
 
 	mainMenuMeshGroup.AddMesh("triangleSelector", DMOD_TRIANGLESELECTOR);
@@ -66,10 +55,12 @@ void Game::Load(){
 	teamSelectMeshGroup.AddMesh("cirCurrentSelect", DMOD_CIRCURRENTSELECT);
 	teamSelectMeshGroup.AddMesh("rectSelect", DMOD_RECTSELECT);
 
+	MG_campaign.AddMesh("roundBaseHighlight", DMOD_ROUNDBASEHIGHLIGHT);
+	MG_campaign.AddMesh("roundBase", DMOD_ROUNDBASE);
+	MG_campaign.AddMesh("squarePiece", DMOD_SQUAREPIECE);
 
-	
+	MG_C01.AddMesh("areaC01", DMOD_AREAC01);
 
-	//enum D_MODELS { DMOD_TRIANGLESELECTOR, DMOD_TITLEMESH, DMOD_TEAMSELECT, DMOD_CIRCLE_SELCT, DMOD_CIRCURRENTSELECT, DMOD_RECTSELECT, D_MOD_SIZE };
 
 
 }
@@ -96,6 +87,10 @@ void Game::Update(double deltaTime) {
 		ui.Update(deltaTime);
 
 		break;
+	case GS_CAMPAIGN:
+		gCam.Update(deltaTime);
+		UpdateCampaign(deltaTime);
+		break;
 	}
 
 	
@@ -120,54 +115,39 @@ void Game::Collisions(double deltaTime) {
 
 }
 void Game::Draw() {
-
+	//Set Current frame matrices
 	CB_mmm perFrame;
 	perFrame.mat1 = gCam.GetCameraScreenMatrix();
 	perFrame.mat2 = gCam.GetCameraMatrix();
 	perFrame.mat3 = gCam.GetScreenMatrix();
-
 	gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &perFrame, 0, 0);
 
-
+	//Draw Depending on State
 	switch (m_gameState) {
-	case GS_MAINMENU:
-
-		mainMenuMeshGroup.Draw();
-		//gDat.DrawModel(0);
-		//gDat.DrawModel(1);
-		//gDat.DrawModel(2);
-	break;
-	case GS_TEAMSELECT:
-
-		teamSelectMeshGroup.Draw();
-
-		for (int i = 0; i < 8; i++) {
-			if (charSelected[i]) gDat.DrawModelAt(DMOD_CIRCURRENTSELECT, teamSelectLocationPoints[i]);
-		}
-
+		case GS_MAINMENU:
+			mainMenuMeshGroup.Draw();
 		break;
-	case GS_GAME:
-		map1.Draw();
-		player.Draw();
-		enemy.Draw();
-		itm01.Draw();
-		circShape.Draw();
-		em01.Draw();
-		
-		XMMATRIX tmpScreen = gCam.GetScreenMatrix();
-		gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
-
-		ui.Draw();
-	break;
+		case GS_TEAMSELECT:
+			teamSelectMeshGroup.Draw();
+			for (int i = 0; i < 8; i++) if (charSelected[i]) gDat.DrawModelAt(DMOD_CIRCURRENTSELECT, teamSelectLocationPoints[i]);
+		break;
+		case GS_GAME:
+			map1.Draw();
+			player.Draw();
+			enemy.Draw();
+			itm01.Draw();
+			circShape.Draw();
+			em01.Draw();
+			XMMATRIX tmpScreen = gCam.GetScreenMatrix();
+			gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
+			ui.Draw();
+		break;
+		case GS_CAMPAIGN:
+			MG_campaign.Draw();
+			MG_C01.Draw();
+		break;
 
 	}
-
-
-
-
-
-
-
 }
 
 void Game::ChangeState(GAMESTATE g) {
@@ -194,6 +174,10 @@ void Game::ChangeState(GAMESTATE g) {
 			
 			break;
 		case GS_GAME:
+			break;
+
+		case GS_CAMPAIGN:
+			gCam.MoveTo(0.0f, 10.0f, -17.0f);
 			break;
 
 	}
@@ -260,36 +244,34 @@ void Game::UpdateMainMenu(double dt) {
 
 }
 
-//modId_circleSelect
-//modId_cirCurrentSelect
+
 void Game::UpdateTeamSelect(double dt) {
 
 	menuControl.Update(dt);
-
+// Menu Flow
 	switch (menuControl.GetCurrentDirection()) {
-	case MCD_UP:
-		
-
-			if (currentTeamSelectCursorLocation < 8 && currentTeamSelectCursorLocation >= 4) currentTeamSelectCursorLocation -= 4;
-			else if (currentTeamSelectCursorLocation == 9)currentTeamSelectCursorLocation == 7;
-		break;
-	case MCD_DOWN:
-		if (currentTeamSelectCursorLocation < 4)currentTeamSelectCursorLocation += 4;
-		else if (currentTeamSelectCursorLocation < 8) currentTeamSelectCursorLocation = 9;
-		break;
-	case MCD_LEFT:
-		currentTeamSelectCursorLocation--;
-		if (currentTeamSelectCursorLocation < 0)currentTeamSelectCursorLocation = maxLocations - 1;
-		break;
-	case MCD_RIGHT:
-		currentTeamSelectCursorLocation++;
-		if (currentTeamSelectCursorLocation > maxLocations - 1)currentTeamSelectCursorLocation = 0;
-		break;
-
-
-
-
+		case MCD_UP:
+				if (currentTeamSelectCursorLocation < 8 && currentTeamSelectCursorLocation >= 4) currentTeamSelectCursorLocation -= 4;
+				else if (currentTeamSelectCursorLocation == 9)currentTeamSelectCursorLocation == 7;
+			break;
+		case MCD_DOWN:
+			if (currentTeamSelectCursorLocation < 4)currentTeamSelectCursorLocation += 4;
+			else if (currentTeamSelectCursorLocation < 8) currentTeamSelectCursorLocation = 9;
+			break;
+		case MCD_LEFT:
+			currentTeamSelectCursorLocation--;
+			if (currentTeamSelectCursorLocation < 0)currentTeamSelectCursorLocation = maxLocations - 1;
+			break;
+		case MCD_RIGHT:
+			currentTeamSelectCursorLocation++;
+			if (currentTeamSelectCursorLocation > maxLocations - 1)currentTeamSelectCursorLocation = 0;
+			break;
 	}
+/// Menu Flow
+
+
+
+
 	teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
 	//teamSelectScene.GetModel("circleSelect")->MoveTo(teamSelectLocationPoints[currentTeamSelectCursorLocation]);
 
@@ -309,31 +291,13 @@ void Game::UpdateTeamSelect(double dt) {
 
 		}
 			//currentTeamSelectCursorLocation
+		if (currentTeamSelectCursorLocation == 9)ChangeState(GS_CAMPAIGN);
 	}
 
 
 }
 
-/*
+void Game::UpdateCampaign(double dt) {
+	menuControl.Update(dt);
 
-///Team Select
-bool charSelected[8] = { 0 };
-const int maxCharSelection = 4;
-int curNumOfCharSelected = 0;
-int currentTeamSelectCursorLocation = 0;
-const int maxLocations = 10;
-
-const XMFLOAT3 teamSelectLocationPoints[10] = {
-XMFLOAT3{ -12.0f, 3.0f, 0.0f},
-XMFLOAT3{ -4.0f, 3.0f, 0.0f },
-XMFLOAT3{  4.0f, 3.0f, 0.0f },
-XMFLOAT3{ 12.0f, 3.0f, 0.0f },
-XMFLOAT3{ -12.0f, -4.0f, 0.0f },
-XMFLOAT3{ -4.0f, -4.0f, 0.0f },
-XMFLOAT3{ 4.0f, -4.0f, 0.0f },
-XMFLOAT3{ 12.0f, -4.0f, 0.0f },
-XMFLOAT3{ -13.0f, -11.0f, 0.0f },
-XMFLOAT3{ 13.0f, -11.0f, 0.0f },
-};
-
-*/
+}
