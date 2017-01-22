@@ -4,6 +4,10 @@
 
 extern HWND							ghWnd;
 
+enum E_CAMERA_TYPE {
+	CT_PERSP, CT_ORTHO, CT_ORTHO_2D_SIDE, CT_ORTHO_2D_TOPDOWN
+};
+
 
 class Camera {
 
@@ -11,17 +15,24 @@ public:
 
 	// Camera Functions
 					Camera();
-	void			Create();
+	void			Create(E_CAMERA_TYPE ct);
 	void			Update(double deltaTime);
 	void			Draw();
 
 	void			MoveTo(float posX, float posY, float posZ);
 	void			MoveBy(float vecX, float vecY, float vecZ);
 	void			MoveInDirection(XMFLOAT3 mv, float dist);
-	void			SetTarget(XMFLOAT3& target);
+	void			SetTarget(XMFLOAT3& target, bool turnOnFollow);
+
+	void			SetLookAt(XMFLOAT3 lookAT);
+
+	void			Follow(bool turnOnFollow);
 
 
 
+	void MoveAlongX(float x);
+	void MoveAlongY(float y);
+	void MoveAlongZ(float z);
 
 
 	void			UpdatePerspective();
@@ -39,6 +50,7 @@ public:
 
 private:
 
+	E_CAMERA_TYPE	m_CameraType;
 	// Camera Matrices
 	XMFLOAT4X4		_CameraScreenMatrix;
 	XMFLOAT4X4		_CameraMatrix;

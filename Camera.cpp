@@ -3,7 +3,9 @@
 Camera::Camera() {
 }
 
-void Camera::Create() {
+void Camera::Create(E_CAMERA_TYPE ct) {
+
+	m_CameraType = ct;
 
 	RECT rc = { 0 };
 	GetWindowRect(ghWnd, &rc);
@@ -19,8 +21,10 @@ void Camera::Create() {
 	_CamNearClip	= 0.01f;
 	_CamFarClip		= 1000.0f;
 
-	UpdatePerspective();
-	UpdateOrthographic();
+	_IsCamPerspective = true;
+
+	if (m_CameraType == CT_PERSP) UpdatePerspective();
+	else if (m_CameraType == CT_ORTHO) UpdateOrthographic();
 
 }
 
@@ -109,12 +113,14 @@ void Camera::Draw() {
 
 void Camera::MoveTo(float posX, float posY, float posZ){
 
+
+
 	_CamPosition.x = posX;
 	_CamPosition.y = posY;
 	_CamPosition.z = posZ;
 
-	_CamLookAt.x += posX;
-	_CamLookAt.y += posY;
+	//_CamLookAt.x += posX;
+	//_CamLookAt.y += posY;
 
 	UpdatePerspective();
 }
@@ -131,10 +137,60 @@ void Camera::MoveBy(float vecX, float vecY, float vecZ){
 	UpdatePerspective();
 }
 
-void Camera::SetTarget(XMFLOAT3& target) {
+void Camera::SetTarget(XMFLOAT3& target, bool turnOnFollow) {
 
 	_target = &target;
-	m_FollowingTarget = true;
+	m_FollowingTarget = turnOnFollow;
 }
+
+void Camera::Follow(bool turnOnFollow) {
+	m_FollowingTarget = turnOnFollow;
+}
+
+void Camera::SetLookAt(XMFLOAT3 lookAT) {
+	if (_IsCamPerspective) {
+		_CamLookAt = lookAT;
+		UpdatePerspective();
+	}
+}
+
+void Camera::MoveAlongX(float x){
+
+	_CamPosition.x += x;
+	_CamLookAt.x += x;
+	UpdatePerspective();
+
+}
+
+void Camera::MoveAlongY(float y){
+
+	_CamPosition.y += y;
+	_CamLookAt.y += y;
+	UpdatePerspective();
+}
+
+void Camera::MoveAlongZ(float z){
+	_CamPosition.z += z;
+	_CamLookAt.z += z;
+	UpdatePerspective();
+
+}
+
+
+
+/*
+
+float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
+gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
+
+
+_CamPosition.x += vecX;
+_CamPosition.y += vecY;
+_CamPosition.z += vecZ;
+
+_CamLookAt.x += vecX;
+_CamLookAt.y += vecY;
+
+UpdatePerspective();*/
 
 

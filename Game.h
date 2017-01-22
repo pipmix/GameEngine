@@ -123,6 +123,12 @@ public:
 		XMFLOAT3{ 13.0f, -11.0f, 0.0f },
 	};
 
+	/// Cmapign Variables
+
+	XMFLOAT3 m_selectionCoord;
 
 
+private:
+
+	bool m_isStateChanging = 0;
 };

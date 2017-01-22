@@ -5,7 +5,7 @@ Game::Game(){}
 
 void Game::Load(){
 
-	gCam.Create();
+	gCam.Create(CT_PERSP);
 	ui.Create();
 	player.pos = { -3.0f,0.0f,0.0f };
 
@@ -40,7 +40,7 @@ void Game::Load(){
 
 
 
-	gCam.SetTarget(player.pos);
+	//gCam.SetTarget(player.pos, 0);
 
 
 
@@ -60,6 +60,10 @@ void Game::Load(){
 	MG_campaign.AddMesh("squarePiece", DMOD_SQUAREPIECE);
 
 	MG_C01.AddMesh("areaC01", DMOD_AREAC01);
+
+
+
+
 
 
 
@@ -114,6 +118,11 @@ void Game::Collisions(double deltaTime) {
 
 }
 void Game::Draw() {
+
+	if (m_isStateChanging) {
+		m_isStateChanging = false;
+		return;
+	}
 	//Set Current frame matrices
 	CB_mmm perFrame;
 	perFrame.mat1 = gCam.GetCameraScreenMatrix();
@@ -152,35 +161,33 @@ void Game::Draw() {
 void Game::ChangeState(GAMESTATE g) {
 	int prevGameState = m_gameState;
 	m_gameState = g;
+	m_isStateChanging = true;
 
 	switch (g) {
 		case GS_MAINMENU:
 			gCam.MoveTo(0.0f, 0.0f, -17.0f);
-			mainMenuCurSelection = 0;
+			gCam.SetLookAt(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
+			//mainMenuCurSelection = 0;
 			break;
 		case GS_TEAMSELECT:
 			gCam.MoveTo(0.0f, -3.0f, -32.0f);
+			gCam.SetLookAt(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
 
-
-			teamSelectMeshGroup.GetSlimMesh("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
-			teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
-
-
-			//teamSelectScene.GetModel("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
-			//teamSelectScene.GetModel("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
-
-			///Reset if re-entering
 			for (int i = 0; i < 8; i++) charSelected[i] = 0;
 			curNumOfCharSelected = 0;
-
 			currentTeamSelectCursorLocation = 0;
 			
+			teamSelectMeshGroup.GetSlimMesh("cirCurrentSelect")->MoveTo(XMFLOAT3(-50.0f, 3.0f, 0.0f));
+			teamSelectMeshGroup.GetSlimMesh("circleSelect")->MoveTo(XMFLOAT3(-12.0f, 3.0f, 0.0f));
 			break;
 		case GS_GAME:
 			break;
 
 		case GS_CAMPAIGN:
-			gCam.MoveTo(0.0f, 10.0f, -17.0f);
+			gCam.MoveTo(0.0f, 30.0f, -17.0f);
+			m_selectionCoord = { 0.0f, 0.0f, 0.0f };
+
+
 			break;
 
 	}
@@ -191,8 +198,6 @@ void Game::ChangeState(GAMESTATE g) {
 
 
 void Game::UpdateMainMenu(double dt) {
-
-
 
 
 	menuControl.Update(dt);
@@ -253,6 +258,7 @@ void Game::UpdateMainMenu(double dt) {
 void Game::UpdateTeamSelect(double dt) {
 
 	menuControl.Update(dt);
+	int buttonsPressed = menuControl.GetCurrentButtonsPressed();
 // Menu Flow
 	switch (menuControl.GetCurrentDirection()) {
 		case MCD_UP:
@@ -296,25 +302,25 @@ void Game::UpdateTeamSelect(double dt) {
 
 		}
 			//currentTeamSelectCursorLocation
-		if (currentTeamSelectCursorLocation == 9) {
+
+	}
+
+	//if (currentTeamSelectCursorLocation == 9) {
+	//	ChangeState(GS_CAMPAIGN);
+	//	return;
+	//}
+
+	if (currentTeamSelectCursorLocation == 9) {
+		if (buttonsPressed & CBP_CONFIRM) {
 			ChangeState(GS_CAMPAIGN);
 			return;
 		}
+
+		if (buttonsPressed & CBP_CANCEL) {
+			ChangeState(GS_MAINMENU);
+			return;
+		}
 	}
-
-	if (currentTeamSelectCursorLocation == 9) {
-		ChangeState(GS_CAMPAIGN);
-		return;
-	}
-
-
-	int buttonsPressed = menuControl.GetCurrentButtonsPressed();
-	if (buttonsPressed & CBP_CANCEL) {
-		ChangeState(GS_MAINMENU);
-		return;
-		return;
-	}
-
 
 }
 
@@ -333,4 +339,29 @@ void Game::UpdateCampaign(double dt) {
 	}
 
 
+
+	switch (menuControl.GetCurrentDirection()) {
+	case MCD_UP:
+		m_selectionCoord.z += 1.0f;
+		break;
+	case MCD_DOWN:
+		m_selectionCoord.z -= 1.0f;
+		break;
+	case MCD_LEFT:
+		m_selectionCoord.x -= 1.0f;
+		break;
+	case MCD_RIGHT:
+		m_selectionCoord.x += 1.0f;
+		break;
+	}
+
+
+	MG_campaign.GetSlimMesh("squarePiece")->MoveTo(m_selectionCoord);
+
+	//float moveZ = (-gInput.b.leftTriggerFloat) + gInput.b.rightTriggerFloat;
+	//gCam.MoveBy(gInput.b.rightStickFloatX, gInput.b.rightStickFloatY, moveZ);
+
+	gCam.MoveAlongX(gInput.b.rightStickFloatX);
+	gCam.MoveAlongZ(gInput.b.rightStickFloatY);
+	gCam.MoveAlongY(gInput.b.leftTriggerFloat + -gInput.b.rightTriggerFloat);
 }
