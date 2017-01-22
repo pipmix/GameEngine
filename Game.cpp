@@ -88,7 +88,6 @@ void Game::Update(double deltaTime) {
 
 		break;
 	case GS_CAMPAIGN:
-		gCam.Update(deltaTime);
 		UpdateCampaign(deltaTime);
 		break;
 	}
@@ -156,6 +155,8 @@ void Game::ChangeState(GAMESTATE g) {
 
 	switch (g) {
 		case GS_MAINMENU:
+			gCam.MoveTo(0.0f, 0.0f, -17.0f);
+			mainMenuCurSelection = 0;
 			break;
 		case GS_TEAMSELECT:
 			gCam.MoveTo(0.0f, -3.0f, -32.0f);
@@ -171,6 +172,8 @@ void Game::ChangeState(GAMESTATE g) {
 			///Reset if re-entering
 			for (int i = 0; i < 8; i++) charSelected[i] = 0;
 			curNumOfCharSelected = 0;
+
+			currentTeamSelectCursorLocation = 0;
 			
 			break;
 		case GS_GAME:
@@ -189,7 +192,7 @@ void Game::ChangeState(GAMESTATE g) {
 
 void Game::UpdateMainMenu(double dt) {
 
-	gCam.MoveTo(0.0f, 0.0f, -17.0f);
+
 
 
 	menuControl.Update(dt);
@@ -203,31 +206,33 @@ void Game::UpdateMainMenu(double dt) {
 		mainMenuCurSelection++;
 		if (mainMenuCurSelection > ES_MAINMENU_SELECTION_COUNT-1)mainMenuCurSelection = 0;
 		break;
-
 	}
 
-	if (menuControl.IsButtonActionPressed()) {
+	int buttonsPressed = menuControl.GetCurrentButtonsPressed();
+	if (buttonsPressed != 0) {
+		if (buttonsPressed & CBP_CONFIRM) {
 
-		switch (mainMenuCurSelection) {
-		case ES_MAINMENU_SELECTION_CAMPAIGN:
-			ChangeState(GS_TEAMSELECT);
-			return;
-			break;
-		case ES_MAINMENU_SELECTION_SKIRMISH:
-			ChangeState(GS_GAME);
-			return;
-			break;
-		case ES_MAINMENU_OPTIONS:
-			ChangeState(GS_OPTIONS);
-			return;
-			break;
-		case ES_MAINMENU_SELECTION_EXIT:
-			ChangeState(GS_EXIT);
-			return;
-			break;
-		};
-
+			switch (mainMenuCurSelection) {
+			case ES_MAINMENU_SELECTION_CAMPAIGN:
+				ChangeState(GS_TEAMSELECT);
+				return;
+				break;
+			case ES_MAINMENU_SELECTION_SKIRMISH:
+				ChangeState(GS_CAMPAIGN);
+				return;
+				break;
+			case ES_MAINMENU_OPTIONS:
+				ChangeState(GS_CAMPAIGN);
+				return;
+				break;
+			case ES_MAINMENU_SELECTION_EXIT:
+				ChangeState(GS_TEAMSELECT);
+				return;
+				break;
+			};
+		}
 	}
+
 
 	if (mainMenuPrevSelection != mainMenuCurSelection) {
 
@@ -291,13 +296,41 @@ void Game::UpdateTeamSelect(double dt) {
 
 		}
 			//currentTeamSelectCursorLocation
-		if (currentTeamSelectCursorLocation == 9)ChangeState(GS_CAMPAIGN);
+		if (currentTeamSelectCursorLocation == 9) {
+			ChangeState(GS_CAMPAIGN);
+			return;
+		}
+	}
+
+	if (currentTeamSelectCursorLocation == 9) {
+		ChangeState(GS_CAMPAIGN);
+		return;
+	}
+
+
+	int buttonsPressed = menuControl.GetCurrentButtonsPressed();
+	if (buttonsPressed & CBP_CANCEL) {
+		ChangeState(GS_MAINMENU);
+		return;
+		return;
 	}
 
 
 }
 
 void Game::UpdateCampaign(double dt) {
+	
 	menuControl.Update(dt);
+
+	int buttonsPressed = menuControl.GetCurrentButtonsPressed();
+
+	if (buttonsPressed & CBP_CONFIRM) {
+
+	}
+	if (buttonsPressed & CBP_CANCEL) {
+		ChangeState(GS_MAINMENU);
+		return;
+	}
+
 
 }
