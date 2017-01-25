@@ -72,21 +72,37 @@ void ImageBatch::UpdateBuffer(){
 void ImageBatch::Draw(){
 
 	// Set Resources
+
+
+
+	for (int i = 0; i < m_batchQueues.size(); i++){
+		// set texture
+
+		//draw batchs[i] render offset/ numverts 
+	}
 }
 
 
 void ImageBatch::Add(const XMFLOAT4 & srcRect, const XMFLOAT4 & destRect, int texID){
 
-	ImageStruct* temp = new ImageStruct();
-	temp->textureID = texID;
-	temp->depth = 0;
-	temp->verts[0] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Top left
-	temp->verts[1] = { XMFLOAT3(destRect.x + srcRect.z, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Top Right
-	temp->verts[2] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Bottom left
-	temp->verts[3] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Bottom Right
+	if (m_numImages == 0) {
 
-	m_images.push_back(temp);
+		m_images.clear();
+		m_batchQueues.clear();
+	}
 
+
+	m_images.emplace_back(srcRect, destRect, texID);
+	m_numImages++;
+}
+
+void ImageBatch::Finish(){
+	m_imagesP.resize(m_images.size());
+	for (int i = 0; i < m_images.size(); i++){
+		m_imagesP[i] = &m_images[i];
+	}
+	Sort();
+	CreateBatches();
 }
 
 ResourceIDs ImageBatch::GetResourceIDs()
@@ -94,16 +110,76 @@ ResourceIDs ImageBatch::GetResourceIDs()
 	return ResourceIDs();
 }
 
+void ImageBatch::CreateBatches()
+{
+	m_curTex = -1;
+	std::vector <VertexPU> v;
+	v.resize(m_imagesP.size() * 6);
+	if (m_imagesP.empty())return;
+
+	//BatchQueue temp{ 0, 6, m_images[0]->textureID };
+
+	//m_batchQueues.push_back(temp);
+	int curVert = 0;
+	int curOffset = 0;
+
+	m_batchQueues.emplace_back(0, 6, m_imagesP[0]->m_textureID);
+	v[curVert + 0] = m_imagesP[0]->m_verts[0];
+	v[curVert + 1] = m_imagesP[0]->m_verts[1];
+	v[curVert + 2] = m_imagesP[0]->m_verts[2];
+	v[curVert + 3] = m_imagesP[0]->m_verts[1];
+	v[curVert + 4] = m_imagesP[0]->m_verts[3];
+	v[curVert + 5] = m_imagesP[0]->m_verts[2];
+
+	for (int i = 0; i < m_images.size(); i++) {
+
+		if (m_curTex != m_imagesP[i]->m_textureID) {
+			m_batchQueues.emplace_back(curOffset, 6, m_imagesP[i]->m_textureID);
+			m_curTex = m_imagesP[i]->m_textureID;
+		}
+		else {
+			m_batchQueues.back().numVerts += 6;
+		}
+
+		curVert = i * 6;
+		v[curVert + 0] = m_imagesP[i]->m_verts[0];
+		v[curVert + 1] = m_imagesP[i]->m_verts[1];
+		v[curVert + 2] = m_imagesP[i]->m_verts[2];
+		v[curVert + 3] = m_imagesP[i]->m_verts[1];
+		v[curVert + 4] = m_imagesP[i]->m_verts[3];
+		v[curVert + 5] = m_imagesP[i]->m_verts[2];
+		curOffset += 6;
+
+	}
+
+}
+
 
 void ImageBatch::Sort() {
-	std::stable_sort(m_images.begin(), m_images.end(), TextureCompare);
+	std::stable_sort(m_imagesP.begin(), m_imagesP.end(), TextureCompare);
 }
 
 
 
 bool TextureCompare(ImageStruct* a, ImageStruct* b) {
-	return (a->depth > b->depth);
+	return (a->m_depth > b->m_depth);
 }
 bool DepthCompare(ImageStruct* a, ImageStruct* b) {
-	return (a->textureID < b->textureID);
+	return (a->m_textureID < b->m_textureID);
+}
+
+ImageStruct::ImageStruct()
+{
+}
+
+ImageStruct::ImageStruct(const XMFLOAT4 & srcRect, const XMFLOAT4 & destRect, int texID){
+
+
+	m_textureID = texID;
+	m_depth = 0;
+	m_verts[0] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Top left
+	m_verts[1] = { XMFLOAT3(destRect.x + srcRect.z, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Top Right
+	m_verts[2] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Bottom left
+	m_verts[3] = { XMFLOAT3(destRect.x, destRect.y + srcRect.w, 0.0f), XMFLOAT2(srcRect.x, srcRect.y + srcRect.w) }; // Bottom Right
+
 }

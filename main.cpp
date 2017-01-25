@@ -99,8 +99,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			DispatchMessage(&msg);
 		}
 		else {
+			
+			INT64 loopStartTime;
+			QueryPerformanceCounter((LARGE_INTEGER*)&loopStartTime);
+
 			dx.Update();
 			dx.Draw();
+
+			INT64 loopEndTime;
+			QueryPerformanceCounter((LARGE_INTEGER*)&loopEndTime);
+
+
+			INT64 timeDifference = loopEndTime - loopStartTime;
+
+			float framesNeeded = (1000.0f / 60.0f);
+			if (framesNeeded > timeDifference); // hold framesNeeded - timeDifference
+
+
+
+
 		}
 	}
 

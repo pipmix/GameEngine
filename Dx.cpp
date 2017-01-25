@@ -297,3 +297,8 @@ void Dx::Msg_Shutdown(){
 	gContext->ClearState();
 	
 }
+
+float Dx::GetTicks()
+{
+	return 0.0f;
+}

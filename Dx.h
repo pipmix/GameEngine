@@ -32,6 +32,8 @@ public:
 	void	MSG_ActiveWindow();
 	void	Msg_Shutdown();
 
+	float	GetTicks();
+
 private:
 
 	//Device Resources
@@ -70,6 +72,6 @@ private:
 
 	bool m_Active = true;
 
-
+	UINT m_maxFPS = 60;
 
 };
