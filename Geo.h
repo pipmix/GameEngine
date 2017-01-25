@@ -63,3 +63,25 @@ private:
 	XMFLOAT3				m_pos;
 
 };
+
+class ScreenQuad {
+
+public:
+
+	ScreenQuad();
+	void Create();
+	void Draw();
+
+private:
+
+
+	ResourceIDs				m_rIds;
+	UINT					m_numOfVertices;
+	UINT					m_numOfIndices;
+	ComPtr<ID3D11Buffer>	m_vertexBuffer;
+	ComPtr<ID3D11Buffer>	m_indexBuffer;
+	XMFLOAT3				m_pos;
+
+
+
+};

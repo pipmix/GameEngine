@@ -114,3 +114,51 @@ void CubeGeo::SetResources() {
 
 
 }
+
+ScreenQuad::ScreenQuad(){
+
+	m_rIds.m_topoID = D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+
+}
+
+void ScreenQuad::Create(){
+
+
+	float zd = 0.0f;
+	VertexPU verts [] = {
+		{XMFLOAT3(-1.0f, 1.0f, 0.0f),	XMFLOAT2(0.0f	, 1.0f) },
+		{XMFLOAT3(1.0f, 1.0f, 0.0f),	XMFLOAT2(1.0f, 1.0f) },
+		{XMFLOAT3(-1.0f, -1.0f, 0.0f),	XMFLOAT2(0.0f	, 0.0f) },
+		{XMFLOAT3(1.0f, -1.0f, 0.0f),	XMFLOAT2(1.0f, 0.0f) },
+
+	};
+
+
+
+	
+
+
+
+	int m_numElements = ARRAYSIZE(verts);
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	D3D11_SUBRESOURCE_DATA InitData;
+	ZeroMemory(&InitData, sizeof(InitData));
+
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(VertexPU) * m_numElements;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	InitData.pSysMem = verts;
+	gDevice->CreateBuffer(&bd, &InitData, &m_vertexBuffer);
+
+
+
+
+
+}
+
+void ScreenQuad::Draw()
+{
+}

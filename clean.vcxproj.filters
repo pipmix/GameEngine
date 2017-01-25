@@ -132,6 +132,9 @@
     <ClCompile Include="MeshGroup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImageBatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTypes.h">
@@ -281,6 +284,15 @@
     <ClInclude Include="UserControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_Deferred.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageBatch.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_Items.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicMatrixVS.hlsl">
@@ -322,6 +334,9 @@
     <FxCompile Include="PostProcessPs.hlsl">
       <Filter>Shaders\PS</Filter>
     </FxCompile>
+    <FxCompile Include="UI2_VS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="PS_Func.hlsli">
@@ -329,6 +344,9 @@
     </None>
     <None Include="VS_Func.hlsli">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="HeaderVS.hlsli">
+      <Filter>Shaders\VS</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

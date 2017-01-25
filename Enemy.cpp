@@ -73,7 +73,7 @@ void Enemy::Update(double deltaTime) {
 	MoveBy(vel);
 
 
-
+	
 	
 	prev_pos = pos;
 }

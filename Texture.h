@@ -29,10 +29,19 @@ public:
 
 	float _nX, _nY, _nW, _nH;
 	bool _IsTileMap;
-	int pixelW;
-	int pixelH;
+	UINT pixelW;
+	UINT pixelH;
 	bool hasAlpha;
 	bool usesPreMul;
+
+
+private:
+
+
+
+
+
+
 
 
 };

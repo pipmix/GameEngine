@@ -163,6 +163,7 @@
     <ClCompile Include="Geo.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="HeroCharacter.cpp" />
+    <ClCompile Include="ImageBatch.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
@@ -204,10 +205,12 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameData.h" />
+    <ClInclude Include="Game_Items.h" />
     <ClInclude Include="Geo.h" />
     <ClInclude Include="Headers.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="HeroCharacter.h" />
+    <ClInclude Include="ImageBatch.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -224,6 +227,7 @@
     <ClInclude Include="Obstacles.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Primitives.h" />
+    <ClInclude Include="Renderer_Deferred.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
@@ -302,6 +306,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="UI2_VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="UI_PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -316,6 +326,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="HeaderVS.hlsli" />
     <None Include="PS_Func.hlsli" />
     <None Include="VS_Func.hlsli" />
   </ItemGroup>

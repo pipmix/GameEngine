@@ -171,7 +171,7 @@ void Game::ChangeState(GAMESTATE g) {
 			break;
 		case GS_TEAMSELECT:
 			gCam.MoveTo(0.0f, -3.0f, -32.0f);
-			gCam.SetLookAt(XMFLOAT3{ 0.0f, 0.0f, 0.0f });
+			gCam.SetLookAt(XMFLOAT3{ 0.0f, -3.0f, 0.0f });
 
 			for (int i = 0; i < 8; i++) charSelected[i] = 0;
 			curNumOfCharSelected = 0;

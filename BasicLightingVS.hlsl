@@ -1,16 +1,6 @@
 //#pragma pack_matrix( row_major )
 
-cbuffer cbPerFrame : register(b0) {
-	matrix cameraScreenMatrix;
-	matrix cameraMatrix;
-	matrix screenMatrix;
-
-}
-
-cbuffer cbPerMesh : register(b1) {
-	matrix worldMatrix;
-
-}
+#include "HeaderVS.hlsli"
 
 cbuffer cbPerResize : register(b2) {
 	float4 screenDim;
