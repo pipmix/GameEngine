@@ -228,7 +228,7 @@
     <ClInclude Include="Obstacles.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Primitives.h" />
-    <ClInclude Include="Renderer_Deferred.h" />
+    <ClInclude Include="DxDef.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />

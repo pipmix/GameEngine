@@ -1,7 +1,7 @@
 #pragma once
 #include "Headers.h"
 
-class Renderer_Deferred {
+class Dx_Def {
 
 public:
 private:

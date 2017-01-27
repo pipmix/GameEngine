@@ -25,6 +25,8 @@ void Dx::Initialize(){
 	D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &scd, m_swapChain.GetAddressOf(), gDevice.GetAddressOf(), NULL, gContext.GetAddressOf());
 	//gDevice->CreateDeferredContext(0, &gDContext);
 
+	gDevice->CreateDeferredContext(0, &gDContext);
+
 	// Backbuffer
 	ComPtr<ID3D11Texture2D> backBufferTexture;
 	m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBufferTexture.GetAddressOf()));
@@ -268,6 +270,10 @@ void Dx::ClearFrame() {
 	UpdateWindowInfo();
 	float fill[4] = { 0.0f, 0.2f, 0.25f, 1.0f };
 	gContext->ClearRenderTargetView(m_backBuffer.Get(), fill);
+
+
+	//gDContext->ClearRenderTargetView(g_pRenderTargetView, fill);
+
 	gContext->ClearDepthStencilView(m_zBuffer.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	gContext->OMSetRenderTargets(1, m_backBuffer.GetAddressOf(), m_zBuffer.Get());
 	gContext->RSSetViewports(1, &m_viewport);
@@ -301,4 +307,21 @@ void Dx::Msg_Shutdown(){
 float Dx::GetTicks()
 {
 	return 0.0f;
+}
+
+void Dx::DefStart()
+{
+
+	//gContext->setrender
+	//gDContext;
+
+
+	//ImmCtx->SetRenderTarget(pRTViewOfResourceX);
+	//DefCtx1->SetTexture(pSRView1OfResourceX);
+	//DefCtx2->SetTexture(pSRView2OfResourceX);
+
+}
+
+void Dx::DefCommit()
+{
 }

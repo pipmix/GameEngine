@@ -287,9 +287,6 @@
     <ClInclude Include="UserControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer_Deferred.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ImageBatch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -298,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="SpriteBatch.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DxDef.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
