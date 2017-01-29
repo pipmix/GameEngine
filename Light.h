@@ -17,8 +17,11 @@ protected:
 class PointLight : public Light{
 public:
 	PointLight();
+	void SetPosition(XMFLOAT3 p);
+	void SetColor(XMFLOAT3 c);
 
 private:
+
 
 	float		m_radius;
 

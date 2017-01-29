@@ -15,12 +15,12 @@ enum  D_TEX							{	DT_BOX1,		DT_SET,					DT_WALKTEST,		DT_ITEMS,				DT_IMGLIGHT
 static const wstring DT_STR[] =		{	L"box1",		L"set",					L"walkTest",		L"items",	L"imgLight",	L"aars",	L"quicktest",	L"hudItems",	L"wall01",		L"char",	L"mainMenu" ,		L"groundTilesGrass",};
 static const TexProp DT_P[]	=		{	{0,0,0,0},		{ 7,6,16,16 },			{ 8,8,16,16 },		{ 8,8,16,16 },			{1,1,1,1},		{1,1,1,1},	{16,16,24,24},	{10,10,24,24},	{0,0,0,0}, {8,8,16,16}, {1,1,1,1},	{1,1,1,1},						}; //mainMenu
 
-enum D_VS							{	DV_BASIC,		DV_BASICTEXTURE,		DV_BASICMATRX,		DV_UI,		DV_BASICNORMAL,		DV_BASICLIGHTING,		DV_SIZE							};
-static const wstring DV_STR[] =		{	L"BasicVS",		L"BasicTextureVS",		L"BasicMatrixVS",	L"UI_VS",	L"BasicNormalVS",	L"BasicLightingVS",			};
-static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_PU,				VT_PU,		VT_PNU,				VT_PNU,						};
+enum D_VS							{	DV_BASIC,		DV_BASICTEXTURE,		DV_BASICMATRX,		DV_UI,		DV_BASICNORMAL,		DV_BASICLIGHTING,	DV_DEFERREDBASIC,		DV_SIZE							};
+static const wstring DV_STR[] =		{	L"BasicVS",		L"BasicTextureVS",		L"BasicMatrixVS",	L"UI_VS",	L"BasicNormalVS",	L"BasicLightingVS",	L"DeferredBasicVS",};
+static const VertexType DV_VT[] =	{	VT_P,			VT_P,					VT_PU,				VT_PU,		VT_PNU,				VT_PNU,				VT_PNU, };
 
-enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_UI,		DP_BASICNORMAL,		DP_BASICLIGHTING,	DP_POSTPROCESS,		DP_SIZE							};
-static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",	L"UI_PS",	L"BasicNormalPS",	L"BasicLightingPS",	L"PostProcessPS",		 };
+enum D_PS							{	DP_BASIC,		DP_BASICTEXTURE,		DP_BASICMATRX,		DP_UI,		DP_BASICNORMAL,		DP_BASICLIGHTING,	DP_POSTPROCESS,		DP_DEFERREDBASIC,		DP_SIZE							};
+static const wstring DP_STR[] =		{	L"BasicPS",		L"BasicTexturePS",		L"BasicMatrixPS",	L"UI_PS",	L"BasicNormalPS",	L"BasicLightingPS",	L"PostProcessPS",	L"DeferredBasicPS",		 };
 
 enum D_MODELS						{ DMOD_TRIANGLESELECTOR,	DMOD_TITLEMESH,		DMOD_TEAMSELECT,	DMOD_CIRCLE_SELCT,	DMOD_CIRCURRENTSELECT,	DMOD_RECTSELECT,	DMOD_ROUNDBASEHIGHLIGHT,	DMOD_ROUNDBASE,		DMOD_SQUAREPIECE,	DMOD_AREAC01,	D_MOD_SIZE };
 static const wstring DMOD_STR[] =	{ L"triangleSelector",		L"titleMesh",		L"teamSelect",		L"circleSelect",	L"cirCurrentSelect",	L"rectSelect",		L"roundBaseHighlight",		L"roundBase",		L"squarePiece",		L"areaC01" ,};

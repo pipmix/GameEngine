@@ -8,7 +8,7 @@ void Camera::Create(E_CAMERA_TYPE ct) {
 	m_CameraType = ct;
 
 	RECT rc = { 0 };
-	GetWindowRect(ghWnd, &rc);
+	GetClientRect(ghWnd, &rc);
 	m_screenX = rc.right - rc.left;
 	m_screenY = rc.bottom - rc.top;
 

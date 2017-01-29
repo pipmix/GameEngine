@@ -346,6 +346,12 @@
     <FxCompile Include="BasicSkinVS.hlsl">
       <Filter>Shaders\VS</Filter>
     </FxCompile>
+    <FxCompile Include="DeferredBasicPS.hlsl">
+      <Filter>Shaders\PS</Filter>
+    </FxCompile>
+    <FxCompile Include="DeferredBasicVS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="PS_Func.hlsli">

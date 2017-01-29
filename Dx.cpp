@@ -11,8 +11,8 @@ void Dx::Initialize(){
 	DXGI_SWAP_CHAIN_DESC scd;
 	ZeroMemory(&scd, sizeof(scd));
 	scd.BufferCount								= 1;
-	scd.BufferDesc.Width						= m_windowW;
-	scd.BufferDesc.Height						= m_windowH;
+	scd.BufferDesc.Width						= m_clientW;
+	scd.BufferDesc.Height						= m_clientW;
 	scd.BufferDesc.RefreshRate.Numerator		= 60;
 	scd.BufferDesc.RefreshRate.Denominator		= 1;
 	scd.BufferDesc.Format						= DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -35,8 +35,8 @@ void Dx::Initialize(){
 	// Zbuffer
 	D3D11_TEXTURE2D_DESC zBufferDesc;
 	ZeroMemory(&zBufferDesc, sizeof(zBufferDesc));
-	zBufferDesc.Width							= m_windowW;
-	zBufferDesc.Height							= m_windowH;
+	zBufferDesc.Width							= m_clientW;
+	zBufferDesc.Height							= m_clientW;
 	zBufferDesc.ArraySize						= 1;
 	zBufferDesc.MipLevels						= 1;
 	zBufferDesc.SampleDesc.Count				= 1;
@@ -51,8 +51,8 @@ void Dx::Initialize(){
 	gDevice->CreateDepthStencilView(zbuffertexture.Get(), &dsvd, m_zBuffer.GetAddressOf());
 
 	// Viewport
-	m_viewport.Width = static_cast<float>(m_windowW);
-	m_viewport.Height = static_cast<float>(m_windowH);
+	m_viewport.Width = static_cast<float>(m_clientW);
+	m_viewport.Height = static_cast<float>(m_clientW);
 	m_viewport.MinDepth = 0.0f;
 	m_viewport.MaxDepth = 1.0f;
 	m_viewport.TopLeftX = 0;
@@ -60,6 +60,9 @@ void Dx::Initialize(){
 
 	CreateStates();
 	CreateConstantBuffers();
+
+	InitDeferred();
+
 
 	gDat.LoadData();
 	game.Load();
@@ -76,6 +79,115 @@ void Dx::UpdateWindowInfo(){
 	GetClientRect(m_hWnd, &rc);
 	m_clientW = rc.right - rc.left;
 	m_clientH = rc.bottom - rc.top;
+
+
+}
+
+void Dx::InitDeferred(){
+
+	D3D11_TEXTURE2D_DESC gBuf_desc{
+		m_clientW, m_clientH, 1, 1, DXGI_FORMAT_UNKNOWN, 1, 0, D3D11_USAGE_DEFAULT,
+		D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE, 0, 0 
+	};
+
+	gBuf_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	gBuf_desc.Format = DXGI_FORMAT_R24G8_TYPELESS; // depth stencil
+	gDevice->CreateTexture2D(&gBuf_desc, nullptr, &m_depthTex);
+	
+
+	gBuf_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // colr spec int stencil
+	gBuf_desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	gDevice->CreateTexture2D(&gBuf_desc, nullptr, &m_colorTex);
+
+	gBuf_desc.Format = DXGI_FORMAT_R11G11B10_FLOAT; // colr spec int stencil
+	gDevice->CreateTexture2D(&gBuf_desc, nullptr, &m_normalTex);
+
+	gBuf_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // spec power
+	gDevice->CreateTexture2D(&gBuf_desc, nullptr, &m_specTex);
+
+
+
+
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC ds_Desc = {
+		DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_DSV_DIMENSION_TEXTURE2D, 0
+	};
+
+
+	gDevice->CreateDepthStencilView(m_depthTex.Get(), &ds_Desc, m_depthDSV.GetAddressOf());
+
+	ds_Desc.Flags = D3D11_DSV_READ_ONLY_DEPTH | D3D11_DSV_READ_ONLY_STENCIL;
+	gDevice->CreateDepthStencilView(m_depthTex.Get(), &ds_Desc, m_depthDSV_ro.GetAddressOf());
+
+
+
+
+	D3D11_RENDER_TARGET_VIEW_DESC rt_desc = { DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_RTV_DIMENSION_TEXTURE2D };
+
+	rt_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	gDevice->CreateRenderTargetView(m_colorTex.Get() , &rt_desc, &m_colorRTV );
+
+	rt_desc.Format = DXGI_FORMAT_R11G11B10_FLOAT;
+	gDevice->CreateRenderTargetView(m_normalTex.Get(), &rt_desc, &m_normalRTV );
+
+	rt_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	gDevice->CreateRenderTargetView(m_specTex.Get(), &rt_desc, &m_specRTV );
+
+
+
+	// Resources
+	D3D11_SHADER_RESOURCE_VIEW_DESC res_desc = { DXGI_FORMAT_R24_UNORM_X8_TYPELESS, D3D11_SRV_DIMENSION_TEXTURE2D, 0, 0 };
+	
+	res_desc.Texture2D.MipLevels = 1;
+
+	res_desc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+	gDevice->CreateShaderResourceView(m_depthTex.Get(), &res_desc, &m_depthSRV);
+
+	res_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	gDevice->CreateShaderResourceView(m_colorTex.Get(), &res_desc, &m_colorSRV);
+
+	res_desc.Format = DXGI_FORMAT_R11G11B10_FLOAT;
+	gDevice->CreateShaderResourceView(m_normalTex.Get(), &res_desc, &m_normalSRV);
+
+	res_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	gDevice->CreateShaderResourceView(m_specTex.Get(), &res_desc, &m_specSRV);
+
+
+	D3D11_DEPTH_STENCIL_DESC depth_desc;
+	depth_desc.DepthEnable = TRUE;
+	depth_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depth_desc.DepthFunc = D3D11_COMPARISON_LESS;
+	depth_desc.StencilEnable = TRUE;
+	depth_desc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	depth_desc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+	depth_desc.FrontFace =	{ D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_COMPARISON_ALWAYS };
+	depth_desc.BackFace =	{ D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_STENCIL_OP_REPLACE, D3D11_COMPARISON_ALWAYS };
+	gDevice->CreateDepthStencilState(&depth_desc, m_DS_Tut.GetAddressOf());
+
+
+	// Create constant buffers
+	D3D11_BUFFER_DESC cb_desc;
+	ZeroMemory(&cb_desc, sizeof(cb_desc));
+	cb_desc.Usage = D3D11_USAGE_DYNAMIC;
+	cb_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cb_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cb_desc.ByteWidth = sizeof(TEMP_CBUF);
+	gDevice->CreateBuffer(&cb_desc, nullptr, &m_gBuffer);
+
+
+
+	D3D11_SAMPLER_DESC sampler_desc;
+	ZeroMemory(&sampler_desc, sizeof(sampler_desc));
+	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampler_desc.AddressU = sampler_desc.AddressV = sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.MaxAnisotropy = 1;
+	sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+	gDevice->CreateSamplerState(&sampler_desc, &m_SS_linear);
+
+	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	gDevice->CreateSamplerState(&sampler_desc, &m_SS_point);
+
 
 
 }
@@ -226,10 +338,20 @@ void Dx::Draw() {
 	ClearFrame();
 	gDat.Reset();
 
-	gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
+	///gContext->PSSetSamplers(0, 1, m_SS_pixelArt.GetAddressOf());
 	gContext->RSSetState(m_RS_default.Get());
-	//gContext->RSSetState(m_RS_wireframe.Get());
-	gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+
+	///gContext->OMSetDepthStencilState(m_DS_default.Get(), 0);
+
+	//----
+	ID3D11DepthStencilState* prevDepthSS;
+	UINT nPrevStencilRef;
+	gContext->OMGetDepthStencilState(&prevDepthSS, &nPrevStencilRef);
+	gContext->PSSetSamplers(0, 1, &m_SS_linear);
+	//-----
+
+
+
 	gContext->OMSetBlendState(m_BS_transparent.Get(), 0, 0xFFFFFFFF);
 
 
@@ -259,9 +381,16 @@ void Dx::Draw() {
 	gContext->Unmap(m_cbPS_amb.Get(), 0);
 
 
+	//DefStart();
+
 	game.Draw();
 	m_swapChain->Present(1, 0);
 
+
+
+
+	//ID3D11RenderTargetView* rt[3] = { NULL, NULL, NULL };
+	//gContext->OMSetRenderTargets(3, rt, m_depthDSV_ro.Get());
 
 }
 
@@ -309,17 +438,21 @@ float Dx::GetTicks()
 	return 0.0f;
 }
 
-void Dx::DefStart()
-{
-
-	//gContext->setrender
-	//gDContext;
+void Dx::DefStart(){
 
 
-	//ImmCtx->SetRenderTarget(pRTViewOfResourceX);
-	//DefCtx1->SetTexture(pSRView1OfResourceX);
-	//DefCtx2->SetTexture(pSRView2OfResourceX);
+	gContext->ClearDepthStencilView(m_depthDSV.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0, 0);
 
+	float fill[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	gContext->ClearRenderTargetView(m_colorRTV.Get(), fill);
+	gContext->ClearRenderTargetView(m_normalRTV.Get(), fill);
+	gContext->ClearRenderTargetView(m_specRTV.Get(), fill);
+
+	ID3D11RenderTargetView* rt[3] = { m_colorRTV.Get(), m_normalRTV.Get(), m_specRTV.Get() };
+	gContext->OMSetRenderTargets(3, rt, m_depthDSV.Get());
+
+	gContext->OMSetDepthStencilState(m_DS_Tut.Get(), 1);
+	//gContext->RSSetViewports(1, &m_viewport);
 }
 
 void Dx::DefCommit()

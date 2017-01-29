@@ -5,7 +5,7 @@
 extern ComPtr<ID3D11Device>				gDevice;
 extern ComPtr<ID3D11DeviceContext>		gContext;
 extern ComPtr<ID3D11DeviceContext>		gDContext;
-extern HWND								ghWnd;
+
 extern Data								gDat;
 extern ComPtr<ID3D11Buffer>				gcbPerMesh;
 extern ComPtr<ID3D11Buffer>				gcbPerFrame;
@@ -23,6 +23,8 @@ public:
 	void	Draw();
 	void	ClearFrame();
 	void	UpdateWindowInfo();
+
+	
 
 	void	CreateStates();
 	void	CreateConstantBuffers();
@@ -78,12 +80,13 @@ private:
 
 	UINT m_maxFPS = 60;
 
-
+	void InitDeferred();
 	ComPtr<ID3D11Buffer> m_gBuffer;
 	ComPtr<ID3D11Texture2D> m_depthTex;
 	ComPtr<ID3D11Texture2D> m_colorTex;
 	ComPtr<ID3D11Texture2D> m_normalTex;
 	ComPtr<ID3D11Texture2D> m_specTex;
+	ComPtr<ID3D11DepthStencilView> m_depthDSV;
 	ComPtr<ID3D11DepthStencilView> m_depthDSV_ro;
 	ComPtr<ID3D11RenderTargetView> m_colorRTV;
 	ComPtr<ID3D11RenderTargetView> m_normalRTV;
@@ -93,6 +96,14 @@ private:
 	ComPtr<ID3D11ShaderResourceView> m_normalSRV;
 	ComPtr<ID3D11ShaderResourceView> m_specSRV;
 
+	ComPtr<ID3D11DepthStencilState> m_DS_Tut;
 
+	ComPtr<ID3D11SamplerState>		m_SS_linear;
+	ComPtr<ID3D11SamplerState>		m_SS_point;
 
+};
+
+struct TEMP_CBUF {
+	XMMATRIX m_WVP;
+	XMMATRIX m_world;
 };

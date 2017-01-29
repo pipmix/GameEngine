@@ -7,12 +7,12 @@ static TCHAR szWindowClass2[] = _T("DirectXWindowClass");
 static TCHAR szTitle2[] = _T("DirectXWindowTitle");
 
 HINSTANCE hInst = nullptr;
-HWND hMainWindow;
-HWND hSidePanel;
+
+HWND							ghWnd;
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-LRESULT CALLBACK ChildProc(HWND, UINT, WPARAM, LPARAM);
+//LRESULT CALLBACK ChildProc(HWND, UINT, WPARAM, LPARAM);
 
 using Microsoft::WRL::ComPtr;
 
@@ -26,7 +26,7 @@ ComPtr<ID3D11Buffer>			gcbPerMesh	= nullptr;
 ComPtr<ID3D11Buffer>			gcbPerFrame = nullptr;
 Camera gCam;
 Data gDat;
-HWND ghWnd = nullptr; //dx window
+
 Input gInput;
 
 
@@ -38,10 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	int mainW = 1600;
 	int mainH = 900;
-	int dxWinW = 1360;
-	int dxWinH = 768;
-	int sX = 50;
-	int sY = 50;
+
 
 	WNDCLASSEX wcex = { 0 };
 
@@ -60,33 +57,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	RegisterClassEx(&wcex);
 	hInst = hInstance;
-	hMainWindow = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	//ghWnd = CreateWindowEx(0, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	//ghWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
-	wcex.lpfnWndProc = ChildProc;
-	wcex.lpszClassName = szWindowClass2;
-	wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
+	ghWnd = CreateWindowEx(WS_EX_CLIENTEDGE, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, mainW, mainH, NULL, NULL, hInstance, NULL);
+	//wcex.lpfnWndProc = ChildProc;
+	//wcex.lpszClassName = szWindowClass2;
+	//wcex.hbrBackground = GetSysColorBrush(COLOR_ACTIVEBORDER);
+	//RegisterClassEx(&wcex);
+	//ghWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , 200, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
 
-	RegisterClassEx(&wcex);
-
-	
-
-	
-
-	ghWnd = CreateWindowEx(0, szWindowClass2, NULL, WS_CHILD | WS_VISIBLE , 200, sY, dxWinW, dxWinH, hMainWindow, 0, NULL, NULL);
-
-
-	ShowWindow(hMainWindow, nCmdShow);
-	UpdateWindow(hMainWindow);
 
 	ShowWindow(ghWnd, nCmdShow);
 	UpdateWindow(ghWnd);
 
+	//ShowWindow(ghWnd, nCmdShow);
+	//UpdateWindow(ghWnd);
 
-	INITCOMMONCONTROLSEX icc = { sizeof(INITCOMMONCONTROLSEX),
-		ICC_BAR_CLASSES | ICC_DATE_CLASSES | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES |
-		ICC_TREEVIEW_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES };
-	InitCommonControlsEx(&icc);
+
+	//INITCOMMONCONTROLSEX icc = { sizeof(INITCOMMONCONTROLSEX),
+	//	ICC_BAR_CLASSES | ICC_DATE_CLASSES | ICC_LISTVIEW_CLASSES | ICC_STANDARD_CLASSES |
+	//	ICC_TREEVIEW_CLASSES | ICC_USEREX_CLASSES | ICC_WIN95_CLASSES };
+	//InitCommonControlsEx(&icc);
 
 
 	Dx dx(ghWnd);
@@ -135,14 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 	switch (message) {
-		case WM_CREATE:
-			hSidePanel = CreateSidePanel(hWnd);
-			break;
-		case WM_SIZE:
-			RECT clientRect;
-			GetWindowRect(hMainWindow, &clientRect);
-			MoveWindow(hSidePanel, 0, 0, 120, clientRect.bottom, 1);
-			break;
+
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
@@ -154,13 +136,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 }
 
 
-LRESULT CALLBACK ChildProc(HWND h, UINT message, WPARAM wParam, LPARAM lParam) {
+//LRESULT CALLBACK ChildProc(HWND h, UINT message, WPARAM wParam, LPARAM lParam) {
 
 
-	switch (message) {
+//	switch (message) {
 	//case WM_LBUTTONUP:
 	//	break;
-	}
-	return DefWindowProcW(h, message, wParam, lParam);
+	//}
+	//return DefWindowProcW(h, message, wParam, lParam);
 
-}
+//}
