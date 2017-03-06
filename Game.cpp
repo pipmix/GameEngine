@@ -139,7 +139,7 @@ void Game::Draw() {
 			teamSelectMeshGroup.Draw();
 			for (int i = 0; i < 8; i++) if (charSelected[i]) gDat.DrawModelAt(DMOD_CIRCURRENTSELECT, teamSelectLocationPoints[i]);
 		break;
-		case GS_GAME:
+		case GS_GAME: {
 			map1.Draw();
 			player.Draw();
 			enemy.Draw();
@@ -149,6 +149,7 @@ void Game::Draw() {
 			XMMATRIX tmpScreen = gCam.GetScreenMatrix();
 			gContext->UpdateSubresource(gcbPerFrame.Get(), 0, 0, &tmpScreen, 0, 0);
 			ui.Draw();
+		}
 		break;
 		case GS_CAMPAIGN:
 			MG_campaign.Draw();

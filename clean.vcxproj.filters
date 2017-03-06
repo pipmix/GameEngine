@@ -138,6 +138,9 @@
     <ClCompile Include="SpriteBatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Joints.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTypes.h">
@@ -302,6 +305,9 @@
     <ClInclude Include="Skeleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Joints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicMatrixVS.hlsl">
@@ -353,6 +359,9 @@
       <Filter>Shaders\PS</Filter>
     </FxCompile>
     <FxCompile Include="DeferredBasicVS.hlsl">
+      <Filter>Shaders\VS</Filter>
+    </FxCompile>
+    <FxCompile Include="SkinVS.hlsl">
       <Filter>Shaders\VS</Filter>
     </FxCompile>
   </ItemGroup>
